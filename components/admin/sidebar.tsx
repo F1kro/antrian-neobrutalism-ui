@@ -73,7 +73,7 @@ export default function AdminSidebar() {
     <>
       <aside className="w-72 bg-sidebar border-r-2 border-black hidden lg:flex flex-col h-screen shrink-0 sticky top-0 overflow-hidden">
         <div className="p-8 border-b-2 border-black flex items-center gap-3 shrink-0">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[6px] border-2 border-black bg-[#ef4444] shadow-[4px_4px_0_#000]">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[6px] border-2 border-black bg-[#1d4ed8] shadow-[4px_4px_0_#000]">
             <Image src="/logo.png" alt="Logo DPMPTSP" width={20} height={26} className="h-6 w-auto object-contain" />
           </div>
           <div className="min-w-0">
@@ -91,7 +91,7 @@ export default function AdminSidebar() {
               onClick={() => router.push(menu.path)}
               className={`w-full flex items-center justify-between p-4 rounded-[8px] border-2 border-black font-black text-[10px] uppercase tracking-[0.16em] transition-all shadow-[4px_4px_0_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#000] ${
                 pathname === menu.path 
-                ? 'bg-[#ef4444] text-white' 
+                ? 'bg-[#1d4ed8] text-white hover:bg-[#1d4ed8]'
                 : 'bg-card text-foreground hover:bg-accent'
               }`}
             >

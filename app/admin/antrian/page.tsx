@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Play,
   Calendar,
+  CalendarDays,
   SkipForward,
   XCircle,
   UserCheck,
@@ -30,6 +31,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as UiCalendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -65,6 +68,13 @@ const getWitaDateString = (date: Date = new Date()) => {
   const month = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+};
+
+const WEEKDAY_VALUES = [1, 2, 3, 4, 5];
+
+const parseDateString = (dateString: string) => {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return new Date(year, month - 1, day);
 };
 
 const QueueTimer = ({ startTime }: { startTime: string; durationMinutes?: number }) => {
@@ -119,6 +129,15 @@ export default function ManajemenAntrean() {
   const itemsPerService = 6;
   const itemsPerWaiting = 4;
   const itemsPerHistory = 4;
+
+  const filterDateObject = filterDate ? parseDateString(filterDate) : undefined;
+  const filterDateLabel = filterDateObject
+    ? filterDateObject.toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : "Pilih tanggal";
 
   const isDateToday = useMemo(() => {
     return filterDate === getWitaDateString();
@@ -355,14 +374,31 @@ export default function ManajemenAntrean() {
           <div className="flex items-center gap-3">
             <Calendar className="text-primary" size={24} />
             <div className="relative flex items-center gap-3">
-              <input
-                type="date"
-                value={filterDate}
-                onChange={(e) => setFilterDate(e.target.value)}
-                className={`bg-card border-2 rounded-xl px-4 py-2 text-sm font-black focus:outline-none transition-all text-slate-800 [color-scheme:light] [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:invert-0 ${
-                  isDateToday ? "border-emerald-500/50 text-emerald-400" : "border-amber-500/50 text-amber-400"
-                }`}
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    type="button"
+                    className={`flex items-center justify-between gap-2 h-10 min-w-[200px] bg-card border-2 rounded-xl px-4 py-2 text-sm font-black transition-all text-slate-800 ${
+                      isDateToday ? "border-emerald-500/50 text-emerald-400" : "border-amber-500/50 text-amber-400"
+                    }`}
+                  >
+                    <span className="flex-1 text-left whitespace-nowrap">{filterDateLabel}</span>
+                    <CalendarDays size={16} className="text-inherit" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 border-black">
+                  <UiCalendar
+                    mode="single"
+                    selected={filterDateObject}
+                    onSelect={(date) => {
+                      if (!date) return;
+                      setFilterDate(getWitaDateString(date));
+                    }}
+                    disabled={(date) => !WEEKDAY_VALUES.includes(date.getDay())}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {isDateToday ? (
                 <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-500 text-[11px] font-black uppercase px-3 py-2 rounded-lg shadow-lg shadow-emerald-500/5">
                   <span className="h-2 w-2 bg-emerald-500 rounded-full animate-pulse mr-2" />

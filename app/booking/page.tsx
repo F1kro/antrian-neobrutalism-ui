@@ -9,6 +9,8 @@ import { createLog } from "@/lib/logger"; // Aku pakai logger di sini.
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Calendar as UiCalendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -25,11 +27,15 @@ import {
   Phone,
   Briefcase,
   Clock,
-  Calendar,
+  CalendarDays,
   AlertCircle,
+  ChevronDown,
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 // Logika waktu WITA.
 const getWitaNow = () => {
@@ -48,6 +54,29 @@ const TIME_SLOTS = [
   "11:00", "11:30", "13:00", "13:30", "14:00", "14:30",
   "15:00", "15:30",
 ];
+const DEFAULT_OPEN_DAYS = [0, 1, 2, 3, 4, 5, 6];
+const DAY_NAME_ID = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+const normalizeOpenDays = (openDays: unknown) => {
+  if (Array.isArray(openDays)) {
+    const parsed = openDays.map((day) => Number(day)).filter((day) => Number.isInteger(day) && day >= 0 && day <= 6);
+    return parsed.length > 0 ? parsed : [...DEFAULT_OPEN_DAYS];
+  }
+  if (typeof openDays === "string") {
+    const parsed = openDays
+      .replace(/[{}]/g, "")
+      .split(",")
+      .map((day) => Number(day.trim()))
+      .filter((day) => Number.isInteger(day) && day >= 0 && day <= 6);
+    return parsed.length > 0 ? parsed : [...DEFAULT_OPEN_DAYS];
+  }
+  return [...DEFAULT_OPEN_DAYS];
+};
+
+const parseDateString = (dateString: string) => {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return new Date(year, month - 1, day);
+};
 
 export default function BookingPage() {
   const router = useRouter();
@@ -62,7 +91,7 @@ export default function BookingPage() {
     name: "",
     phone: "",
     serviceId: "",
-    date: getWitaDateString(getWitaNow()),
+    date: "",
     time: "",
   });
 
@@ -75,12 +104,21 @@ export default function BookingPage() {
 
   // Aku ambil data layanan.
   useEffect(() => {
-    supabase.from("services").select("*").order("name").then(({ data }) => setServices(data || []));
+    supabase.from("services").select("*").order("name").then(({ data }) => {
+      const mapped = (data || []).map((service: any) => ({
+        ...service,
+        open_days: normalizeOpenDays(service.open_days),
+      }));
+      setServices(mapped);
+    });
   }, []);
 
   // Aku ambil slot terisi (kecuali yang cancel).
   const fetchBookedSlots = async () => {
-    if (!formData.date) return;
+    if (!formData.date) {
+      setBookedSlots([]);
+      return;
+    }
     const { data } = await supabase
       .from("bookings")
       .select("booking_time")
@@ -94,14 +132,28 @@ export default function BookingPage() {
     fetchBookedSlots(); 
   }, [formData.date]);
 
+  const selectedService = services.find((service) => service.id === formData.serviceId);
+  const selectedServiceOpenDays = selectedService?.open_days || DEFAULT_OPEN_DAYS;
+
+  const isServiceOpenOnDate = (dateString: string) => {
+    if (!dateString) return false;
+    const date = parseDateString(dateString);
+    return selectedServiceOpenDays.includes(date.getDay());
+  };
+
+  const todayWitaString = getWitaDateString(now);
+  const selectedDateObj = formData.date ? parseDateString(formData.date) : undefined;
+  const closedDayLabels = DAY_NAME_ID.filter((_, dayIndex) => !selectedServiceOpenDays.includes(dayIndex));
+
   // Aku cek ketersediaan slot hari ini.
-  const isToday = formData.date === getWitaDateString(now);
-  const availableSlots = TIME_SLOTS.filter((slot) => {
+  const isToday = formData.date === todayWitaString;
+  const canShowSlots = Boolean(formData.serviceId && formData.date && isServiceOpenOnDate(formData.date));
+  const availableSlots = canShowSlots ? TIME_SLOTS.filter((slot) => {
     const isBooked = bookedSlots.includes(slot);
     const [sH, sM] = slot.split(":").map(Number);
     const isPast = isToday && (sH * 60 + sM) <= (now.getHours() * 60 + now.getMinutes());
     return !isBooked && !isPast;
-  });
+  }) : [];
 
   const isAllPast = isToday && TIME_SLOTS.every((slot) => {
     const [sH, sM] = slot.split(":").map(Number);
@@ -112,7 +164,8 @@ export default function BookingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.serviceId || !formData.time) return toast.error("Lengkapi data!");
+    if (!formData.serviceId || !formData.date || !formData.time) return toast.error("Lengkapi data!");
+    if (!isServiceOpenOnDate(formData.date)) return toast.error("Layanan tutup pada tanggal yang dipilih.");
 
     setLoading(true);
     try {
@@ -225,20 +278,21 @@ export default function BookingPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><Calendar size={14} /> Tanggal Kedatangan</Label>
-                  <Input 
-                    type="date" 
-                    min={getWitaDateString(getWitaNow())} 
-                    className="h-12 rounded-[8px] text-foreground font-bold text-base [color-scheme:light]" 
-                    value={formData.date} 
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value, time: "" })} 
-                    required 
-                  />
-                </div>
-
-                <div className="space-y-2">
                   <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><Briefcase size={14} /> Layanan</Label>
-                  <Select onValueChange={(val) => setFormData({ ...formData, serviceId: val })}>
+                  <Select
+                    value={formData.serviceId}
+                    onValueChange={(val) => {
+                      const nextService = services.find((service) => service.id === val);
+                      const nextOpenDays = nextService?.open_days || DEFAULT_OPEN_DAYS;
+                      const keepDate = formData.date && nextOpenDays.includes(parseDateString(formData.date).getDay());
+                      setFormData((prev) => ({
+                        ...prev,
+                        serviceId: val,
+                        date: keepDate ? prev.date : "",
+                        time: "",
+                      }));
+                    }}
+                  >
                     <SelectTrigger className="w-full !h-12 rounded-[8px] text-foreground font-bold text-base"><SelectValue placeholder="Pilih Layanan" /></SelectTrigger>
                     <SelectContent className="bg-card border-black text-foreground rounded-[8px]">
                       {services.map((s) => (<SelectItem key={s.id} value={s.id} className="py-3 font-bold text-sm">{s.name}</SelectItem>))}
@@ -247,10 +301,53 @@ export default function BookingPage() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><CalendarDays size={14} /> Tanggal Kedatangan</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        disabled={!formData.serviceId}
+                        className={cn(
+                          "w-full !h-12 rounded-[8px] text-left justify-between border-black font-bold text-base",
+                          !formData.date && "text-muted-foreground"
+                        )}
+                      >
+                        {formData.date && selectedDateObj ? format(selectedDateObj, "EEEE, dd MMMM yyyy", { locale: id }) : "Pilih tanggal"}
+                        <ChevronDown size={16} />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 border-black" align="start">
+                      <UiCalendar
+                        mode="single"
+                        selected={selectedDateObj}
+                        onSelect={(date) => {
+                          if (!date) return;
+                          const pickedDate = getWitaDateString(date);
+                          setFormData((prev) => ({ ...prev, date: pickedDate, time: "" }));
+                        }}
+                        disabled={(date) => {
+                          if (!formData.serviceId) return true;
+                          const pickedDate = getWitaDateString(date);
+                          const pickedDay = date.getDay();
+                          return pickedDate < todayWitaString || !selectedServiceOpenDays.includes(pickedDay);
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {formData.serviceId && closedDayLabels.length > 0 && (
+                    <p className="text-[11px] text-muted-foreground font-semibold">
+                      Hari tutup layanan ini: {closedDayLabels.join(", ")}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
                   <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><Clock size={14} /> Jam Tersedia</Label>
                   
                   {/* Alert saat slot penuh atau layanan selesai */}
-                  {availableSlots.length === 0 && (
+                  {canShowSlots && availableSlots.length === 0 && (
                     <div className="flex items-center gap-3 p-4 bg-amber-400 border-2 border-black rounded-xl text-white mb-4 border-b-4 border-amber-700 shadow-lg">
                       <AlertCircle size={18} className="text-white shrink-0" />
                       <p className="text-sm md:text-base font-bold uppercase leading-tight text-white">
@@ -267,7 +364,7 @@ export default function BookingPage() {
                       const [sH, sM] = slot.split(":").map(Number);
                       const isPast = isToday && (sH * 60 + sM) <= (now.getHours() * 60 + now.getMinutes());
                       
-                      const isDisabled = isBooked || isPast;
+                      const isDisabled = !canShowSlots || isBooked || isPast;
                       const isSelected = formData.time === slot;
 
                       return (
@@ -293,7 +390,7 @@ export default function BookingPage() {
                 </div>
 
                 <Button 
-                  disabled={loading || !formData.time} 
+                  disabled={loading || !formData.serviceId || !formData.date || !formData.time} 
                   className="w-full h-14 bg-primary hover:brightness-95 text-foreground font-black uppercase tracking-widest rounded-[8px] mt-4"
                 >
                   {loading ? <Loader2 className="animate-spin" /> : "KONFIRMASI JADWAL"}

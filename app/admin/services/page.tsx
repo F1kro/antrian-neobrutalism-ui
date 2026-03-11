@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -39,6 +40,34 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
+const DAY_OPTIONS = [
+  { value: 1, label: "Sen" },
+  { value: 2, label: "Sel" },
+  { value: 3, label: "Rab" },
+  { value: 4, label: "Kam" },
+  { value: 5, label: "Jum" },
+];
+const ALL_DAYS = DAY_OPTIONS.map((d) => d.value);
+
+const normalizeOpenDays = (openDays: unknown) => {
+  const parseRaw = (values: unknown[]) =>
+    values
+      .map((day) => Number(day))
+      .filter((day) => Number.isInteger(day) && ALL_DAYS.includes(day));
+
+  if (Array.isArray(openDays)) {
+    const parsed = parseRaw(openDays);
+    return parsed.length > 0 ? parsed : [...ALL_DAYS];
+  }
+  if (typeof openDays === "string") {
+    const parsed = parseRaw(
+      openDays.replace(/[{}]/g, "").split(",").map((value) => value.trim())
+    );
+    return parsed.length > 0 ? parsed : [...ALL_DAYS];
+  }
+  return [...ALL_DAYS];
+};
+
 export default function ManajemenLayanan() {
   const supabase = createClient();
   const [services, setServices] = useState<any[]>([]);
@@ -58,6 +87,7 @@ export default function ManajemenLayanan() {
     description: "",
     estimated_duration: 30,
     prefix_code: "",
+    open_days: [...ALL_DAYS],
   });
   const [editService, setEditService] = useState({
     id: "",
@@ -65,6 +95,7 @@ export default function ManajemenLayanan() {
     description: "",
     estimated_duration: 30,
     prefix_code: "",
+    open_days: [...ALL_DAYS],
   });
 
   const fetchServices = async () => {
@@ -101,12 +132,14 @@ export default function ManajemenLayanan() {
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newService.prefix_code) return toast.error("Kode Prefix wajib diisi!");
+    if (newService.open_days.length === 0) return toast.error("Pilih minimal satu hari operasional!");
     
     setIsSubmitting(true);
     try {
       const { error } = await supabase.from("services").insert([{
         ...newService,
-        prefix_code: newService.prefix_code.toUpperCase()
+        prefix_code: newService.prefix_code.toUpperCase(),
+        open_days: [...newService.open_days].sort((a, b) => a - b),
       }]);
       
       if (error) throw error;
@@ -120,7 +153,7 @@ export default function ManajemenLayanan() {
 
       toast.success("Layanan Berhasil Ditambahkan");
       setOpenAdd(false);
-      setNewService({ name: "", description: "", estimated_duration: 30, prefix_code: "" });
+      setNewService({ name: "", description: "", estimated_duration: 30, prefix_code: "", open_days: [...ALL_DAYS] });
       fetchServices();
     } catch (error: any) {
       createLog('ERROR', `Gagal tambah layanan: ${error.message}`, 'error');
@@ -132,6 +165,7 @@ export default function ManajemenLayanan() {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (editService.open_days.length === 0) return toast.error("Pilih minimal satu hari operasional!");
     setIsSubmitting(true);
 
     const oldService = services.find((s) => s.id === editService.id);
@@ -144,6 +178,7 @@ export default function ManajemenLayanan() {
           description: editService.description,
           estimated_duration: editService.estimated_duration,
           prefix_code: editService.prefix_code.toUpperCase(),
+          open_days: [...editService.open_days].sort((a, b) => a - b),
         })
         .eq("id", editService.id);
 
@@ -156,6 +191,8 @@ export default function ManajemenLayanan() {
         changes.push(`Kode: "${oldService.prefix_code}" -> "${editService.prefix_code.toUpperCase()}"`);
       if (oldService.description !== editService.description)
         changes.push(`Deskripsi diubah`);
+      if ((oldService.open_days || []).join(",") !== [...editService.open_days].sort((a, b) => a - b).join(","))
+        changes.push("Hari operasional diubah");
 
       const detailLog = changes.length > 0 ? changes.join(", ") : "Tidak ada perubahan data";
 
@@ -175,6 +212,24 @@ export default function ManajemenLayanan() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const toggleDay = (target: "new" | "edit", dayValue: number, checked: boolean) => {
+    if (target === "new") {
+      setNewService((prev) => ({
+        ...prev,
+        open_days: checked
+          ? [...prev.open_days, dayValue].filter((v, i, arr) => arr.indexOf(v) === i).sort((a, b) => a - b)
+          : prev.open_days.filter((d) => d !== dayValue),
+      }));
+      return;
+    }
+    setEditService((prev) => ({
+      ...prev,
+      open_days: checked
+        ? [...prev.open_days, dayValue].filter((v, i, arr) => arr.indexOf(v) === i).sort((a, b) => a - b)
+        : prev.open_days.filter((d) => d !== dayValue),
+    }));
   };
 
   const handleDelete = async (id: string) => {
@@ -257,6 +312,20 @@ export default function ManajemenLayanan() {
                       onChange={(e) => setNewService({ ...newService, description: e.target.value })}
                     />
                   </div>
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black text-foreground/70 uppercase tracking-widest ml-1">Hari Operasional</label>
+                    <div className="grid grid-cols-4 gap-2">
+                      {DAY_OPTIONS.map((day) => (
+                        <label key={day.value} className="h-10 rounded-xl border border-black bg-background px-2 flex items-center gap-2 cursor-pointer">
+                          <Checkbox
+                            checked={newService.open_days.includes(day.value)}
+                            onCheckedChange={(checked) => toggleDay("new", day.value, checked === true)}
+                          />
+                          <span className="text-[10px] font-black uppercase text-slate-800">{day.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                   <div className="flex gap-4 pt-4">
                     <Button type="button" onClick={() => setOpenAdd(false)} className="flex-1 h-16 bg-card text-muted-foreground font-black rounded-2xl hover:bg-accent uppercase tracking-widest text-[10px] border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all">Batal</Button>
                     <Button type="submit" disabled={isSubmitting} className="flex-[2] h-16 bg-primary text-foreground font-black text-lg rounded-2xl shadow-xl hover:brightness-95 tracking-tighter border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all">SIMPAN LAYANAN</Button>
@@ -317,13 +386,20 @@ export default function ManajemenLayanan() {
                         <td className="px-5 py-3">
                           <div className="flex items-center gap-3">
                             <div className="p-2 bg-background rounded-lg border border-black text-primary"><Briefcase size={16} /></div>
-                            <span className="text-sm font-bold text-slate-800 uppercase">{s.name}</span>
+                            <div className="min-w-0">
+                              <span className="text-sm font-bold text-slate-800 uppercase block truncate">{s.name}</span>
+                              <span className="text-[10px] text-muted-foreground uppercase">
+                                {normalizeOpenDays(s.open_days).length === ALL_DAYS.length
+                                  ? "Buka: Setiap Hari Kerja"
+                                  : `Buka: ${DAY_OPTIONS.filter((d) => normalizeOpenDays(s.open_days).includes(d.value)).map((d) => d.label).join(", ")}`}
+                              </span>
+                            </div>
                           </div>
                         </td>
                         <td className="px-5 py-3 text-[11px] text-muted-foreground truncate max-w-[250px]">{s.description || "-"}</td>
                         <td className="px-5 py-3 text-center">
                           <div className="flex justify-center gap-2">
-                            <Button onClick={() => { setEditService({ id: s.id, name: s.name, description: s.description || "", estimated_duration: s.estimated_duration || 30, prefix_code: s.prefix_code || "" }); setOpenEdit(true); }} variant="outline" size="sm" className="h-9 w-9 p-0 bg-primary border-black hover:bg-primary/90 text-primary-foreground [&_svg]:text-primary-foreground transition-all border-b-4 border-black active:translate-y-[2px] active:border-b-0"><Pencil size={14} /></Button>
+                            <Button onClick={() => { setEditService({ id: s.id, name: s.name, description: s.description || "", estimated_duration: s.estimated_duration || 30, prefix_code: s.prefix_code || "", open_days: normalizeOpenDays(s.open_days) }); setOpenEdit(true); }} variant="outline" size="sm" className="h-9 w-9 p-0 bg-primary border-black hover:bg-primary/90 text-primary-foreground [&_svg]:text-primary-foreground transition-all border-b-4 border-black active:translate-y-[2px] active:border-b-0"><Pencil size={14} /></Button>
                             <Button onClick={() => setOpenDelete(s.id)} variant="outline" size="sm" className="h-9 w-9 p-0 bg-red-600 border-black hover:bg-red-700 text-white [&_svg]:text-white transition-all border-b-4 border-black active:translate-y-[2px] active:border-b-0"><Trash2 size={14} /></Button>
                           </div>
                         </td>
@@ -367,8 +443,22 @@ export default function ManajemenLayanan() {
               <label className="text-[10px] font-black text-foreground/70 uppercase ml-1 tracking-widest">Deskripsi</label>
               <Input className="bg-background border-black h-16 rounded-2xl !text-slate-800 caret-slate-800 placeholder:text-slate-400" value={editService.description} onChange={(e) => setEditService({ ...editService, description: e.target.value })} />
             </div>
+            <div className="space-y-3">
+              <label className="text-[10px] font-black text-foreground/70 uppercase ml-1 tracking-widest">Hari Operasional</label>
+              <div className="grid grid-cols-4 gap-2">
+                {DAY_OPTIONS.map((day) => (
+                  <label key={day.value} className="h-10 rounded-xl border border-black bg-background px-2 flex items-center gap-2 cursor-pointer">
+                    <Checkbox
+                      checked={editService.open_days.includes(day.value)}
+                      onCheckedChange={(checked) => toggleDay("edit", day.value, checked === true)}
+                    />
+                    <span className="text-[10px] font-black uppercase text-slate-800">{day.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
             <div className="flex gap-4 pt-8">
-              <Button type="button" onClick={() => setOpenEdit(false)} className="h-16 flex-1 text-muted-foreground font-bold hover:bg-white/5 rounded-2xl uppercase text-[10px] border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all">BATAL</Button>
+              <Button type="button" onClick={() => setOpenEdit(false)} className="flex-1 h-16 bg-card text-muted-foreground font-black rounded-2xl hover:bg-accent uppercase tracking-widest text-[10px] border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all">BATAL</Button>
               <Button type="submit" disabled={isSubmitting} className="h-16 flex-[2] bg-primary text-foreground font-black text-lg rounded-2xl shadow-xl hover:brightness-95 tracking-tighter border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all">SIMPAN PERUBAHAN</Button>
             </div>
           </form>

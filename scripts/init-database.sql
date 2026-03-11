@@ -9,9 +9,13 @@ CREATE TABLE IF NOT EXISTS services (
   name VARCHAR(255) NOT NULL,
   description TEXT,
   estimated_duration INTEGER DEFAULT 15,
+  open_days SMALLINT[] NOT NULL DEFAULT ARRAY[0,1,2,3,4,5,6],
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE services
+ADD COLUMN IF NOT EXISTS open_days SMALLINT[] NOT NULL DEFAULT ARRAY[0,1,2,3,4,5,6];
 
 -- ============================================
 -- BOOKINGS TABLE
