@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { createClient } from '@/lib/supabase/client'
 import Sidebar from '@/components/admin/sidebar'
-import AdminPageInfoFab from '@/components/admin/page-info-fab'
 import { createLog } from "@/lib/logger"
 import * as XLSX from 'xlsx'
 import { 
@@ -312,15 +311,6 @@ export default function RekapAntrean() {
           </div>
         </div>
       </div>
-      <AdminPageInfoFab
-        title="Rekap Antrean"
-        description="Menu ini dipakai untuk meninjau histori antrean dan menyiapkan data rekap operasional."
-        points={[
-          'Menyaring data berdasarkan periode, layanan, slot waktu, dan kata kunci.',
-          'Mengurutkan data antrean untuk melihat antrean terbaru atau terlama.',
-          'Mengunduh rekap dalam format spreadsheet untuk pelaporan.',
-        ]}
-      />
     </div>
   )
 }

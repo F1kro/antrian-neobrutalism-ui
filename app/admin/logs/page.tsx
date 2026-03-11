@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Sidebar from '@/components/admin/sidebar'
-import AdminPageInfoFab from '@/components/admin/page-info-fab'
 import { 
   History, 
   AlertCircle, 
@@ -62,11 +61,11 @@ export default function SystemLogsPage() {
   }
 
   const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'error': return <AlertCircle className="text-red-500" size={14} />
-      case 'warning': return <AlertCircle className="text-amber-500" size={14} />
-      default: return <Info className="text-primary" size={14} />
-    }
+  switch (status) {
+    case 'error': return <AlertCircle className="text-white" size={14} />
+    case 'warning': return <AlertCircle className="text-white" size={14} />
+    default: return <Info className="text-white" size={14} />
+  }
   }
 
   return (
@@ -229,15 +228,6 @@ export default function SystemLogsPage() {
           </div>
         </div>
       </div>
-      <AdminPageInfoFab
-        title="Log Sistem"
-        description="Halaman ini dipakai untuk audit trail aktivitas penting yang terjadi di dalam sistem."
-        points={[
-          'Melihat catatan aksi booking, pemanggilan, pembatalan, dan perubahan data.',
-          'Memfilter log berdasarkan jenis aksi dan urutan waktu.',
-          'Membantu pengecekan saat ada masalah operasional atau kebutuhan audit.',
-        ]}
-      />
     </div>
   )
 }

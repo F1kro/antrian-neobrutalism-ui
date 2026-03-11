@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { BadgeInfo, Building2, Code2, ShieldCheck, Sparkles, Target } from 'lucide-react'
 
 import Sidebar from '@/components/admin/sidebar'
-import AdminPageInfoFab from '@/components/admin/page-info-fab'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
@@ -151,15 +150,6 @@ export default function AboutSibonaPage() {
         </div>
       </div>
 
-      <AdminPageInfoFab
-        title="Tentang SIBONA"
-        description="Halaman ini berisi ringkasan identitas sistem, visi misi, serta profil pengembang aplikasi."
-        points={[
-          'Melihat kepanjangan dan tujuan dari nama SIBONA.',
-          'Membaca visi dan misi pengembangan sistem antrean.',
-          'Menampilkan profil pengembang utama aplikasi.',
-        ]}
-      />
     </div>
   )
 }

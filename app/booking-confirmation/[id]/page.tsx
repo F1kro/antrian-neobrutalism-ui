@@ -6,8 +6,9 @@ import QRCode from 'qrcode'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/client'
+import { getCancelReason } from '@/lib/queue-status'
 import Link from 'next/link'
-import { CheckCircle2, Monitor, Clock, Download, Calendar, HomeIcon } from 'lucide-react'
+import { CheckCircle2, Monitor, Clock, Download, Calendar, HomeIcon, ShieldAlert } from 'lucide-react'
 
 interface BookingDetail {
   id: string
@@ -20,6 +21,9 @@ interface BookingDetail {
   created_at: string
   booking_date: string 
   booking_time: string 
+  cancel_reason?: string | null
+  notes?: string | null
+  cancelled_at?: string | null
   service?: {
     name: string
     estimated_duration: number
@@ -92,15 +96,26 @@ export default function BookingConfirmationPage() {
     link.click()
   }
 
-  const formatDate = (dateStr: string) => {
-    if (!dateStr) return '-'
-    return new Date(dateStr).toLocaleDateString('id-ID', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    })
-  }
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return '-'
+  return new Date(dateStr).toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  })
+}
+
+const formatDateTime = (dateStr?: string | null) => {
+  if (!dateStr) return '-'
+  return new Date(dateStr).toLocaleString('id-ID', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
 
   if (loading) return (
     <main className="min-h-screen bg-background flex items-center justify-center">
@@ -120,18 +135,55 @@ export default function BookingConfirmationPage() {
     </main>
   )
 
+  const isCancelled = booking.status === "cancelled"
+  const cancelledByAdmin = isCancelled && Boolean(booking.notes) && !booking.cancel_reason
+  const cancellationReason = getCancelReason(booking)
+  const heroSubtitle = isCancelled
+    ? "Antrean ini telah dibatalkan. Lihat detail alasan dan status di bawah."
+    : "Simpan tiket ini dan tunjukkan kepada petugas 5 menit sebelum jadwal kedatangan."
+
   return (
     <main className="min-h-screen bg-background text-foreground p-4 md:p-10 font-sans pb-20">
       <div className="max-w-2xl mx-auto space-y-8">
         
-        <div className="text-center space-y-4 animate-in fade-in zoom-in duration-500">
+        <div className={`flex flex-col items-center p-6 md:p-8 rounded-[2.5rem] text-center text-white space-y-4 animate-in fade-in zoom-in duration-500 ${isCancelled ? "bg-red-600" : "bg-primary"}`}>
           <div className="flex justify-center">
-            <div className="p-4 bg-primary/10 rounded-full border border-black/70">
-                <CheckCircle2 className="h-14 w-14 text-primary" />
+            <div className={`p-4 rounded-full border-4 ${isCancelled ? "bg-red-500/10 border-red-500/50" : "bg-primary/10 border-black/70"}`}>
+                {isCancelled ? (
+                  <ShieldAlert className="h-14 w-14 text-red-100" />
+                ) : (
+                  <CheckCircle2 className="h-14 w-14 text-primary" />
+                )}
             </div>
           </div>
-          <h1 className="text-4xl font-black uppercase tracking-tighter">Booking Berhasil!</h1>
+          <h1 className="text-4xl font-black uppercase tracking-tighter">
+            {isCancelled ? "Antrean Dibatalkan!" : "Booking Berhasil!"}
+          </h1>
+          <p className="text-xs md:text-sm font-semibold text-white/70 leading-tight">
+            {heroSubtitle}
+          </p>
+          {isCancelled && (
+            <p className="text-[11px] uppercase tracking-[0.4em] text-white/60">
+              Dibatalkan oleh {cancelledByAdmin ? "Admin" : "Anda"}
+            </p>
+          )}
         </div>
+
+        {isCancelled && (
+          <div className="space-y-2 bg-red-500/5 border border-red-500/30 rounded-2xl p-4 text-left">
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.45em] text-red-500">
+              <ShieldAlert size={14} />
+              <span>Status Dibatalkan</span>
+            </div>
+            <p className="text-base font-black text-red-700">
+              Alasan: {cancellationReason}
+            </p>
+            <p className="text-[12px] text-foreground/70">
+              Dibatalkan oleh {cancelledByAdmin ? "Admin" : "Anda"}
+              {booking.cancelled_at ? ` pada ${formatDateTime(booking.cancelled_at)}` : ""}.
+            </p>
+          </div>
+        )}
 
         <Card className="bg-card/50 border border-black rounded-[3rem] overflow-hidden shadow-2xl backdrop-blur-xl">
           <CardContent className="p-6 md:p-8 space-y-8">

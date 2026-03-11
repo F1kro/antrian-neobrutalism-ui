@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Sidebar from '@/components/admin/sidebar'
-import AdminPageInfoFab from '@/components/admin/page-info-fab'
 import {
   Users,
   Clock,
@@ -428,15 +427,6 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-      <AdminPageInfoFab
-        title="Dashboard Analitik"
-        description="Halaman ini dipakai untuk memantau ringkasan performa antrean secara real-time pada periode yang dipilih."
-        points={[
-          'Melihat total antrean, antrean aktif, layanan selesai, dan pembatalan.',
-          'Membandingkan performa tiap layanan dari tabel performa dan statistik status.',
-          'Memantau aktivitas sistem terbaru dari panel log terkini.',
-        ]}
-      />
     </div>
   )
 }

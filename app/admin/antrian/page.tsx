@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Sidebar from "@/components/admin/sidebar";
-import AdminPageInfoFab from "@/components/admin/page-info-fab";
 import { playTTSNotification, VOICE_MALE } from "@/lib/notifications";
 import { createLog } from "@/lib/logger"; 
 import {
@@ -99,8 +98,14 @@ const QueueTimer = ({ startTime }: { startTime: string; durationMinutes?: number
   const min = Math.floor(timeLeft / 60);
   const sec = timeLeft % 60;
   return (
-    <div className="flex items-center gap-2 text-4xl font-black font-mono text-emerald-400 px-6 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl">
-      <Clock size={24} /> {String(min).padStart(2, "0")}:{String(sec).padStart(2, "0")}
+    <div
+      className="flex items-center gap-2 text-4xl font-black font-mono px-6 py-2 rounded-2xl shadow-xl transition border border-black"
+      style={{ backgroundColor: "#dc2626", color: "#fff" }}
+    >
+      <Clock size={24} className="text-white" color="#fff" />
+      <span style={{ color: "#fff" }}>
+        {String(min).padStart(2, "0")}:{String(sec).padStart(2, "0")}
+      </span>
     </div>
   );
 };
@@ -462,14 +467,14 @@ export default function ManajemenAntrean() {
                   Panggil Ulang
                 </Button>
                 <Dialog open={isSkipModalOpen} onOpenChange={setIsSkipModalOpen}>
-                  <DialogTrigger asChild><Button className="h-14 px-6 bg-amber-600 hover:bg-amber-500 text-foreground rounded-xl border-b-4 border-amber-800 font-black uppercase text-xs gap-2 active:translate-y-[2px] active:border-b-0 transition-all"><SkipForward size={18} /> Skip Antrean</Button></DialogTrigger>
-                  <DialogContent className="bg-card border-black text-foreground rounded-[2rem] max-w-md p-6">
+                <DialogTrigger asChild><Button className="h-14 px-6 bg-amber-300 hover:bg-amber-200 rounded-xl border-b-4 border-amber-800 uppercase text-xs gap-2 active:translate-y-[2px] active:border-b-0 transition-all !text-white"><SkipForward size={18} /> Skip Antrean</Button></DialogTrigger>
+                  <DialogContent className="bg-card border-black text-white rounded-[2rem] max-w-md p-6">
                     <DialogHeader><DialogTitle className="text-base font-black uppercase text-amber-500 tracking-widest flex items-center gap-2"><UserCheck size={20} /> Pilih Pengganti {activeQueue.booking_number}</DialogTitle></DialogHeader>
                     <div className="space-y-3 mt-4 max-h-[300px] overflow-y-auto pr-2">
                       {waitingOnly.length === 0 ? <p className="text-xs text-foreground/70 italic text-center py-10 uppercase font-black">Tidak ada antrean menunggu</p> : 
                         waitingOnly.map((b) => (
                           <button key={b.id} onClick={() => handleAction("SWAP", b.id)} className="w-full p-4 bg-background hover:bg-primary/20 border border-black rounded-2xl flex justify-between items-center transition-all group">
-                            <div className="text-left"><p className="text-2xl font-mono font-black text-foreground group-hover:text-primary">{b.booking_number}</p><p className="text-xs text-foreground/70 font-black uppercase tracking-widest">{b.visitor_name} | {b.booking_time}</p></div>
+                            <div className="text-left"><p className="text-2xl font-mono  text-black group-hover:text-primary">{b.booking_number}</p><p className="text-xs text-foreground/70 font-black uppercase tracking-widest">{b.visitor_name} | {b.booking_time}</p></div>
                             <div className="bg-card p-2 rounded-lg group-hover:bg-primary/30"><UserCheck className="text-foreground/60 group-hover:text-primary" size={24} /></div>
                           </button>
                         ))
@@ -533,7 +538,9 @@ export default function ManajemenAntrean() {
                           {b.booking_time}
                         </Badge>
                       </td>
-                      <td className="px-5 font-mono font-black text-foreground text-2xl">{b.booking_number}</td>
+                      <td className={`px-5 font-mono font-black text-2xl ${
+                        b.status === "in_progress" ? "text-red-600" : "text-foreground"
+                      }`}>{b.booking_number}</td>
                       <td className="px-5 align-middle">
                         <div className="flex min-h-[40px] items-center">
                           <p className="truncate text-sm font-bold uppercase text-muted-foreground">
@@ -549,7 +556,7 @@ export default function ManajemenAntrean() {
                             setCancelTargetNumber(b.booking_number); 
                             setIsCancelModalOpen(true);
                           }} 
-                          className="h-10 px-4 !bg-red-600 !text-foreground border-b-4 border-red-900 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 ml-auto active:translate-y-[2px] active:border-b-0 transition-all disabled:opacity-20"
+                          className="h-10 px-4 !bg-red-600 !text-white border-b-4 border-red-900 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 ml-auto active:translate-y-[2px] active:border-b-0 transition-all disabled:opacity-20"
                         >
                           <XCircle size={16} />
                           <span>Batal</span>
@@ -604,7 +611,7 @@ export default function ManajemenAntrean() {
                       <td className="px-5 text-center">
                         <Badge 
                           variant="outline" 
-                          className={`text-[10px] font-black border-black px-3 py-1.5 text-white ${
+                          className={`text-[10px] font-black border-black px-3 py-1.5 !text-white ${
                             b.status === "completed" 
                               ? "bg-emerald-600" 
                               : b.status === "cancelled" 
@@ -636,20 +643,11 @@ export default function ManajemenAntrean() {
         <DialogContent className="bg-card border-black text-foreground rounded-[2rem] max-w-sm p-6 shadow-2xl">
           <DialogHeader><div className="flex flex-col items-center gap-3 mb-2"><div className="p-3 bg-red-500/10 rounded-2xl border border-red-500/20"><AlertTriangle size={32} className="text-red-400" /></div><DialogTitle className="text-xl font-black uppercase tracking-widest text-foreground text-center">Batalkan Antrean?</DialogTitle><DialogDescription className="text-center text-sm text-foreground/70 font-medium leading-relaxed italic">Antrean <span className="text-foreground font-black font-mono">{cancelTargetNumber}</span> akan dibatalkan.</DialogDescription></div></DialogHeader>
           <DialogFooter className="flex flex-col gap-3 mt-4">
-            <Button onClick={handleConfirmCancel} className="h-14 bg-red-600 hover:bg-red-500 text-foreground rounded-2xl font-black text-sm uppercase shadow-lg shadow-red-600/20 gap-2 border-b-4 border-red-800 active:translate-y-[2px] active:border-b-0 transition-all"><XCircle size={18} /> Ya, Batalkan</Button>
+            <Button onClick={handleConfirmCancel} className="h-14 bg-red-600 hover:bg-red-500 text-white rounded-2xl font-black text-sm uppercase shadow-lg shadow-red-600/20 gap-2 border-b-4 border-red-800 active:translate-y-[2px] active:border-b-0 transition-all"><XCircle size={18} /> Ya, Batalkan</Button>
             <Button variant="ghost" onClick={() => setIsCancelModalOpen(false)} className="h-12 rounded-2xl font-black text-sm text-muted-foreground hover:text-foreground hover:bg-card">Batal</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <AdminPageInfoFab
-        title="Manajemen Antrean"
-        description="Menu ini dipakai petugas loket untuk menjalankan antrean layanan harian secara langsung."
-        points={[
-          'Memanggil antrean berikutnya dan mengulang panggilan suara.',
-          'Menyelesaikan, membatalkan, atau skip antrean ke pengunjung lain yang masih menunggu.',
-          'Memantau daftar tunggu dan riwayat antrean aktif per layanan.',
-        ]}
-      />
     </div>
   );
 }

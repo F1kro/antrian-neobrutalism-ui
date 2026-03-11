@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Sidebar from "@/components/admin/sidebar";
-import AdminPageInfoFab from "@/components/admin/page-info-fab";
 import { createLog } from "@/lib/logger";
 import {
   Plus,
@@ -481,15 +480,6 @@ export default function ManajemenLayanan() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <AdminPageInfoFab
-        title="Manajemen Layanan"
-        description="Halaman ini dipakai untuk mengatur daftar layanan yang tersedia di sistem antrean."
-        points={[
-          'Menambah layanan baru lengkap dengan nama, kode prefix, dan deskripsi.',
-          'Mengubah data layanan yang sudah ada agar sesuai kebutuhan operasional.',
-          'Menghapus layanan yang tidak dipakai lagi dengan konfirmasi pengamanan.',
-        ]}
-      />
     </div>
   );
 }
