@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useIsMobile } from "@/components/ui/use-mobile";
 
 interface BookingDetail {
   id: string;
@@ -69,8 +70,13 @@ export default function MyQueueHistoryPage() {
   const [selectedBooking, setSelectedBooking] = useState<BookingDetail | null>(null);
   const [cancelReason, setCancelReason] = useState("");
   const [cancelling, setCancelling] = useState(false);
+  const isMobile = useIsMobile();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; // Aku kunci 4 item per halaman.
+  const itemsPerPage = 4; // Tampilkan empat entri per halaman supaya pagination konsisten di semua perangkat.
+  const listStyle = {
+    maxHeight: isMobile ? "calc(100vh - 13rem)" : "calc(100vh - 16rem)",
+    overflow: "hidden",
+  };
 
   const fetchBookings = async () => {
     try {
@@ -108,12 +114,16 @@ export default function MyQueueHistoryPage() {
     return () => { supabase.removeChannel(ch); };
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [itemsPerPage]);
+
   const totalPages = Math.ceil(bookings.length / itemsPerPage);
 
   const paginatedBookings = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
     return bookings.slice(start, start + itemsPerPage);
-  }, [bookings, currentPage]);
+  }, [bookings, currentPage, itemsPerPage]);
 
   const handleCancel = async () => {
     if (!selectedBooking || !cancelReason.trim()) return;
@@ -193,10 +203,11 @@ export default function MyQueueHistoryPage() {
             </Link>
           </div>
         ) : (
-          <>
-            {paginatedBookings.map((booking) => {
-              const key = getStatusKey(booking);
-              const sc = STATUS_CONFIG[key] ?? STATUS_CONFIG.waiting;
+          <div className="flex flex-col gap-4">
+            <div style={listStyle} className="flex flex-col gap-3">
+              {paginatedBookings.map((booking) => {
+                const key = getStatusKey(booking);
+                const sc = STATUS_CONFIG[key] ?? STATUS_CONFIG.waiting;
               const adminBatal = isAdminCancelled(booking);
               const reason = getCancelReason(booking);
 
@@ -267,13 +278,13 @@ export default function MyQueueHistoryPage() {
               );
             })}
 
+            </div>
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-3 pt-6 pb-10">
                 <Button 
                   disabled={currentPage === 1} 
                   onClick={() => {
                     setCurrentPage((p) => p - 1);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   variant="outline" size="icon" className="h-9 w-9 rounded-xl bg-primary border-black text-primary-foreground [&_svg]:text-primary-foreground border-b-4 border-black active:translate-y-[2px] active:border-b-0 hover:brightness-95"
                 >
@@ -286,7 +297,6 @@ export default function MyQueueHistoryPage() {
                       key={i} 
                       onClick={() => {
                         setCurrentPage(i + 1);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
                       className={`rounded-full transition-all duration-300 ${
                         currentPage === i + 1 ? "w-6 h-1.5 bg-indigo-500" : "w-1.5 h-1.5 bg-slate-700"
@@ -299,7 +309,6 @@ export default function MyQueueHistoryPage() {
                   disabled={currentPage === totalPages} 
                   onClick={() => {
                     setCurrentPage((p) => p + 1);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   variant="outline" size="icon" className="h-9 w-9 rounded-xl bg-primary border-black text-primary-foreground [&_svg]:text-primary-foreground border-b-4 border-black active:translate-y-[2px] active:border-b-0 hover:brightness-95"
                 >
@@ -307,7 +316,7 @@ export default function MyQueueHistoryPage() {
                 </Button>
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
 
