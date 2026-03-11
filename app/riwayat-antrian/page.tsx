@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { getBookingsFromCookie } from "@/lib/cookies";
-import { createLog } from "@/lib/logger"; // IMPORT LOGGER
+import AdminPageInfoFab from "@/components/admin/page-info-fab";
+import { createLog } from "@/lib/logger"; // Aku pakai logger di sini.
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -49,11 +50,11 @@ const getCancelReason = (b: BookingDetail) => {
 };
 
 const STATUS_CONFIG: Record<string, { label: string; dot: string; badge: string; icon: React.ReactNode }> = {
-  waiting:    { label: "Menunggu",          dot: "bg-amber-500",  badge: "bg-amber-500/10 text-amber-400 border-amber-500/20",   icon: <Clock size={11} /> },
-  in_progress:{ label: "Sedang Dilayani",   dot: "bg-indigo-500", badge: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",icon: <AlertCircle size={11} /> },
-  completed:  { label: "Selesai",           dot: "bg-emerald-500",badge: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20", icon: <CheckCircle2 size={11} /> },
-  cancelled:  { label: "Dibatalkan",        dot: "bg-red-500",    badge: "bg-red-500/10 text-red-400 border-red-400/20",           icon: <XCircle size={11} /> },
-  cancelled_admin: { label: "Dibatalkan Admin", dot: "bg-red-600", badge: "bg-red-600/10 text-red-400 border-red-500/30",        icon: <ShieldAlert size={11} /> },
+  waiting:    { label: "Menunggu",          dot: "bg-amber-400",   badge: "bg-amber-400 text-white border-black",    icon: <Clock size={11} /> },
+  in_progress:{ label: "Sedang Dilayani",   dot: "bg-primary",     badge: "bg-primary text-white border-black",      icon: <AlertCircle size={11} /> },
+  completed:  { label: "Selesai",           dot: "bg-emerald-600", badge: "bg-emerald-600 text-white border-black", icon: <CheckCircle2 size={11} /> },
+  cancelled:  { label: "Dibatalkan",        dot: "bg-red-600",     badge: "bg-red-600 text-white border-black",     icon: <XCircle size={11} /> },
+  cancelled_admin: { label: "Dibatalkan Admin", dot: "bg-red-700", badge: "bg-red-700 text-white border-black",    icon: <ShieldAlert size={11} /> },
 };
 
 const getStatusKey = (b: BookingDetail) =>
@@ -69,7 +70,7 @@ export default function MyQueueHistoryPage() {
   const [cancelReason, setCancelReason] = useState("");
   const [cancelling, setCancelling] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; // Kunci 4 item per halaman
+  const itemsPerPage = 4; // Aku kunci 4 item per halaman.
 
   const fetchBookings = async () => {
     try {
@@ -123,7 +124,7 @@ export default function MyQueueHistoryPage() {
         .update({ 
           status: "cancelled", 
           cancelled_at: new Date().toISOString(), 
-          cancel_reason: cancelReason.trim().substring(0, 50) // Keamanan tambahan di sisi logic
+          cancel_reason: cancelReason.trim().substring(0, 50) // Aku potong sampai 50 karakter biar aman.
         })
         .eq("id", selectedBooking.id);
       
@@ -150,25 +151,25 @@ export default function MyQueueHistoryPage() {
   if (!mounted) return null;
 
   return (
-    <main className="min-h-screen bg-[#020617] text-slate-100 flex flex-col font-sans">
-      <header className="sticky top-0 z-30 bg-[#020617]/95 backdrop-blur-xl border-b border-slate-800/80 px-4 py-3 flex items-center justify-between shadow-2xl">
+    <main className="min-h-screen bg-background text-foreground flex flex-col font-sans">
+      <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-xl border-b border-black/80 px-4 py-3 flex items-center justify-between shadow-2xl">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 bg-indigo-600 rounded-xl shrink-0 shadow-lg shadow-indigo-600/20">
-            <History size={16} className="text-white" />
+          <div className="h-11 w-11 md:h-12 md:w-12 flex items-center justify-center bg-primary rounded-xl shrink-0 shadow-lg shadow-black/20">
+            <History size={16} className="text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-sm font-black uppercase tracking-tight leading-none text-white ">Riwayat Antrean</h1>
-            <p className="text-[8px] font-bold text-slate-500 uppercase mt-0.5 tracking-widest">DPMPTSP LOBAR</p>
+            <h1 className="text-base md:text-lg font-black uppercase tracking-tight leading-none text-foreground ">Riwayat Antrean</h1>
+            <p className="hidden md:block text-xs md:text-sm font-bold text-foreground/70 uppercase mt-0.5 tracking-widest">DPMPTSP LOBAR</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Link href="/antrean">
-            <Button variant="outline" size="sm" className="h-9 px-3 rounded-xl bg-indigo-600/10 border border-indigo-500/30 text-indigo-400  gap-2 text-[10px] font-black uppercase border-b-4 border-indigo-900 active:translate-y-[2px] active:border-b-0 transition-all">
-              <Monitor size={14} /> Antrean
+            <Button variant="outline" size="sm" className="h-11 md:h-12 px-4 md:px-6 rounded-xl bg-amber-400 border-black !text-white gap-2 text-xs md:text-sm font-black uppercase border-b-4 border-amber-700 active:translate-y-[2px] active:border-b-0 transition-all hover:bg-amber-500 [&_svg]:!text-white">
+              <Monitor size={16} /> Antrean
             </Button>
           </Link>
           <Link href="/">
-            <Button variant="outline" size="sm" className="h-10 rounded-2xl gap-2 bg-slate-800/50 border-slate-700 text-indigo-400 font-black text-[10px] md:text-xs uppercase border-b-4 border-b-indigo-900/50"><Home size={14} /> Dashboard</Button>
+            <Button variant="outline" size="sm" className="h-11 md:h-12 px-4 md:px-6 rounded-xl gap-2 bg-primary border-black text-primary-foreground font-black text-xs md:text-sm uppercase border-b-4 border-black hover:brightness-95 [&_svg]:text-primary-foreground"><Home size={16} /> Dashboard</Button>
           </Link>
         </div>
       </header>
@@ -176,17 +177,17 @@ export default function MyQueueHistoryPage() {
       <div className="flex-1 px-4 py-4 space-y-3 max-w-lg mx-auto w-full">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
-            <Loader2 className="animate-spin text-indigo-500" size={32} />
-            <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Sinkronisasi Data...</p>
+            <Loader2 className="animate-spin text-primary" size={32} />
+            <p className="text-xs md:text-sm font-black text-foreground/60 uppercase tracking-widest">Sinkronisasi Data...</p>
           </div>
         ) : bookings.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="p-5 bg-slate-900/50 rounded-full mb-4">
-               <History size={44} className="text-slate-700" />
+            <div className="p-5 bg-card/50 rounded-full mb-4">
+               <History size={44} className="text-foreground/60" />
             </div>
-            <p className="text-slate-500 font-black uppercase text-xs mb-6 tracking-tighter">Belum Ada Riwayat Antrean</p>
+            <p className="text-foreground/70 font-black uppercase text-sm mb-6 tracking-tighter">Belum Ada Riwayat Antrean</p>
             <Link href="/booking">
-              <Button className="bg-indigo-600 hover:bg-indigo-500 text-white border-b-4 border-indigo-800 rounded-2xl font-black text-xs px-8 h-12 shadow-xl active:scale-95 transition-all">
+              <Button className="bg-primary hover:brightness-95 text-foreground border-b-4 border-black rounded-2xl font-black text-sm px-8 h-12 shadow-xl active:scale-95 transition-all">
                 AMBIL ANTREAN BARU
               </Button>
             </Link>
@@ -201,36 +202,36 @@ export default function MyQueueHistoryPage() {
 
               return (
                 <div key={booking.id}
-                  className={`bg-slate-900/70 rounded-3xl border-2 overflow-hidden transition-all shadow-lg ${
+                  className={`bg-card/70 rounded-3xl border-2 overflow-hidden transition-all shadow-lg ${
                     adminBatal ? "border-red-500/20 bg-red-500/[0.02]" : 
-                    booking.status === "in_progress" ? "border-indigo-500/30 bg-indigo-500/[0.02]" : 
-                    "border-slate-800/80"
+                    booking.status === "in_progress" ? "border-black bg-indigo-500/[0.02]" : 
+                    "border-black/80"
                   }`}
                 >
                   <div className="p-4 flex items-start gap-3">
-                    <div className="bg-slate-950 rounded-2xl px-3 py-2.5 text-center border border-slate-800 shrink-0 min-w-[64px] shadow-inner">
-                      <p className="text-[6px] font-black text-slate-600 uppercase mb-0.5 tracking-tighter">No Antrean</p>
-                      <p className="text-xl font-black font-mono text-indigo-400 leading-none">{booking.booking_number}</p>
+                    <div className="bg-background rounded-2xl px-3 py-2.5 text-center border border-black shrink-0 min-w-[64px] shadow-inner">
+                      <p className="text-[6px] font-black text-foreground/60 uppercase mb-0.5 tracking-tighter">No Antrean</p>
+                      <p className="text-xl font-black font-mono text-primary leading-none">{booking.booking_number}</p>
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2 mb-2">
-                        <p className="text-sm font-black text-white uppercase leading-tight truncate pr-1 tracking-tight">
+                        <p className="text-sm font-black text-foreground uppercase leading-tight truncate pr-1 tracking-tight">
                           {booking.services?.name}
                         </p>
-                        <Badge className={`${sc.badge} border font-black text-[7px] uppercase gap-1 px-2 py-1 flex items-center shadow-sm`}>
+                        <Badge className={`${sc.badge} border font-black text-xs md:text-sm uppercase gap-1 px-2 py-1 flex items-center shadow-sm`}>
                           {sc.icon} <span className="ml-0.5">{sc.label}</span>
                         </Badge>
                       </div>
 
                       <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1 text-slate-500">
-                          <Calendar size={10} className="text-indigo-500/50" />
-                          <span className="text-[9px] font-bold uppercase">{booking.booking_date}</span>
+                        <div className="flex items-center gap-1 text-foreground/70">
+                          <Calendar size={10} className="text-primary/50" />
+                          <span className="text-xs md:text-sm font-bold uppercase">{booking.booking_date}</span>
                         </div>
-                        <div className="flex items-center gap-1 text-indigo-400/70">
-                          <Clock size={10} className="text-indigo-500/50" />
-                          <span className="text-[9px] font-bold">{booking.booking_time} WITA</span>
+                        <div className="flex items-center gap-1 text-primary/70">
+                          <Clock size={10} className="text-primary/50" />
+                          <span className="text-xs md:text-sm font-bold">{booking.booking_time} WITA</span>
                         </div>
                       </div>
                     </div>
@@ -240,23 +241,23 @@ export default function MyQueueHistoryPage() {
                     <div className="mx-4 mb-3 flex items-start gap-2.5 p-3 bg-red-500/10 border border-red-500/20 rounded-2xl shadow-inner">
                       <ShieldAlert size={14} className="text-red-400 shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-[7px] font-black text-red-400 uppercase tracking-widest">Dibatalkan Oleh Sistem/Admin</p>
-                        <p className="text-[10px] text-red-200/90 font-bold leading-tight mt-0.5 italic">"{reason}"</p>
+                        <p className="text-xs md:text-sm font-black text-red-400 uppercase tracking-widest">Dibatalkan Oleh Sistem/Admin</p>
+                        <p className="text-xs md:text-sm text-red-200/90 font-bold leading-tight mt-0.5 italic">"{reason}"</p>
                       </div>
                     </div>
                   )}
 
                   <div className="px-4 pb-4 flex gap-2">
                     <Link href={`/booking-confirmation/${booking.id}`} className="flex-1">
-                      <Button className="w-full h-11 bg-slate-800 hover:bg-indigo-600/20 border border-slate-700 text-indigo-400 rounded-2xl text-[10px] font-black uppercase gap-1.5 shadow-md border-b-4 border-slate-950 active:translate-y-[2px] active:border-b-0 transition-all">
+                      <Button className="w-full h-11 md:h-12 px-4 md:px-6 bg-primary hover:brightness-95 border-black text-primary-foreground rounded-xl text-xs md:text-sm font-black uppercase gap-1.5 shadow-md border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all [&_svg]:text-primary-foreground">
                         <FileText size={13} /> {booking.status === 'completed' ? 'Detail' : 'Lihat Tiket'}
                       </Button>
                     </Link>
                     {booking.status === "waiting" && (
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         onClick={() => { setSelectedBooking(booking); setCancelDialogOpen(true); }}
-                        className="h-11 px-4 text-red-500/60 hover:text-red-400 hover:bg-red-500/10 rounded-2xl text-[10px] font-black uppercase transition-all active:scale-95"
+                        className="h-11 md:h-12 px-4 md:px-6 bg-red-600 border-black !text-white hover:bg-red-700 rounded-xl text-xs md:text-sm font-black uppercase transition-all border-b-4 border-black active:translate-y-[2px] active:border-b-0 [&_svg]:!text-white"
                       >
                         Batal
                       </Button>
@@ -274,7 +275,7 @@ export default function MyQueueHistoryPage() {
                     setCurrentPage((p) => p - 1);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  variant="outline" size="icon" className="h-9 w-9 rounded-xl bg-slate-900 border-slate-700 text-slate-400 border-b-4 border-slate-950 active:translate-y-[2px] active:border-b-0"
+                  variant="outline" size="icon" className="h-9 w-9 rounded-xl bg-primary border-black text-primary-foreground [&_svg]:text-primary-foreground border-b-4 border-black active:translate-y-[2px] active:border-b-0 hover:brightness-95"
                 >
                   <ChevronLeft size={15} />
                 </Button>
@@ -300,7 +301,7 @@ export default function MyQueueHistoryPage() {
                     setCurrentPage((p) => p + 1);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  variant="outline" size="icon" className="h-9 w-9 rounded-xl bg-slate-900 border-slate-700 text-slate-400 border-b-4 border-slate-950 active:translate-y-[2px] active:border-b-0"
+                  variant="outline" size="icon" className="h-9 w-9 rounded-xl bg-primary border-black text-primary-foreground [&_svg]:text-primary-foreground border-b-4 border-black active:translate-y-[2px] active:border-b-0 hover:brightness-95"
                 >
                   <ChevronRight size={15} />
                 </Button>
@@ -311,42 +312,52 @@ export default function MyQueueHistoryPage() {
       </div>
 
       <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
-        <DialogContent className="bg-slate-950 border-slate-800 text-white rounded-[2rem] max-w-[92vw] sm:max-w-sm p-6 shadow-2xl border-2">
+        <DialogContent className="bg-background border-black text-foreground rounded-[2rem] max-w-[92vw] sm:max-w-sm p-6 shadow-2xl border-2">
           <DialogHeader className="space-y-3 text-center">
             <div className="p-3 bg-red-500/10 w-fit rounded-2xl text-red-500 border border-red-500/20 mx-auto">
               <XCircle size={26} />
             </div>
             <DialogTitle className="text-lg font-black uppercase tracking-tighter">Batalkan Antrean?</DialogTitle>
-            <DialogDescription className="text-[11px] text-slate-500 font-medium">
-              Antrean <b className="text-indigo-400">{selectedBooking?.booking_number}</b> akan dibatalkan secara permanen.
+            <DialogDescription className="text-sm md:text-base text-foreground/70 font-medium">
+              Antrean <b className="text-primary">{selectedBooking?.booking_number}</b> akan dibatalkan secara permanen.
             </DialogDescription>
           </DialogHeader>
           <div className="py-4 space-y-2">
             <div className="flex justify-between items-center px-1">
-               <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Alasan Pembatalan</label>
-               <span className={`text-[9px] font-bold ${cancelReason.length >= 50 ? 'text-red-500' : 'text-slate-600'}`}>{cancelReason.length}/50</span>
+               <label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest">Alasan Pembatalan</label>
+               <span className={`text-xs md:text-sm font-bold ${cancelReason.length >= 50 ? 'text-red-500' : 'text-foreground/60'}`}>{cancelReason.length}/50</span>
             </div>
             <Textarea
               placeholder="Contoh: Ada keperluan mendadak..."
               maxLength={50}
-              className="bg-slate-900 border-slate-800 rounded-2xl resize-none text-xs h-24 text-white p-4 focus:border-indigo-500/50 transition-all"
+              className="bg-card border-black rounded-2xl resize-none text-xs h-24 text-foreground p-4 focus:border-black/50 transition-all"
               value={cancelReason}
               onChange={(e) => setCancelReason(e.target.value)}
             />
           </div>
           <DialogFooter className="flex flex-col gap-2">
             <Button disabled={cancelling || !cancelReason.trim()}
-              className="h-12 bg-red-600 hover:bg-red-500 rounded-2xl font-black text-xs text-white border-b-4 border-red-800 shadow-lg transition-all active:translate-y-[2px] active:border-b-0"
+              className="h-12 bg-red-600 hover:bg-red-500 rounded-2xl font-black text-xs text-foreground border-b-4 border-red-800 shadow-lg transition-all active:translate-y-[2px] active:border-b-0"
               onClick={handleCancel}>
               {cancelling ? <Loader2 className="animate-spin" size={15} /> : "YA, KONFIRMASI BATAL"}
             </Button>
-            <Button variant="ghost" className="h-11 rounded-2xl font-black text-xs text-slate-500 hover:text-slate-300"
+            <Button variant="ghost" className="h-11 rounded-2xl font-black text-xs text-foreground/70 hover:text-foreground/80"
               onClick={() => setCancelDialogOpen(false)}>
               KEMBALI
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <AdminPageInfoFab
+        title="Riwayat Antrean"
+        description="Halaman ini dipakai untuk melihat tiket yang pernah diambil beserta status akhirnya."
+        points={[
+          "Lihat detail tiket yang masih aktif atau yang sudah selesai.",
+          "Batalkan antrean yang masih berstatus menunggu.",
+          "Periksa status akhir apakah menunggu, dilayani, selesai, atau dibatalkan.",
+        ]}
+      />
     </main>
   );
 }
+

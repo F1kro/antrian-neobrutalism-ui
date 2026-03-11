@@ -1,0 +1,74 @@
+@startuml
+title Activity Diagram - Proses Booking dan Layanan Antrean
+
+start
+
+partition "User Biasa" {
+  :Membuka halaman booking;
+  :Mengisi form\n(nama, no WA, layanan, tanggal, jam);
+}
+
+partition "Sistem" {
+  :Validasi input;
+  if (Data valid?) then (Ya)
+    :Cek ketersediaan slot;
+    if (Slot tersedia?) then (Ya)
+      :Generate nomor antrean;
+      :Simpan booking (status=waiting);
+      :Simpan riwayat ke cookie;
+      :Tulis log BOOKING;
+    else (Tidak)
+      :Tampilkan pesan\nslot sudah terisi;
+      stop
+    endif
+  else (Tidak)
+    :Tampilkan pesan\nlengkapi data;
+    stop
+  endif
+}
+
+partition "User Biasa" {
+  :Melihat halaman konfirmasi\n(booking number + QR code);
+  :Membuka halaman monitor antrean;
+}
+
+partition "Admin" {
+  :Login admin;
+  :Buka menu manajemen antrean;
+  :Pilih layanan aktif;
+  :Klik tombol Panggil;
+}
+
+partition "Sistem" {
+  :Ubah status booking\nmenjadi in_progress;
+  :Kirim notifikasi WA;
+  :Putar notifikasi TTS;
+  :Tulis log CALL;
+}
+
+partition "Admin" {
+  if (Aksi admin?) then (Selesai)
+    :Klik tombol Selesai;
+    partition "Sistem" {
+      :Update status menjadi completed;
+      :Tulis log COMPLETE;
+    }
+  elseif (Skip)
+    :Pilih antrean pengganti;
+    partition "Sistem" {
+      :Swap antrean aktif\ndengan antrean pengganti;
+      :Kirim WA + TTS antrean baru;
+      :Tulis log SYSTEM (skip);
+    }
+  else (Batalkan)
+    :Pilih alasan pembatalan;
+    partition "Sistem" {
+      :Update status menjadi cancelled;
+      :Simpan catatan alasan;
+      :Tulis log CANCEL;
+    }
+  endif
+}
+
+stop
+@enduml

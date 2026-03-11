@@ -1,4 +1,4 @@
-// lib/notifications.ts
+﻿// Helper notifikasi suara.
 
 export interface NotificationOptions {
   title: string
@@ -11,9 +11,9 @@ export interface NotificationOptions {
 
 export type TTSVoice = 'id-ID-GadisNeural' | 'id-ID-ArdiNeural';
 
-// Default: wanita (user monitor)
+// Default suara user: wanita.
 export const VOICE_FEMALE: TTSVoice = 'id-ID-GadisNeural';
-// Admin panel
+// Buat admin, kirim voice pria.
 export const VOICE_MALE: TTSVoice = 'id-ID-ArdiNeural';
 
 let currentAudio: HTMLAudioElement | null = null;
@@ -27,7 +27,7 @@ const MEDIA_ERROR_CODES: Record<number, string> = {
 
 export async function playTTSNotification(
   message: string,
-  voice: TTSVoice = VOICE_FEMALE  // default wanita, admin pass VOICE_MALE
+  voice: TTSVoice = VOICE_FEMALE  // Default wanita, admin bisa kirim VOICE_MALE.
 ): Promise<void> {
   if (typeof window === 'undefined') return;
 
@@ -60,7 +60,7 @@ export async function playTTSNotification(
     audio.onerror = () => {
       const mediaErr = audio.error;
       if (mediaErr) {
-        if (mediaErr.code === 1) return; // aborted = normal
+        if (mediaErr.code === 1) return; // Kalau abort, anggap normal.
         console.error(`Audio error: ${MEDIA_ERROR_CODES[mediaErr.code] || mediaErr.code}`, mediaErr.message || '');
       }
       URL.revokeObjectURL(objectUrl);
@@ -101,10 +101,10 @@ export async function sendNotification(options: NotificationOptions): Promise<vo
   }
 }
 
-// User monitor — suara wanita (default)
+// Shortcut monitor user, default wanita.
 export async function notifyQueueCalled(bookingNumber: string): Promise<void> {
   await sendNotification({
-    title: '🔔 Giliran Anda!',
+    title: 'ðŸ”” Giliran Anda!',
     body: `Nomor Antrean ${bookingNumber} - Silakan menuju loket sekarang.`,
     tag: `queue-${bookingNumber}`,
     requireInteraction: true,
@@ -117,7 +117,7 @@ export async function notifyQueueCalled(bookingNumber: string): Promise<void> {
 
 export async function notifyQueueReminder(bookingNumber: string, queueLeft: number): Promise<void> {
   await sendNotification({
-    title: '⏰ Antrean Hampir Tiba',
+    title: 'â° Antrean Hampir Tiba',
     body: `Nomor ${bookingNumber} - Sisa ${queueLeft} orang lagi.`,
     tag: `reminder-${bookingNumber}`,
   });
@@ -135,3 +135,4 @@ export function getNotificationPermission(): NotificationPermission {
   if (!isNotificationSupported()) return 'denied';
   return Notification.permission;
 }
+

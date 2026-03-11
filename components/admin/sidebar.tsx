@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { 
   LayoutDashboard, 
   Database, 
@@ -7,7 +8,9 @@ import {
   ChevronRight, 
   AlertCircle, 
   ListChecks,
-  History // Icon baru untuk Log
+  History,
+  Loader2,
+  BadgeInfo
 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -36,7 +39,8 @@ export default function AdminSidebar() {
     { label: 'Manajemen Antrean', icon: <ListChecks size={20}/>, path: '/admin/antrian' },
     { label: 'Manajemen Layanan', icon: <Database size={20}/>, path: '/admin/services' },
     { label: 'Rekap Antrean', icon: <ClipboardList size={20}/>, path: '/admin/rekap' },
-    { label: 'Log Sistem', icon: <History size={20}/>, path: '/admin/logs' }, // Menu Baru
+    { label: 'Log Sistem', icon: <History size={20}/>, path: '/admin/logs' }, // Menu log
+    { label: 'Tentang SIBONA', icon: <BadgeInfo size={20}/>, path: '/admin/about' },
   ]
 
   const handleLogout = async () => {
@@ -67,12 +71,17 @@ export default function AdminSidebar() {
 
   return (
     <>
-      <aside className="w-72 bg-slate-950 border-r border-slate-800 hidden lg:flex flex-col h-screen shrink-0 sticky top-0 overflow-hidden">
-        <div className="p-8 border-b border-slate-800 flex items-center gap-3 shrink-0">
-          <div className="p-2 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-500/20">
-            <Database size={24} className="text-white" />
+      <aside className="w-72 bg-sidebar border-r-2 border-black hidden lg:flex flex-col h-screen shrink-0 sticky top-0 overflow-hidden">
+        <div className="p-8 border-b-2 border-black flex items-center gap-3 shrink-0">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[6px] border-2 border-black bg-[#ef4444] shadow-[4px_4px_0_#000]">
+            <Image src="/logo.png" alt="Logo DPMPTSP" width={20} height={26} className="h-6 w-auto object-contain" />
           </div>
-          <span className="text-xl font-black uppercase tracking-tighter text-white">ANTRI DPMPTSP</span>
+          <div className="min-w-0">
+            <span className="block text-xl font-black uppercase tracking-tight text-black">SI-BONA</span>
+            <p className="mt-1 text-[8px] font-black uppercase tracking-[0.18em] text-black/60">
+              Sistem Informasi Booking Online Antrean DPMPTSP LOBAR
+            </p>
+          </div>
         </div>
         
         <nav className="flex-1 p-6 space-y-2 overflow-y-auto custom-scrollbar">
@@ -80,10 +89,10 @@ export default function AdminSidebar() {
             <button
               key={menu.path}
               onClick={() => router.push(menu.path)}
-              className={`w-full flex items-center justify-between p-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all ${
+              className={`w-full flex items-center justify-between p-4 rounded-[8px] border-2 border-black font-black text-[10px] uppercase tracking-[0.16em] transition-all shadow-[4px_4px_0_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#000] ${
                 pathname === menu.path 
-                ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20' 
-                : 'text-slate-500 hover:bg-slate-900 hover:text-slate-300'
+                ? 'bg-[#ef4444] text-white' 
+                : 'bg-card text-foreground hover:bg-accent'
               }`}
             >
               <div className="flex items-center gap-4">
@@ -94,12 +103,12 @@ export default function AdminSidebar() {
           ))}
         </nav>
 
-        <div className="p-6 border-t border-slate-800 shrink-0">
+        <div className="p-6 border-t-2 border-black shrink-0">
           <Button 
             variant="ghost" 
             onClick={() => setShowLogoutDialog(true)} 
             disabled={isLoggingOut}
-            className="w-full justify-start bg-red-600 hover:bg-red-500 text-white font-black uppercase text-[10px] tracking-widest h-12 px-5 rounded-xl shadow-lg shadow-red-900/20 gap-3 transition-all active:translate-y-[2px] active:border-b-0 border-b-4 border-red-900 disabled:opacity-50 disabled:cursor-not-allowed group"
+            className="w-full justify-start bg-[#ef4444] hover:bg-[#dc2626] text-white font-black uppercase text-[10px] tracking-widest h-12 px-5 rounded-[8px] border-2 border-black gap-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
           >
             {isLoggingOut ? (
               <Loader2 className="animate-spin" size={20} />
@@ -112,18 +121,18 @@ export default function AdminSidebar() {
       </aside>
 
       <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <AlertDialogContent className="bg-[#0f172a] border-slate-800 text-white rounded-[2rem] p-8 shadow-2xl shadow-red-500/10">
+        <AlertDialogContent className="bg-card border-2 border-black text-foreground rounded-[8px] p-8">
           <AlertDialogHeader className="space-y-4">
-            <div className="p-4 bg-red-500/10 border border-red-500/20 w-fit rounded-full text-red-500 mx-auto">
+            <div className="p-4 bg-[#ef4444]/10 border-2 border-black w-fit rounded-[8px] text-[#ef4444] mx-auto">
               <AlertCircle size={40} />
             </div>
             <div className="text-center space-y-2">
               <AlertDialogTitle className="text-2xl font-black uppercase">
                 Konfirmasi Logout
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-slate-400 leading-relaxed">
+              <AlertDialogDescription className="text-black/70 leading-relaxed">
                 Apakah Anda yakin ingin keluar dari sistem? Anda harus{' '}
-                <span className="text-red-400 font-bold underline">
+                <span className="text-[#ef4444] font-bold underline">
                   login kembali
                 </span>
                 {' '}untuk mengakses dashboard admin.
@@ -131,13 +140,13 @@ export default function AdminSidebar() {
             </div>
           </AlertDialogHeader>
           <AlertDialogFooter className="mt-8 flex gap-3 sm:justify-center">
-            <AlertDialogCancel className="h-14 px-8 bg-slate-800 text-white border-none rounded-xl hover:bg-slate-700 transition-colors font-bold uppercase text-xs">
+            <AlertDialogCancel className="h-14 px-8 bg-white text-black border-2 border-black rounded-[8px] hover:bg-black hover:text-white transition-colors font-bold uppercase text-xs">
               BATAL
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="h-14 px-8 bg-red-600 text-white font-black rounded-xl hover:bg-red-500 shadow-lg shadow-red-600/20 transition-all disabled:opacity-50"
+              className="h-14 px-8 bg-[#ef4444] text-white font-black rounded-[8px] hover:bg-[#dc2626] border-2 border-black transition-all disabled:opacity-50"
             >
               {isLoggingOut ? 'MEMPROSES...' : 'YA, KELUAR SISTEM'}
             </AlertDialogAction>

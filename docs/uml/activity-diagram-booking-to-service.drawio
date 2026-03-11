@@ -1,0 +1,348 @@
+<mxfile host='app.diagrams.net' modified='2026-03-06T02:35:00.000Z' agent='codex' version='24.7.17' type='device'>
+  <diagram id='activity-all' name='All Activities'>
+    <mxGraphModel dx='2600' dy='1500' grid='1' gridSize='10' guides='1' tooltips='1' connect='1' arrows='1' fold='1' page='1' pageScale='1' pageWidth='4400' pageHeight='4600' math='0' shadow='0'>
+      <root>
+        <mxCell id='0' />
+        <mxCell id='1' parent='0' />
+        <mxCell id='main_title' value='Activity Diagram Per Aktivitas (User Biasa + Admin)' style='text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=20;' vertex='1' parent='1'><mxGeometry x='20' y='20' width='920' height='30' as='geometry' /></mxCell>
+        <mxCell id='sub1' value='Setiap aktivitas dibuat sebagai 1 blok terpisah' style='text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;' vertex='1' parent='1'><mxGeometry x='20' y='46' width='900' height='20' as='geometry' /></mxCell>
+        <mxCell id='u1_title' value='Lihat daftar layanan' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='20' y='80' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='u1_lane' value='User Biasa' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='20' y='104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='u1_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u1_a1' value='Buka halaman utama' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u1_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u1_a2' value='Pilih menu layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u1_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u1_a3' value='Lihat daftar layanan tersedia' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u1_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u1_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u1_e1' edge='1' parent='1' source='u1_start' target='u1_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u1_e2' edge='1' parent='1' source='u1_a1' target='u1_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u1_e3' edge='1' parent='1' source='u1_a2' target='u1_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u1_eEnd' edge='1' parent='1' source='u1_a3' target='u1_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u2_title' value='Ambil nomor antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='370' y='80' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='u2_lane' value='User Biasa' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='370' y='104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='u2_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u2_a1' value='Buka menu booking' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u2_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u2_a2' value='Isi form booking' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u2_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u2_a3' value='Pilih tanggal dan jam' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u2_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u2_a4' value='Kirim booking' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u2_lane'><mxGeometry x='40' y='270' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u2_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u2_e1' edge='1' parent='1' source='u2_start' target='u2_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u2_e2' edge='1' parent='1' source='u2_a1' target='u2_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u2_e3' edge='1' parent='1' source='u2_a2' target='u2_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u2_e4' edge='1' parent='1' source='u2_a3' target='u2_a4' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u2_eEnd' edge='1' parent='1' source='u2_a4' target='u2_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u3_title' value='Dapat tiket booking + QR' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='720' y='80' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='u3_lane' value='User Biasa' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='720' y='104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='u3_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u3_a1' value='Booking berhasil' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u3_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u3_a2' value='Buka halaman konfirmasi' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u3_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u3_a3' value='Unduh atau simpan QR Code' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u3_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u3_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u3_e1' edge='1' parent='1' source='u3_start' target='u3_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u3_e2' edge='1' parent='1' source='u3_a1' target='u3_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u3_e3' edge='1' parent='1' source='u3_a2' target='u3_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u3_eEnd' edge='1' parent='1' source='u3_a3' target='u3_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u4_title' value='Lihat antrean live' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='1070' y='580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='u4_lane' value='User Biasa' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='1070' y='604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='u4_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1218' y='620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u4_a1' value='Buka menu cek antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u4_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u4_a2' value='Pilih layanan terkait' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u4_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u4_a3' value='Pantau antrean realtime' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u4_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u4_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1218' y='1006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u4_e1' edge='1' parent='1' source='u4_start' target='u4_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u4_e2' edge='1' parent='1' source='u4_a1' target='u4_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u4_e3' edge='1' parent='1' source='u4_a2' target='u4_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u4_eEnd' edge='1' parent='1' source='u4_a3' target='u4_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u5_title' value='Aktifkan notifikasi browser + suara' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='1420' y='580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='u5_lane' value='User Biasa' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='1420' y='604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='u5_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1568' y='620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u5_a1' value='Klik tombol notifikasi' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u5_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u5_a2' value='Izinkan permission browser' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u5_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u5_a3' value='Notifikasi suara aktif' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u5_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u5_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1568' y='1006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u5_e1' edge='1' parent='1' source='u5_start' target='u5_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u5_e2' edge='1' parent='1' source='u5_a1' target='u5_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u5_e3' edge='1' parent='1' source='u5_a2' target='u5_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u5_eEnd' edge='1' parent='1' source='u5_a3' target='u5_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u6_title' value='Lihat riwayat antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='20' y='580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='u6_lane' value='User Biasa' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='20' y='604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='u6_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u6_a1' value='Buka menu riwayat' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u6_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u6_a2' value='Sistem baca data cookie' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u6_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u6_a3' value='Lihat daftar riwayat' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u6_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u6_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='1006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u6_e1' edge='1' parent='1' source='u6_start' target='u6_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u6_e2' edge='1' parent='1' source='u6_a1' target='u6_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u6_e3' edge='1' parent='1' source='u6_a2' target='u6_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u6_eEnd' edge='1' parent='1' source='u6_a3' target='u6_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u7_title' value='Batal antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='370' y='580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='u7_lane' value='User Biasa' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='370' y='604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='u7_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u7_a1' value='Buka riwayat antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u7_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u7_a2' value='Pilih antrean yang dibatalkan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u7_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u7_a3' value='Konfirmasi pembatalan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u7_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u7_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='1006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u7_e1' edge='1' parent='1' source='u7_start' target='u7_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u7_e2' edge='1' parent='1' source='u7_a1' target='u7_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u7_e3' edge='1' parent='1' source='u7_a2' target='u7_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u7_eEnd' edge='1' parent='1' source='u7_a3' target='u7_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u8_title' value='Tulis alasan pembatalan' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='720' y='580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='u8_lane' value='User Biasa' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='720' y='604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='u8_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u8_a1' value='Pilih opsi pembatalan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u8_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u8_a2' value='Isi atau pilih alasan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u8_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u8_a3' value='Simpan alasan pembatalan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='u8_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='u8_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='1006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='u8_e1' edge='1' parent='1' source='u8_start' target='u8_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u8_e2' edge='1' parent='1' source='u8_a1' target='u8_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u8_e3' edge='1' parent='1' source='u8_a2' target='u8_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='u8_eEnd' edge='1' parent='1' source='u8_a3' target='u8_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a1_title' value='Login admin' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='20' y='1080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a1_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='20' y='1104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a1_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='1120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a1_a1' value='Buka halaman login admin' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a1_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a1_a2' value='Masukkan email dan password' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a1_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a1_d1' value='Valid login?' style='rhombus;whiteSpace=wrap;html=1;' vertex='1' parent='a1_lane'><mxGeometry x='105' y='198' width='110' height='80' as='geometry' /></mxCell>
+        <mxCell id='a1_ok' value='Lanjut ke dashboard' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a1_lane'><mxGeometry x='40' y='290' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a1_e1' edge='1' parent='1' source='a1_start' target='a1_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a1_e2' edge='1' parent='1' source='a1_a1' target='a1_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a1_ed1' edge='1' parent='1' source='a1_a2' target='a1_d1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a1_ed2' value='Ya' edge='1' parent='1' source='a1_d1' target='a1_ok' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a1_ed3' value='Tidak' edge='1' parent='1' source='a1_d1' target='a1_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry'><Array as='points'><mxPoint x='40' y='1260' /></Array></mxGeometry></mxCell>
+        <mxCell id='a1_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='1506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a1_ed4' edge='1' parent='1' source='a1_ok' target='a1_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a3_title' value='Panggil antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='370' y='1080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a3_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='370' y='1104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a3_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='1120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a3_a1' value='Pilih antrean menunggu' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a3_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a3_a2' value='Klik tombol panggil' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a3_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a3_a3' value='Nomor antrean dipanggil' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a3_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a3_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='1506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a3_e1' edge='1' parent='1' source='a3_start' target='a3_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a3_e2' edge='1' parent='1' source='a3_a1' target='a3_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a3_e3' edge='1' parent='1' source='a3_a2' target='a3_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a3_eEnd' edge='1' parent='1' source='a3_a3' target='a3_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a4_title' value='Panggil ulang antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='720' y='1080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a4_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='720' y='1104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a4_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='1120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a4_a1' value='Pilih antrean aktif' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a4_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a4_a2' value='Klik panggil ulang' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a4_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a4_a3' value='Nomor dipanggil ulang' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a4_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a4_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='1506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a4_e1' edge='1' parent='1' source='a4_start' target='a4_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a4_e2' edge='1' parent='1' source='a4_a1' target='a4_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a4_e3' edge='1' parent='1' source='a4_a2' target='a4_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a4_eEnd' edge='1' parent='1' source='a4_a3' target='a4_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a5_title' value='Selesaikan antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='1070' y='1580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a5_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='1070' y='1604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a5_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1218' y='1620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a5_a1' value='Pilih antrean aktif' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a5_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a5_a2' value='Klik tombol selesai' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a5_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a5_a3' value='Status menjadi selesai' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a5_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a5_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1218' y='2006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a5_e1' edge='1' parent='1' source='a5_start' target='a5_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a5_e2' edge='1' parent='1' source='a5_a1' target='a5_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a5_e3' edge='1' parent='1' source='a5_a2' target='a5_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a5_eEnd' edge='1' parent='1' source='a5_a3' target='a5_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a6_title' value='Skip antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='1420' y='1580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a6_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='1420' y='1604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a6_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1568' y='1620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a6_a1' value='Pilih antrean aktif' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a6_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a6_a2' value='Klik tombol skip' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a6_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a6_a3' value='Antrean diganti antrean lain' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a6_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a6_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1568' y='2006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a6_e1' edge='1' parent='1' source='a6_start' target='a6_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a6_e2' edge='1' parent='1' source='a6_a1' target='a6_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a6_e3' edge='1' parent='1' source='a6_a2' target='a6_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a6_eEnd' edge='1' parent='1' source='a6_a3' target='a6_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a7_title' value='Pilih antrean pengganti' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='20' y='1580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a7_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='20' y='1604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a7_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='1620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a7_a1' value='Buka dialog skip' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a7_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a7_a2' value='Pilih antrean pengganti' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a7_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a7_a3' value='Konfirmasi penggantian' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a7_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a7_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='2006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a7_e1' edge='1' parent='1' source='a7_start' target='a7_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a7_e2' edge='1' parent='1' source='a7_a1' target='a7_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a7_e3' edge='1' parent='1' source='a7_a2' target='a7_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a7_eEnd' edge='1' parent='1' source='a7_a3' target='a7_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a8_title' value='Batalkan antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='370' y='1580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a8_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='370' y='1604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a8_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='1620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a8_a1' value='Pilih antrean target' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a8_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a8_a2' value='Klik batalkan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a8_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a8_a3' value='Status menjadi batal' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a8_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a8_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='2006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a8_e1' edge='1' parent='1' source='a8_start' target='a8_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a8_e2' edge='1' parent='1' source='a8_a1' target='a8_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a8_e3' edge='1' parent='1' source='a8_a2' target='a8_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a8_eEnd' edge='1' parent='1' source='a8_a3' target='a8_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a9_title' value='Pilih alasan pembatalan' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='720' y='1580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a9_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='720' y='1604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a9_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='1620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a9_a1' value='Buka pilihan alasan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a9_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a9_a2' value='Pilih alasan batal' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a9_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a9_a3' value='Simpan alasan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a9_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a9_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='2006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a9_e1' edge='1' parent='1' source='a9_start' target='a9_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a9_e2' edge='1' parent='1' source='a9_a1' target='a9_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a9_e3' edge='1' parent='1' source='a9_a2' target='a9_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a9_eEnd' edge='1' parent='1' source='a9_a3' target='a9_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a10_title' value='Lihat daftar antrean' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='1070' y='2080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a10_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='1070' y='2104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a10_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1218' y='2120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a10_a1' value='Masuk menu antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a10_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a10_a2' value='Lihat waiting dan in progress' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a10_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a10_a3' value='Pantau urutan antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a10_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a10_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1218' y='2506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a10_e1' edge='1' parent='1' source='a10_start' target='a10_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a10_e2' edge='1' parent='1' source='a10_a1' target='a10_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a10_e3' edge='1' parent='1' source='a10_a2' target='a10_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a10_eEnd' edge='1' parent='1' source='a10_a3' target='a10_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a11_title' value='Lihat riwayat antrean (admin)' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='1420' y='2080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a11_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='1420' y='2104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a11_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1568' y='2120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a11_a1' value='Masuk menu antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a11_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a11_a2' value='Buka tab riwayat' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a11_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a11_a3' value='Lihat histori antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a11_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a11_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1568' y='2506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a11_e1' edge='1' parent='1' source='a11_start' target='a11_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a11_e2' edge='1' parent='1' source='a11_a1' target='a11_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a11_e3' edge='1' parent='1' source='a11_a2' target='a11_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a11_eEnd' edge='1' parent='1' source='a11_a3' target='a11_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a13_title' value='Tambah layanan' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='20' y='2080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a13_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='20' y='2104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a13_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='2120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a13_a1' value='Klik tambah layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a13_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a13_a2' value='Isi data layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a13_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a13_a3' value='Simpan data layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a13_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a13_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='2506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a13_e1' edge='1' parent='1' source='a13_start' target='a13_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a13_e2' edge='1' parent='1' source='a13_a1' target='a13_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a13_e3' edge='1' parent='1' source='a13_a2' target='a13_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a13_eEnd' edge='1' parent='1' source='a13_a3' target='a13_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a14_title' value='Lihat data layanan' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='370' y='2080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a14_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='370' y='2104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a14_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='2120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a14_a1' value='Masuk menu layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a14_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a14_a2' value='Cari atau filter layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a14_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a14_a3' value='Lihat detail layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a14_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a14_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='2506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a14_e1' edge='1' parent='1' source='a14_start' target='a14_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a14_e2' edge='1' parent='1' source='a14_a1' target='a14_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a14_e3' edge='1' parent='1' source='a14_a2' target='a14_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a14_eEnd' edge='1' parent='1' source='a14_a3' target='a14_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a15_title' value='Hapus layanan' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='720' y='2080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a15_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='720' y='2104' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a15_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='2120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a15_a1' value='Pilih layanan target' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a15_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a15_a2' value='Klik hapus' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a15_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a15_a3' value='Konfirmasi penghapusan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a15_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a15_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='868' y='2506' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a15_e1' edge='1' parent='1' source='a15_start' target='a15_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a15_e2' edge='1' parent='1' source='a15_a1' target='a15_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a15_e3' edge='1' parent='1' source='a15_a2' target='a15_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a15_eEnd' edge='1' parent='1' source='a15_a3' target='a15_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a16_title' value='Edit layanan' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='1070' y='2580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a16_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='1070' y='2604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a16_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1218' y='2620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a16_a1' value='Pilih layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a16_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a16_a2' value='Ubah data layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a16_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a16_a3' value='Simpan perubahan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a16_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a16_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1218' y='3006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a16_e1' edge='1' parent='1' source='a16_start' target='a16_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a16_e2' edge='1' parent='1' source='a16_a1' target='a16_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a16_e3' edge='1' parent='1' source='a16_a2' target='a16_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a16_eEnd' edge='1' parent='1' source='a16_a3' target='a16_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a17_title' value='Lihat dashboard statistik' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='1420' y='2580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a17_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='1420' y='2604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a17_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1568' y='2620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a17_a1' value='Masuk menu dashboard' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a17_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a17_a2' value='Pilih rentang waktu' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a17_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a17_a3' value='Lihat statistik antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a17_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a17_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='1568' y='3006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a17_e1' edge='1' parent='1' source='a17_start' target='a17_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a17_e2' edge='1' parent='1' source='a17_a1' target='a17_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a17_e3' edge='1' parent='1' source='a17_a2' target='a17_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a17_eEnd' edge='1' parent='1' source='a17_a3' target='a17_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a18_title' value='Lihat log sistem' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='20' y='2580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a18_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='20' y='2604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a18_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='2620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a18_a1' value='Masuk menu log sistem' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a18_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a18_a2' value='Pilih filter log' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a18_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a18_a3' value='Lihat detail aktivitas' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a18_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a18_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='3006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a18_e1' edge='1' parent='1' source='a18_start' target='a18_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a18_e2' edge='1' parent='1' source='a18_a1' target='a18_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a18_e3' edge='1' parent='1' source='a18_a2' target='a18_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a18_eEnd' edge='1' parent='1' source='a18_a3' target='a18_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a19_title' value='Lihat Rekapan Antrian' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='370' y='2580' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a19_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='370' y='2604' width='320' height='430' as='geometry' /></mxCell>
+        <mxCell id='a19_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='2620' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a19_a1' value='Masuk menu rekap' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a19_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a19_a2' value='Atur filter data' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a19_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a19_a3' value='Lihat tabel rekap' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a19_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a19_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='3006' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a19_e1' edge='1' parent='1' source='a19_start' target='a19_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a19_e2' edge='1' parent='1' source='a19_a1' target='a19_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a19_e3' edge='1' parent='1' source='a19_a2' target='a19_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a19_eEnd' edge='1' parent='1' source='a19_a3' target='a19_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_title' value='Kelola antrean harian' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='20' y='3080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a2_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='20' y='3104' width='320' height='520' as='geometry' /></mxCell>
+        <mxCell id='a2_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='3120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a2_a1' value='Login admin' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_a2' value='Pilih menu antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_a3' value='Lihat daftar antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_fork' value='' style='shape=rectangle;html=1;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='a2_lane'><mxGeometry x='50' y='268' width='220' height='10' as='geometry' /></mxCell>
+        <mxCell id='a2_b1' value='Panggil antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='4' y='294' width='100' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_b2' value='Panggil ulang' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='108' y='294' width='100' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_b3' value='Selesaikan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='212' y='294' width='100' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_b4' value='Skip antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='56' y='360' width='100' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_b5' value='Batalkan antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='160' y='360' width='100' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_merge' value='' style='shape=rectangle;html=1;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='a2_lane'><mxGeometry x='50' y='426' width='220' height='10' as='geometry' /></mxCell>
+        <mxCell id='a2_res' value='Memperbarui data antrean' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a2_lane'><mxGeometry x='40' y='446' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a2_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='168' y='3596' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a2_e1' edge='1' parent='1' source='a2_start' target='a2_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_e2' edge='1' parent='1' source='a2_a1' target='a2_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_e3' edge='1' parent='1' source='a2_a2' target='a2_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_e4' edge='1' parent='1' source='a2_a3' target='a2_fork' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_eb1' edge='1' parent='1' source='a2_fork' target='a2_b1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_em1' edge='1' parent='1' source='a2_b1' target='a2_merge' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_eb2' edge='1' parent='1' source='a2_fork' target='a2_b2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_em2' edge='1' parent='1' source='a2_b2' target='a2_merge' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_eb3' edge='1' parent='1' source='a2_fork' target='a2_b3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_em3' edge='1' parent='1' source='a2_b3' target='a2_merge' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_eb4' edge='1' parent='1' source='a2_fork' target='a2_b4' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_em4' edge='1' parent='1' source='a2_b4' target='a2_merge' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_eb5' edge='1' parent='1' source='a2_fork' target='a2_b5' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_em5' edge='1' parent='1' source='a2_b5' target='a2_merge' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_e5' edge='1' parent='1' source='a2_merge' target='a2_res' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a2_e6' edge='1' parent='1' source='a2_res' target='a2_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_title' value='Kelola layanan' style='text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;' vertex='1' parent='1'><mxGeometry x='370' y='3080' width='320' height='24' as='geometry' /></mxCell>
+        <mxCell id='a12_lane' value='Admin' style='swimlane;html=1;startSize=34;horizontal=0;rounded=0;strokeWidth=2;' vertex='1' parent='1'><mxGeometry x='370' y='3104' width='320' height='520' as='geometry' /></mxCell>
+        <mxCell id='a12_start' value='' style='ellipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='3120' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a12_a1' value='Login admin' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a12_lane'><mxGeometry x='40' y='54' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a12_a2' value='Pilih menu layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a12_lane'><mxGeometry x='40' y='126' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a12_a3' value='Lihat data layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a12_lane'><mxGeometry x='40' y='198' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a12_fork' value='' style='shape=rectangle;html=1;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='a12_lane'><mxGeometry x='50' y='268' width='220' height='10' as='geometry' /></mxCell>
+        <mxCell id='a12_b1' value='Tambah layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a12_lane'><mxGeometry x='4' y='294' width='100' height='56' as='geometry' /></mxCell>
+        <mxCell id='a12_b2' value='Edit layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a12_lane'><mxGeometry x='108' y='294' width='100' height='56' as='geometry' /></mxCell>
+        <mxCell id='a12_b3' value='Hapus layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a12_lane'><mxGeometry x='212' y='294' width='100' height='56' as='geometry' /></mxCell>
+        <mxCell id='a12_merge' value='' style='shape=rectangle;html=1;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='a12_lane'><mxGeometry x='50' y='426' width='220' height='10' as='geometry' /></mxCell>
+        <mxCell id='a12_res' value='Memperbarui data layanan' style='rounded=1;whiteSpace=wrap;html=1;' vertex='1' parent='a12_lane'><mxGeometry x='40' y='446' width='240' height='56' as='geometry' /></mxCell>
+        <mxCell id='a12_end' value='' style='shape=doubleEllipse;html=1;aspect=fixed;fillColor=#000000;strokeColor=#000000;' vertex='1' parent='1'><mxGeometry x='518' y='3596' width='24' height='24' as='geometry' /></mxCell>
+        <mxCell id='a12_e1' edge='1' parent='1' source='a12_start' target='a12_a1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_e2' edge='1' parent='1' source='a12_a1' target='a12_a2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_e3' edge='1' parent='1' source='a12_a2' target='a12_a3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_e4' edge='1' parent='1' source='a12_a3' target='a12_fork' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_eb1' edge='1' parent='1' source='a12_fork' target='a12_b1' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_em1' edge='1' parent='1' source='a12_b1' target='a12_merge' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_eb2' edge='1' parent='1' source='a12_fork' target='a12_b2' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_em2' edge='1' parent='1' source='a12_b2' target='a12_merge' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_eb3' edge='1' parent='1' source='a12_fork' target='a12_b3' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_em3' edge='1' parent='1' source='a12_b3' target='a12_merge' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_e5' edge='1' parent='1' source='a12_merge' target='a12_res' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+        <mxCell id='a12_e6' edge='1' parent='1' source='a12_res' target='a12_end' style='endArrow=block;html=1;'><mxGeometry relative='1' as='geometry' /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

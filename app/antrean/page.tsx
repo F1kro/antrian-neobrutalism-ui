@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import AdminPageInfoFab from "@/components/admin/page-info-fab";
 import { createClient } from "@/lib/supabase/client";
 import { getBookingsFromCookie } from "@/lib/cookies";
 import { unlockTTS } from "@/lib/notifications";
@@ -33,7 +34,7 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 
-// --- HELPER WITA ---
+// Helper waktu WITA.
 const getWitaDateString = () => {
   const now = new Date();
   const witaString = now.toLocaleString("en-US", { timeZone: "Asia/Makassar" });
@@ -74,7 +75,7 @@ const MonitorTimer = ({
   }, [startTime, durationMinutes]);
 
   if (timeLeft === null)
-    return <div className="text-2xl md:text-5xl font-mono text-slate-700">--:--</div>;
+    return <div className="text-2xl md:text-5xl font-mono text-foreground/60">--:--</div>;
 
   const min = Math.floor(timeLeft / 60);
   const sec = timeLeft % 60;
@@ -109,7 +110,7 @@ export default function PersonalMonitorPage() {
   const [userBookingIds, setUserBookingIds] = useState<string[]>([]);
   const [skippedInfo, setSkippedInfo] = useState<Record<string, { reason: string; at: Date }>>({});
   
-  // LOGIC TAMBAHAN UNTUK SMART ALERT
+  // Logika tambahan buat smart alert.
   const [allUserBookings, setAllUserBookings] = useState<any[]>([]);
   
   useEffect(() => {
@@ -176,7 +177,7 @@ export default function PersonalMonitorPage() {
     setServices(sortedServices);
   }, [supabase]);
 
-  // FETCH SEMUA BOOKING USER UNTUK SMART ALERT (Masa Depan)
+  // Aku ambil booking user untuk cek antrean mendatang.
   const fetchAllUserBookings = useCallback(async (ids: string[]) => {
     if (ids.length === 0) return;
     const { data } = await supabase
@@ -196,7 +197,7 @@ export default function PersonalMonitorPage() {
     setUserBookingIds(ids);
     fetchAllUserBookings(ids);
 
-    // LOGIKA: OTOMATIS OFF SAAT REFRESH/BUKA BARU
+    // Saat refresh/buka ulang, auto kembali nonaktif.
     if (isNotificationSupported()) {
       setNotificationsEnabled(false);
       notificationsEnabledRef.current = false;
@@ -253,7 +254,7 @@ export default function PersonalMonitorPage() {
             toast.error(
               <div className="flex flex-col gap-1">
                 <span className="font-black text-sm">Antrean {updated.booking_number} Dilewati</span>
-                <span className="text-xs text-slate-300">{reasonDisplay}</span>
+                <span className="text-xs text-foreground/80">{reasonDisplay}</span>
               </div>,
               { duration: 15000, icon: <SkipForward className="text-amber-500" size={24} /> }
             );
@@ -275,7 +276,7 @@ export default function PersonalMonitorPage() {
   const handleToggleNotifications = async () => {
     if (!isNotificationSupported()) return toast.error("Browser tidak mendukung notifikasi");
     
-    // Unlock TTS setiap kali klik tombol
+    // Tiap klik tombol, aku unlock TTS lagi.
     unlockTTS();
 
     if (notificationsEnabled) {
@@ -298,7 +299,7 @@ export default function PersonalMonitorPage() {
     );
   };
 
-  // Logika Cek Antrean Masa Depan (Besok/Lusa)
+  // Cek antrean besok/lusa.
   const futureBookings = useMemo(() => {
     const today = getWitaDateString();
     return allUserBookings.filter(b => b.booking_date > today);
@@ -315,39 +316,39 @@ export default function PersonalMonitorPage() {
   }, [totalPages]);
 
   return (
-    <main className="min-h-screen w-full bg-[#020617] text-slate-100 font-sans p-3 md:p-10 flex flex-col gap-4 md:gap-6 overflow-hidden">
-      <header className="bg-slate-900/50 p-4 md:p-6 rounded-2xl md:rounded-[2rem] border border-slate-800 backdrop-blur-xl shrink-0 shadow-2xl">
+    <main className="min-h-screen w-full bg-background text-foreground font-sans p-3 md:p-10 flex flex-col gap-4 md:gap-6 overflow-hidden">
+      <header className="bg-card/50 p-4 md:p-6 rounded-2xl md:rounded-[2rem] border border-black backdrop-blur-xl shrink-0 shadow-2xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3 md:gap-4">
-            <div className="p-2.5 md:p-4 bg-indigo-600 rounded-xl md:rounded-2xl shadow-lg text-white">
+            <div className="p-2.5 md:p-4 bg-primary rounded-xl md:rounded-2xl shadow-lg text-foreground">
               <Ticket size={24} />
             </div>
             <div>
-              <h1 className="text-base md:text-2xl font-black tracking-tighter uppercase leading-none text-white">
+              <h1 className="text-base md:text-2xl font-black tracking-tighter uppercase leading-none text-foreground">
                 Cek Antrean
               </h1>
               <div className="flex items-center gap-2 mt-1 md:mt-1.5">
-                <p className="text-[8px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                <p className="hidden md:block text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest">
                   Sistem Antrian Online DPMPTSP - LOBAR
                 </p>
                 <div className="flex items-center gap-1.5 px-2 py-0.5 bg-red-500/10 border border-red-500/20 rounded-full">
                   <span className="h-1.5 w-1.5 bg-red-500 rounded-full animate-pulse" />
-                  <span className="text-[7px] md:text-[9px] font-black text-red-500 uppercase">Live</span>
+                  <span className="text-xs md:text-sm font-black text-red-500 uppercase">Live</span>
                 </div>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <Link href="/">
-              <Button variant="outline" size="sm" className="h-10 md:h-12 rounded-2xl gap-2 bg-slate-800/50 border-slate-700 text-indigo-400 font-black text-[10px] md:text-xs uppercase border-b-4 border-b-indigo-900/50"><Home size={14} /> Dashboard</Button>
+              <Button variant="outline" size="sm" className="h-11 md:h-12 rounded-2xl gap-2 bg-primary border-black text-primary-foreground font-black text-xs md:text-sm uppercase border-b-4 border-black hover:brightness-95 [&_svg]:text-primary-foreground"><Home size={16} /> Dashboard</Button>
             </Link>
             <Button
               onClick={handleToggleNotifications}
               variant="outline"
-              className={`h-10 md:h-12 px-4 md:px-6 rounded-xl font-bold text-[10px] md:text-xs uppercase gap-2 flex-1 md:flex-none transition-all active:translate-y-[2px] active:border-b-0 border-b-4 ${
+              className={`h-11 md:h-12 px-4 md:px-6 rounded-xl font-bold text-xs md:text-sm uppercase gap-2 flex-1 md:flex-none transition-all active:translate-y-[2px] active:border-b-0 border-b-4 ${
                 notificationsEnabled
-                  ? "bg-emerald-600/20 border-emerald-600/30 text-emerald-400 border-b-emerald-800"
-                  : "bg-slate-800 border-slate-700 text-slate-400 border-b-slate-950"
+                  ? "bg-emerald-600 border-black !text-white border-b-emerald-800 hover:bg-emerald-700 [&_svg]:!text-white"
+                  : "bg-amber-400 border-black !text-white border-b-amber-700 hover:bg-amber-500 [&_svg]:!text-white"
               }`}
             >
               {notificationsEnabled ? <Bell size={16} /> : <BellOff size={16} />}
@@ -355,7 +356,7 @@ export default function PersonalMonitorPage() {
             </Button>
             {userBookingIds.length > 0 && (
               <Link href="/riwayat-antrian" className="flex-1 md:flex-none">
-                <Button variant="outline" className="w-full h-10 md:h-12 px-4 md:px-6 rounded-xl bg-indigo-600/20 border-indigo-600/30 text-indigo-400 font-bold text-[10px] md:text-xs uppercase gap-2 border-b-4 border-indigo-900 active:translate-y-[2px] active:border-b-0 transition-all">
+                <Button variant="outline" className="w-full h-11 md:h-12 px-4 md:px-6 rounded-xl bg-red-600 border-black !text-white font-bold text-xs md:text-sm uppercase gap-2 border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all hover:bg-red-700 [&_svg]:!text-white">
                   <HistoryIcon size={16} />
                   <span>Riwayat</span>
                 </Button>
@@ -365,53 +366,53 @@ export default function PersonalMonitorPage() {
         </div>
       </header>
 
-      {/* SMART ALERT: Jika ada antrean untuk besok/lusa */}
+      {/* Alert kalau ada antrean besok/lusa */}
       {futureBookings.length > 0 && (
-        <div className="bg-amber-500/10 border-2 border-amber-500/30 p-4 rounded-xl flex items-start gap-3 shrink-0 shadow-lg border-b-4 border-amber-800">
-          <CalendarDays size={20} className="text-amber-500 shrink-0 mt-0.5" />
+        <div className="bg-amber-400 border-2 border-black p-4 rounded-xl flex items-start gap-3 shrink-0 shadow-lg border-b-4 border-amber-700">
+          <CalendarDays size={20} className="text-white shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
-            <p className="text-[10px] font-black text-amber-500 uppercase tracking-widest">Antrean Terjadwal</p>
-            <p className="text-xs text-amber-200/80 font-bold leading-tight">
-              Anda memiliki antrean <span className="text-white">[{futureBookings[0].booking_number}]</span> untuk tanggal <span className="text-white">{futureBookings[0].booking_date}</span>. Monitoring live akan aktif pada tanggal tersebut.
+            <p className="text-xs md:text-sm font-black text-white uppercase tracking-widest">Antrean Terjadwal</p>
+            <p className="text-sm md:text-sm text-white font-bold leading-tight">
+              Anda memiliki antrean <span className="text-red-600">[{futureBookings[0].booking_number}]</span> untuk tanggal <span className="text-red-600">{futureBookings[0].booking_date}</span>. Monitoring live akan aktif pada tanggal tersebut.
             </p>
           </div>
         </div>
       )}
 
-      {/* INFO JAM OPERASIONAL TUTUP (Jika > 16:00 WITA) */}
+      {/* Info kalau jam operasional sudah tutup */}
       {getWitaHour() >= 16 && (
-        <div className="bg-slate-800/40 border border-slate-700 p-4 rounded-xl flex items-center gap-3 shrink-0 shadow-md border-b-4 border-slate-950">
-          <Coffee size={20} className="text-slate-400" />
-          <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">
+        <div className="bg-card/70 border border-black/80 p-4 rounded-xl flex items-center gap-3 shrink-0 shadow-md border-b-4 border-black">
+          <Coffee size={20} className="text-muted-foreground" />
+          <p className="text-xs md:text-sm font-black text-muted-foreground uppercase tracking-[0.12em]">
             Layanan hari ini berakhir. Monitoring dibuka kembali besok pukul 08:00 WITA.
           </p>
         </div>
       )}
 
       {activeUserBookingsCount > 0 && (
-        <div className="bg-indigo-600/10 border-2 border-indigo-600/30 p-3 md:p-4 rounded-xl flex items-center gap-3 shrink-0 shadow-lg shadow-indigo-500/5 border-b-4 border-indigo-900">
-          <Star size={20} className="text-indigo-400 fill-indigo-400" />
-          <p className="text-xs md:text-sm font-black text-indigo-300 uppercase tracking-tight">
+        <div className="bg-primary/10 border-2 border-black/70 p-3 md:p-4 rounded-xl flex items-center gap-3 shrink-0 shadow-lg shadow-indigo-500/5 border-b-4 border-black">
+          <Star size={20} className="text-primary fill-indigo-400" />
+          <p className="text-sm md:text-base font-black text-primary/80 uppercase tracking-tight">
             Layanan Anda Diprioritaskan!
           </p>
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-4 bg-slate-900/40 p-2 rounded-xl border border-slate-800 shrink-0 shadow-xl">
+      <div className="flex items-center justify-between gap-4 bg-card/40 p-2 rounded-xl border border-black shrink-0 shadow-xl">
         <Button
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((p) => p - 1)}
-          className="h-10 w-10 md:h-12 md:w-12 rounded-xl bg-slate-800 border-slate-700 hover:bg-indigo-600 transition-all border-b-4 border-slate-950 active:translate-y-[2px] active:border-b-0"
+          className="h-10 w-10 md:h-12 md:w-12 rounded-xl bg-primary border-black text-primary-foreground hover:brightness-95 [&_svg]:text-primary-foreground transition-all border-b-4 border-black active:translate-y-[2px] active:border-b-0"
         >
           <ChevronLeft />
         </Button>
-        <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+        <h3 className="text-xs md:text-sm font-bold text-muted-foreground uppercase tracking-widest">
           Hal {currentPage} / {totalPages}
         </h3>
         <Button
           disabled={currentPage >= totalPages}
           onClick={() => setCurrentPage((p) => p + 1)}
-          className="h-10 w-10 md:h-12 md:w-12 rounded-xl bg-slate-800 border-slate-700 hover:bg-indigo-600 transition-all border-b-4 border-slate-950 active:translate-y-[2px] active:border-b-0"
+          className="h-10 w-10 md:h-12 md:w-12 rounded-xl bg-primary border-black text-primary-foreground hover:brightness-95 [&_svg]:text-primary-foreground transition-all border-b-4 border-black active:translate-y-[2px] active:border-b-0"
         >
           <ChevronRight />
         </Button>
@@ -448,23 +449,23 @@ export default function PersonalMonitorPage() {
           return (
             <Card
               key={service.id}
-              className={`bg-slate-900/60 border-slate-800 rounded-2xl md:rounded-[2.5rem] flex flex-col shadow-2xl border-2 transition-all h-full ${
+              className={`bg-card/60 border-black rounded-2xl md:rounded-[2.5rem] flex flex-col shadow-2xl border-2 transition-all h-full ${
                 isUserBooking
-                  ? "border-indigo-500 ring-2 ring-indigo-500/50"
+                  ? "border-black ring-2 ring-indigo-500/50"
                   : userSkippedBooking
                   ? "border-amber-500/40 ring-1 ring-amber-500/20"
                   : hasUserBookingInService
-                  ? "border-indigo-600/40 ring-1 ring-indigo-600/20"
-                  : "border-transparent"
+                  ? "border-black ring-1 ring-black/20"
+                  : "border-black/70"
               }`}
             >
               <CardContent className="p-0 flex flex-col h-full">
-                <div className="p-3 md:p-5 bg-slate-950/50 border-b border-slate-800 flex justify-between items-center">
+                <div className="p-3 md:p-5 bg-background/50 border-b border-black flex justify-between items-center">
                   <div className="flex items-center gap-2 overflow-hidden">
-                    <Badge variant="outline" className="bg-indigo-600/10 text-indigo-400 border-indigo-500/20 font-black px-2 py-0.5">
+                    <Badge variant="outline" className="bg-primary/10 text-primary border-black/70 font-black px-2 py-0.5">
                       {service.prefix_code || "A"}
                     </Badge>
-                    <h3 className="font-black uppercase text-[10px] text-indigo-400 truncate">
+                    <h3 className="font-black uppercase text-sm md:text-base text-primary truncate">
                       {service.name}
                     </h3>
                   </div>
@@ -473,12 +474,12 @@ export default function PersonalMonitorPage() {
 
                 <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4">
                   <div className="space-y-1">
-                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">
+                    <p className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest">
                       Antrean Sekarang
                     </p>
                     <h2
                       className={`text-6xl md:text-[8rem] font-black font-mono leading-none ${
-                        isUserBooking ? "text-indigo-400" : "text-white"
+                        isUserBooking ? "text-primary" : "text-foreground"
                       }`}
                     >
                       {current?.booking_number || "---"}
@@ -487,13 +488,13 @@ export default function PersonalMonitorPage() {
                   {current && (
                     <MonitorTimer startTime={current.updated_at} durationMinutes={30} />
                   )}
-                  <div className="w-full p-4 bg-slate-950/50 rounded-2xl border border-slate-800/50 flex items-center gap-4">
-                    <div className="h-10 w-10 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 shrink-0">
+                  <div className="w-full p-4 bg-background/50 rounded-2xl border border-black/50 flex items-center gap-4">
+                    <div className="h-10 w-10 bg-indigo-500/10 rounded-xl flex items-center justify-center text-primary shrink-0">
                       <User size={20} />
                     </div>
                     <div className="text-left overflow-hidden">
-                      <p className="text-[8px] font-black text-slate-600 uppercase">Sedang Melayani</p>
-                      <p className="text-sm font-black text-white uppercase truncate">
+                      <p className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-wide">Sedang Melayani</p>
+                      <p className="text-base md:text-lg font-black text-foreground uppercase truncate">
                         {current?.visitor_name || "Menunggu..."}
                       </p>
                     </div>
@@ -502,11 +503,11 @@ export default function PersonalMonitorPage() {
                   {userBookingInService &&
                     userBookingInService.status === "waiting" &&
                     !userSkippedBooking && (
-                      <div className="w-full p-3 bg-indigo-600/10 border border-indigo-600/20 rounded-xl flex justify-between items-center border-b-4 border-indigo-900">
-                        <p className="text-[8px] font-black text-indigo-400 uppercase">
+                      <div className="w-full p-3 bg-primary/10 border border-black/70 rounded-xl flex justify-between items-center border-b-4 border-black">
+                        <p className="text-xs md:text-sm font-black text-primary uppercase">
                           No. Anda: {userBookingInService.booking_number}
                         </p>
-                        <Badge className="bg-indigo-600 text-[10px]">
+                        <Badge className="bg-primary text-xs md:text-sm">
                           SISA {waiting.findIndex((b: any) => b.id === userBookingInService.id) + 1} LAGI
                         </Badge>
                       </div>
@@ -517,10 +518,10 @@ export default function PersonalMonitorPage() {
                       <div className="w-full p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-start gap-3 text-left border-b-4 border-amber-800">
                         <SkipForward size={16} className="text-amber-400 mt-0.5 shrink-0" />
                         <div>
-                          <p className="text-[9px] font-black text-amber-400 uppercase tracking-widest">
+                          <p className="text-xs md:text-sm font-black text-amber-400 uppercase tracking-widest">
                             Antrean Dilewati
                           </p>
-                          <p className="text-[10px] text-amber-300 font-bold">
+                          <p className="text-xs md:text-sm text-amber-300 font-bold">
                             {skippedInfo[userSkippedBooking.id].reason}
                           </p>
                         </div>
@@ -529,13 +530,13 @@ export default function PersonalMonitorPage() {
                   )}
                 </div>
 
-                <div className="p-6 bg-slate-950/50 border-t border-slate-800 grid grid-cols-2 gap-4 text-center">
+                <div className="p-6 bg-background/50 border-t border-black grid grid-cols-2 gap-4 text-center">
                   <div>
-                    <p className="text-[8px] font-black text-slate-600 uppercase">Sisa</p>
-                    <p className="text-3xl font-black text-white font-mono">{waiting.length}</p>
+                    <p className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-wide">Sisa</p>
+                    <p className="text-3xl font-black text-foreground font-mono">{waiting.length}</p>
                   </div>
-                  <div className="border-l border-slate-800">
-                    <p className="text-[8px] font-black text-slate-600 uppercase">Estimasi</p>
+                  <div className="border-l border-black">
+                    <p className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-wide">Estimasi</p>
                     <p className="text-3xl font-black text-emerald-400 font-mono">
                       {waiting.length * 30}m
                     </p>
@@ -546,6 +547,17 @@ export default function PersonalMonitorPage() {
           );
         })}
       </div>
+      <AdminPageInfoFab
+        title="Cek Antrean"
+        description="Halaman ini dipakai untuk memantau antrean aktif, melihat panggilan layanan, dan menerima notifikasi antrean."
+        points={[
+          "Pantau layanan yang sedang berjalan dan jumlah antrean tersisa.",
+          "Aktifkan notifikasi agar panggilan antrean muncul otomatis.",
+          "Buka riwayat untuk melihat tiket yang sudah pernah diambil.",
+        ]}
+      />
     </main>
   );
 }
+
+

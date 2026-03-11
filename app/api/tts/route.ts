@@ -1,11 +1,11 @@
-// app/api/tts/route.ts
+﻿// Endpoint TTS.
 
 import { NextRequest, NextResponse } from 'next/server';
 import { Communicate } from 'edge-tts-universal';
 
-// Voice yang tersedia:
-// id-ID-GadisNeural  → wanita (untuk user monitor)
-// id-ID-ArdiNeural   → pria   (untuk admin panel)
+// Pilihan voice:
+// id-ID-GadisNeural: voice user monitor.
+// id-ID-ArdiNeural: voice admin.
 const ALLOWED_VOICES = ['id-ID-GadisNeural', 'id-ID-ArdiNeural'];
 const DEFAULT_VOICE = 'id-ID-GadisNeural';
 
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'text required' }, { status: 400 });
   }
 
-  // Validasi voice agar tidak bisa diinjeksi sembarang value
+  // Aku validasi voice supaya nilainya aman.
   const voice = ALLOWED_VOICES.includes(voiceParam) ? voiceParam : DEFAULT_VOICE;
 
   try {
@@ -51,3 +51,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'TTS failed' }, { status: 500 });
   }
 }
+

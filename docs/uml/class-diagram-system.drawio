@@ -1,0 +1,152 @@
+<mxfile host="app.diagrams.net" modified="2026-03-06T09:30:00.000Z" agent="codex" version="24.7.17" type="device">
+  <diagram id="class-01" name="Class Diagram">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Class Diagram - Sistem Antrean Digital" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="460" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pkg_domain" value="Domain Entity (DB)" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="880" height="940" as="geometry" />
+        </mxCell>
+        <mxCell id="pkg_app" value="Application Layer (Next.js)" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#e8f4ff;" vertex="1" parent="1">
+          <mxGeometry x="960" y="70" width="900" height="940" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Service" value="&lt;b&gt;Service&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ name: string&lt;br/&gt;+ description: string&lt;br/&gt;+ prefix_code: string&lt;br/&gt;+ estimated_duration: int&lt;br/&gt;+ created_at: datetime&lt;br/&gt;+ updated_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="40" y="60" width="250" height="210" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Booking" value="&lt;b&gt;Booking&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ booking_number: string&lt;br/&gt;+ visitor_name: string&lt;br/&gt;+ visitor_phone: string&lt;br/&gt;+ service_id: UUID&lt;br/&gt;+ booking_date: date&lt;br/&gt;+ booking_time: time&lt;br/&gt;+ status: QueueStatus&lt;br/&gt;+ queue_position: int&lt;br/&gt;+ notes: string&lt;br/&gt;+ created_at: datetime&lt;br/&gt;+ updated_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="330" y="60" width="260" height="300" as="geometry" />
+        </mxCell>
+
+        <mxCell id="AdminUser" value="&lt;b&gt;AdminUser&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ email: string&lt;br/&gt;+ name: string&lt;br/&gt;+ role: string&lt;br/&gt;+ created_at: datetime&lt;br/&gt;+ updated_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="620" y="60" width="220" height="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="SystemLog" value="&lt;b&gt;SystemLog&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ action_type: string&lt;br/&gt;+ message: string&lt;br/&gt;+ status: LogStatus&lt;br/&gt;+ metadata: json&lt;br/&gt;+ created_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="620" y="300" width="220" height="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="QueueHistory" value="&lt;b&gt;QueueHistory&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ booking_id: UUID&lt;br/&gt;+ action: string&lt;br/&gt;+ performed_by: string&lt;br/&gt;+ performed_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="330" y="400" width="260" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="QueueStatus" value="&lt;b&gt;&lt;&lt;enumeration&gt;&gt;&lt;/b&gt;&lt;br/&gt;&lt;b&gt;QueueStatus&lt;/b&gt;&lt;hr/&gt;waiting&lt;br/&gt;in_progress&lt;br/&gt;completed&lt;br/&gt;cancelled" style="shape=rectangle;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacing=6;fillColor=#fff2cc;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="40" y="320" width="250" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="LogStatus" value="&lt;b&gt;&lt;&lt;enumeration&gt;&gt;&lt;/b&gt;&lt;br/&gt;&lt;b&gt;LogStatus&lt;/b&gt;&lt;hr/&gt;info&lt;br/&gt;warning&lt;br/&gt;error" style="shape=rectangle;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacing=6;fillColor=#fff2cc;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="620" y="540" width="220" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="BookingPage" value="&lt;b&gt;BookingPage&lt;/b&gt;&lt;hr/&gt;+ fetchBookedSlots()&lt;br/&gt;+ handleSubmit()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="40" y="60" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="PersonalMonitorPage" value="&lt;b&gt;PersonalMonitorPage&lt;/b&gt;&lt;hr/&gt;+ fetchData()&lt;br/&gt;+ handleToggleNotifications()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="40" y="200" width="240" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="AdminQueuePage" value="&lt;b&gt;AdminQueuePage&lt;/b&gt;&lt;hr/&gt;+ fetchData()&lt;br/&gt;+ handleAction(type)&lt;br/&gt;+ handleConfirmCancel()&lt;br/&gt;+ autoCancelExpiredBookings()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="40" y="350" width="260" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="AdminServicePage" value="&lt;b&gt;AdminServicePage&lt;/b&gt;&lt;hr/&gt;+ fetchServices()&lt;br/&gt;+ handleAddService()&lt;br/&gt;+ handleUpdateService()&lt;br/&gt;+ handleDeleteService()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="40" y="540" width="260" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="AdminAuthAPI" value="&lt;b&gt;AdminAuthAPI&lt;/b&gt;&lt;hr/&gt;+ login(email, password)&lt;br/&gt;+ logout()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="330" y="60" width="230" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Logger" value="&lt;b&gt;Logger&lt;/b&gt;&lt;hr/&gt;+ createLog(action, message, status, metadata)" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="330" y="210" width="230" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="NotificationService" value="&lt;b&gt;NotificationService&lt;/b&gt;&lt;hr/&gt;+ sendNotification()&lt;br/&gt;+ playTTSNotification()&lt;br/&gt;+ notifyQueueCalled()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="330" y="340" width="250" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="CookieService" value="&lt;b&gt;CookieService&lt;/b&gt;&lt;hr/&gt;+ saveBookingToCookie()&lt;br/&gt;+ getBookingsFromCookie()&lt;br/&gt;+ removeBookingFromCookie()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="330" y="510" width="250" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="SupabaseClientFactory" value="&lt;b&gt;SupabaseClientFactory&lt;/b&gt;&lt;hr/&gt;+ createClient()&lt;br/&gt;+ createServerClient()" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;" vertex="1" parent="pkg_app">
+          <mxGeometry x="330" y="680" width="250" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" value="1 serves 0..*" edge="1" parent="1" source="Service" target="Booking" style="endArrow=open;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="1 tracked by 0..*" edge="1" parent="1" source="Booking" target="QueueHistory" style="endArrow=open;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="1 writes 0..*" edge="1" parent="1" source="AdminUser" target="SystemLog" style="endArrow=open;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" value="uses" edge="1" parent="1" source="Booking" target="QueueStatus" style="endArrow=open;dashed=1;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="uses" edge="1" parent="1" source="SystemLog" target="LogStatus" style="endArrow=open;dashed=1;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d1" value="read/create" edge="1" parent="1" source="BookingPage" target="Booking" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="read" edge="1" parent="1" source="BookingPage" target="Service" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="log" edge="1" parent="1" source="BookingPage" target="Logger" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="cookie" edge="1" parent="1" source="BookingPage" target="CookieService" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d5" value="read/subscribe" edge="1" parent="1" source="PersonalMonitorPage" target="Booking" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="notify" edge="1" parent="1" source="PersonalMonitorPage" target="NotificationService" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" value="cookie" edge="1" parent="1" source="PersonalMonitorPage" target="CookieService" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d8" value="update status" edge="1" parent="1" source="AdminQueuePage" target="Booking" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d9" value="log" edge="1" parent="1" source="AdminQueuePage" target="Logger" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d10" value="notify" edge="1" parent="1" source="AdminQueuePage" target="NotificationService" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d11" value="CRUD" edge="1" parent="1" source="AdminServicePage" target="Service" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d12" value="log" edge="1" parent="1" source="AdminServicePage" target="Logger" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d13" value="authorize" edge="1" parent="1" source="AdminAuthAPI" target="AdminUser" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d14" value="client" edge="1" parent="1" source="AdminAuthAPI" target="SupabaseClientFactory" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d15" value="create log" edge="1" parent="1" source="Logger" target="SystemLog" style="endArrow=open;dashed=1;html=1;strokeColor=#4d90fe;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

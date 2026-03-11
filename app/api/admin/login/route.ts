@@ -1,4 +1,4 @@
-// app/api/admin/login/route.ts
+// Endpoint login admin.
 import { createClient } from '@/lib/supabase/server' 
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -6,10 +6,10 @@ export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
     
-    // Pastikan createClient() di sini sudah dikonfigurasi untuk membaca/menulis cookies
+    // createClient di sini harus bisa baca/tulis cookie.
     const supabase = createClient()
 
-    // 1. Validasi Autentikasi
+    // 1) Aku validasi autentikasi dulu.
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -22,17 +22,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 2. Verifikasi Role (Otorisasi)
-    // Kita cek apakah ID user ini ada di tabel admin_users
+    // 2) Aku cek role admin.
+    // Aku pastiin user ini ada di tabel admin_users.
     const { data: adminProfile, error: profileError } = await supabase
       .from('admin_users')
       .select('role, name')
       .eq('id', authData.user.id)
       .single()
 
-    // Jika user terdaftar di Auth tapi tidak ada di tabel admin_users
+    // Kalau ada di Auth tapi bukan admin,
     if (profileError || !adminProfile) {
-      // Logout kembali karena dia bukan admin
+      // aku logout lagi karena akses ditolak.
       await supabase.auth.signOut()
       return NextResponse.json(
         { error: 'Anda tidak memiliki akses administrator' }, 
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 3. Sukses
+    // 3) Kalau lolos semua, login sukses.
     return NextResponse.json({
       message: 'Login berhasil',
       user: {

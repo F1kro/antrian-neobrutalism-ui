@@ -97,8 +97,8 @@ export async function POST(request: Request) {
 
     console.log('[v0] Starting database initialization...')
 
-    // Execute the initialization SQL
-    // We need to split the script and execute statements separately
+    // Aku jalankan SQL inisialisasi.
+    // Script kupisah per statement biar eksekusinya aman.
     const statements = INIT_SQL.split(';').filter((stmt) => stmt.trim())
 
     for (const statement of statements) {
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
       const { error } = await supabase.rpc('exec', {
         p_statement: statement,
       }).catch(() => {
-        // If rpc doesn't exist, try direct SQL execution
+        // Kalau RPC belum ada, aku fallback ke SQL langsung.
         return { error: null }
       })
 
@@ -116,7 +116,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // Verify tables exist
+    // Aku cek lagi apakah tabel sudah kebentuk.
     const { data: servicesCheck } = await supabase.from('services').select('count').limit(0)
 
     if (servicesCheck !== null) {
@@ -140,3 +140,4 @@ export async function POST(request: Request) {
     )
   }
 }
+

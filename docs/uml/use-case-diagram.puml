@@ -1,0 +1,74 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor "User Biasa" as User
+actor "Admin" as Admin
+
+rectangle "Sistem Antrean Digital DPMPTSP" {
+  usecase "Lihat daftar layanan" as UC1
+  usecase "Ambil nomor antrean\n(booking online)" as UC2
+  usecase "Dapat tiket booking\n+ QR Code" as UC3
+  usecase "Pantau antrean live" as UC4
+  usecase "Aktifkan notifikasi\nbrowser + suara" as UC5
+  usecase "Lihat riwayat antrean" as UC6
+
+  usecase "Login admin" as UA1
+  usecase "Kelola antrean harian" as UA2
+  usecase "Panggil antrean" as UA21
+  usecase "Panggil ulang antrean" as UA22
+  usecase "Selesaikan antrean" as UA23
+  usecase "Skip antrean" as UA24
+  usecase "Batalkan antrean" as UA25
+  usecase "Auto-cancel antrean\nkadaluarsa" as UA3
+  usecase "Kelola layanan" as UA4
+  usecase "Lihat data layanan" as UA41
+  usecase "Tambah layanan" as UA42
+  usecase "Ubah layanan" as UA43
+  usecase "Hapus layanan" as UA44
+  usecase "Lihat dashboard statistik" as UA5
+  usecase "Lihat log sistem" as UA6
+  usecase "Unduh rekap Excel" as UA7
+
+  usecase "Kirim notifikasi WA" as SYS2
+  usecase "Putar notifikasi suara (TTS)" as SYS3
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+
+Admin --> UA1
+Admin --> UA2
+Admin --> UA4
+Admin --> UA5
+Admin --> UA6
+Admin --> UA7
+
+UA2 .> UA1 : <<include>>
+UA4 .> UA1 : <<include>>
+UA5 .> UA1 : <<include>>
+UA6 .> UA1 : <<include>>
+UA7 .> UA1 : <<include>>
+
+UA2 .> UA21 : <<include>>
+UA2 .> UA22 : <<include>>
+UA2 .> UA23 : <<include>>
+UA2 .> UA24 : <<include>>
+UA2 .> UA25 : <<include>>
+UA2 .> UA3 : <<include>>
+
+UA4 .> UA41 : <<include>>
+UA4 .> UA42 : <<include>>
+UA4 .> UA43 : <<include>>
+UA4 .> UA44 : <<include>>
+
+UA2 .> SYS2 : <<include>>
+UA2 .> SYS3 : <<include>>
+UC5 .> SYS3 : <<include>>
+
+@enduml

@@ -1,0 +1,148 @@
+@startuml
+title Class Diagram - Sistem Antrean Digital
+hide circle
+skinparam classAttributeIconSize 0
+
+package "Domain Entity (DB)" {
+  class Service {
+    +id: UUID
+    +name: string
+    +description: string
+    +prefix_code: string
+    +estimated_duration: int
+    +created_at: datetime
+    +updated_at: datetime
+  }
+
+  class Booking {
+    +id: UUID
+    +booking_number: string
+    +visitor_name: string
+    +visitor_phone: string
+    +service_id: UUID
+    +booking_date: date
+    +booking_time: time
+    +status: QueueStatus
+    +queue_position: int
+    +notes: string
+    +created_at: datetime
+    +updated_at: datetime
+  }
+
+  class AdminUser {
+    +id: UUID
+    +email: string
+    +name: string
+    +role: string
+    +created_at: datetime
+    +updated_at: datetime
+  }
+
+  class SystemLog {
+    +id: UUID
+    +action_type: string
+    +message: string
+    +status: LogStatus
+    +metadata: json
+    +created_at: datetime
+  }
+
+  class QueueHistory {
+    +id: UUID
+    +booking_id: UUID
+    +action: string
+    +performed_by: string
+    +performed_at: datetime
+  }
+
+  enum QueueStatus {
+    waiting
+    in_progress
+    completed
+    cancelled
+  }
+
+  enum LogStatus {
+    info
+    warning
+    error
+  }
+}
+
+package "Application Layer (Next.js)" {
+  class BookingPage {
+    +fetchBookedSlots()
+    +handleSubmit()
+  }
+
+  class PersonalMonitorPage {
+    +fetchData()
+    +handleToggleNotifications()
+  }
+
+  class AdminQueuePage {
+    +fetchData()
+    +handleAction(type)
+    +handleConfirmCancel()
+    +autoCancelExpiredBookings()
+  }
+
+  class AdminServicePage {
+    +fetchServices()
+    +handleAddService()
+    +handleUpdateService()
+    +handleDeleteService()
+  }
+
+  class AdminAuthAPI {
+    +login(email, password)
+    +logout()
+  }
+
+  class Logger {
+    +createLog(action, message, status, metadata)
+  }
+
+  class NotificationService {
+    +sendNotification()
+    +playTTSNotification()
+    +notifyQueueCalled()
+  }
+
+  class CookieService {
+    +saveBookingToCookie()
+    +getBookingsFromCookie()
+    +removeBookingFromCookie()
+  }
+
+  class SupabaseClientFactory {
+    +createClient()
+    +createServerClient()
+  }
+}
+
+Service "1" -- "0..*" Booking : serves >
+Booking "1" -- "0..*" QueueHistory : tracked by >
+AdminUser "1" -- "0..*" SystemLog : writes >
+
+BookingPage ..> Service : read
+BookingPage ..> Booking : create
+BookingPage ..> Logger
+BookingPage ..> CookieService
+
+PersonalMonitorPage ..> Booking : subscribe/read
+PersonalMonitorPage ..> NotificationService
+PersonalMonitorPage ..> CookieService
+
+AdminQueuePage ..> Booking : update status
+AdminQueuePage ..> Logger
+AdminQueuePage ..> NotificationService
+
+AdminServicePage ..> Service : CRUD
+AdminServicePage ..> Logger
+
+AdminAuthAPI ..> AdminUser : authorize role
+AdminAuthAPI ..> SupabaseClientFactory
+Logger ..> SystemLog
+
+@enduml

@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Sidebar from "@/components/admin/sidebar";
+import AdminPageInfoFab from "@/components/admin/page-info-fab";
 import { playTTSNotification, VOICE_MALE } from "@/lib/notifications";
 import { createLog } from "@/lib/logger"; 
 import {
@@ -39,11 +40,11 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-// --- HELPER NOTIFIKASI WA (FONNTE) ---
+// Helper notifikasi WA (Fonnte).
 const sendWaNotification = (noHp: string, nomorAntrian: string) => {
   if (!noHp) return;
   
-  // Format nomor: Ubah 08xxx menjadi 628xxx
+  // Aku ubah format 08xxx jadi 628xxx.
   const formattedPhone = noHp.startsWith('0') ? '62' + noHp.slice(1) : noHp;
 
   fetch('/api/notif-wa', {
@@ -56,7 +57,7 @@ const sendWaNotification = (noHp: string, nomorAntrian: string) => {
   }).catch(err => console.error("Fonnte Error:", err));
 };
 
-// --- LOGIKA WAKTU WITA ---
+// Logika waktu WITA.
 const getWitaDateString = (date: Date = new Date()) => {
   const witaString = date.toLocaleString("en-US", { timeZone: "Asia/Makassar" });
   const d = new Date(witaString);
@@ -84,7 +85,7 @@ const QueueTimer = ({ startTime }: { startTime: string; durationMinutes?: number
     return () => clearInterval(interval);
   }, [startTime]);
 
-  if (timeLeft === null) return <div className="text-2xl font-mono text-slate-700">--:--</div>;
+  if (timeLeft === null) return <div className="text-2xl font-mono text-foreground/60">--:--</div>;
   const min = Math.floor(timeLeft / 60);
   const sec = timeLeft % 60;
   return (
@@ -243,7 +244,7 @@ export default function ManajemenAntrean() {
           if (!error) {
             createLog('CALL', `Memanggil antrean ${next.booking_number}`);
             
-            // KIRIM WA (Asinkron agar tidak membebani suara)
+            // Aku kirim WA async biar suara tidak ketahan.
             sendWaNotification(next.visitor_phone, next.booking_number);
 
             await panggilSuara(next.booking_number);
@@ -296,7 +297,7 @@ export default function ManajemenAntrean() {
 
         createLog('SYSTEM', `Skip antrean ${activeQueue.booking_number} ke ${target.booking_number}`);
         
-        // KIRIM WA UNTUK TARGET BARU
+        // Aku kirim WA ke target baru.
         sendWaNotification(target.visitor_phone, target.booking_number);
 
         await panggilSuara(target.booking_number);
@@ -347,18 +348,18 @@ export default function ManajemenAntrean() {
   const paginatedServices = services.slice((pageService - 1) * itemsPerService, pageService * itemsPerService);
 
   return (
-    <div className="flex h-screen bg-[#020617] text-slate-100 overflow-hidden">
+    <div className="flex h-screen bg-sidebar text-foreground overflow-hidden">
       <Sidebar />
-      <div className="flex-1 p-6 space-y-6 flex flex-col h-full relative">
+      <div className="flex-1 p-6 space-y-6 flex flex-col h-full relative bg-sidebar">
         <div className="flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <Calendar className="text-indigo-400" size={24} />
+            <Calendar className="text-primary" size={24} />
             <div className="relative flex items-center gap-3">
               <input
                 type="date"
                 value={filterDate}
                 onChange={(e) => setFilterDate(e.target.value)}
-                className={`bg-slate-900 border rounded-xl px-4 py-2 text-sm font-black focus:outline-none transition-all [color-scheme:dark] ${
+                className={`bg-card border-2 rounded-xl px-4 py-2 text-sm font-black focus:outline-none transition-all text-slate-800 [color-scheme:light] [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:invert-0 ${
                   isDateToday ? "border-emerald-500/50 text-emerald-400" : "border-amber-500/50 text-amber-400"
                 }`}
               />
@@ -378,13 +379,13 @@ export default function ManajemenAntrean() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-slate-900/50 border border-slate-800 p-2 px-4 rounded-2xl">
-              <span className="text-sm font-black text-slate-500 uppercase tracking-widest">Alasan Batal:</span>
+            <div className="flex items-center gap-2 bg-card/50 border border-black p-2 px-4 rounded-2xl">
+              <span className="text-sm font-black text-foreground/70 uppercase tracking-widest">Alasan Batal:</span>
               <Select value={cancelReason} onValueChange={setCancelReason}>
-                <SelectTrigger className="h-9 bg-slate-950 border-slate-800 text-sm font-bold text-indigo-400 w-56">
+                <SelectTrigger className="h-9 bg-background border-black text-sm font-bold text-primary w-56">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-900 border-slate-800 text-white">
+                <SelectContent className="bg-card border-black text-foreground">
                   <SelectItem value="Orang tidak ada di tempat" className="text-sm font-bold">Orang tidak ada</SelectItem>
                   <SelectItem value="Dokumen tidak lengkap" className="text-sm font-bold">Dokumen kurang</SelectItem>
                   <SelectItem value="Minta reschedule" className="text-sm font-bold">Minta jadwal ulang</SelectItem>
@@ -394,17 +395,17 @@ export default function ManajemenAntrean() {
           </div>
         </div>
 
-        <section className={`bg-slate-900 border border-slate-800 rounded-[2rem] p-5 shadow-2xl flex items-center justify-between gap-6 shrink-0 z-10 transition-opacity ${!isDateToday ? "opacity-60" : "opacity-100"}`}>
+        <section className={`bg-card border border-black rounded-[2rem] p-5 shadow-2xl flex items-center justify-between gap-6 shrink-0 z-10 transition-opacity ${!isDateToday ? "opacity-60" : "opacity-100"}`}>
           <div className="flex items-center gap-5">
-            <div className={`h-16 w-16 rounded-2xl flex items-center justify-center border ${isDateToday ? "bg-indigo-600/20 border-indigo-500/30" : "bg-slate-800/20 border-slate-700/30"}`}>
-              <Play className={isDateToday ? "text-indigo-400 fill-indigo-400" : "text-slate-600 fill-slate-600"} size={28} />
+            <div className={`h-16 w-16 rounded-2xl flex items-center justify-center border ${isDateToday ? "bg-primary/20 border-black" : "bg-card/60 border-black/30"}`}>
+              <Play className={isDateToday ? "text-primary fill-indigo-400" : "text-foreground/60 fill-slate-600"} size={28} />
             </div>
             <div>
-              <p className="text-xs font-black text-slate-500 uppercase tracking-widest">
+              <p className="text-xs font-black text-foreground/70 uppercase tracking-widest">
                 {services.find((s) => s.id === selectedServiceId)?.name}
-                {activeQueue && <span className="text-indigo-400 ml-2 font-mono text-sm">| {activeQueue.booking_time}</span>}
+                {activeQueue && <span className="text-primary ml-2 font-mono text-sm">| {activeQueue.booking_time}</span>}
               </p>
-              <h1 className="text-6xl font-black text-white font-mono leading-none tracking-tighter">{activeQueue?.booking_number || "---"}</h1>
+              <h1 className="text-6xl font-black text-foreground font-mono leading-none tracking-tighter">{activeQueue?.booking_number || "---"}</h1>
             </div>
           </div>
           {activeQueue && <QueueTimer startTime={activeQueue.updated_at} />}
@@ -419,34 +420,34 @@ export default function ManajemenAntrean() {
                 <Button 
                   disabled={isCalling} 
                   onClick={() => handleAction("ULANG")} 
-                  className="h-14 px-6 bg-slate-800 hover:bg-slate-700 text-white rounded-xl border-b-4 border-slate-950 font-black uppercase text-xs gap-2 active:translate-y-[2px] active:border-b-0 transition-all"
+                  className="h-14 px-6 bg-card hover:bg-accent text-foreground rounded-xl border-b-4 border-black font-black uppercase text-xs gap-2 active:translate-y-[2px] active:border-b-0 transition-all"
                 >
                   {isCalling ? <Loader2 className="animate-spin" size={18} /> : <RotateCcw size={18} />} 
                   Panggil Ulang
                 </Button>
                 <Dialog open={isSkipModalOpen} onOpenChange={setIsSkipModalOpen}>
-                  <DialogTrigger asChild><Button className="h-14 px-6 bg-amber-600 hover:bg-amber-500 text-white rounded-xl border-b-4 border-amber-800 font-black uppercase text-xs gap-2 active:translate-y-[2px] active:border-b-0 transition-all"><SkipForward size={18} /> Skip Antrean</Button></DialogTrigger>
-                  <DialogContent className="bg-slate-900 border-slate-800 text-white rounded-[2rem] max-w-md p-6">
+                  <DialogTrigger asChild><Button className="h-14 px-6 bg-amber-600 hover:bg-amber-500 text-foreground rounded-xl border-b-4 border-amber-800 font-black uppercase text-xs gap-2 active:translate-y-[2px] active:border-b-0 transition-all"><SkipForward size={18} /> Skip Antrean</Button></DialogTrigger>
+                  <DialogContent className="bg-card border-black text-foreground rounded-[2rem] max-w-md p-6">
                     <DialogHeader><DialogTitle className="text-base font-black uppercase text-amber-500 tracking-widest flex items-center gap-2"><UserCheck size={20} /> Pilih Pengganti {activeQueue.booking_number}</DialogTitle></DialogHeader>
                     <div className="space-y-3 mt-4 max-h-[300px] overflow-y-auto pr-2">
-                      {waitingOnly.length === 0 ? <p className="text-xs text-slate-500 italic text-center py-10 uppercase font-black">Tidak ada antrean menunggu</p> : 
+                      {waitingOnly.length === 0 ? <p className="text-xs text-foreground/70 italic text-center py-10 uppercase font-black">Tidak ada antrean menunggu</p> : 
                         waitingOnly.map((b) => (
-                          <button key={b.id} onClick={() => handleAction("SWAP", b.id)} className="w-full p-4 bg-slate-950 hover:bg-indigo-600/20 border border-slate-800 rounded-2xl flex justify-between items-center transition-all group">
-                            <div className="text-left"><p className="text-2xl font-mono font-black text-white group-hover:text-indigo-400">{b.booking_number}</p><p className="text-xs text-slate-500 font-black uppercase tracking-widest">{b.visitor_name} | {b.booking_time}</p></div>
-                            <div className="bg-slate-900 p-2 rounded-lg group-hover:bg-indigo-600/30"><UserCheck className="text-slate-600 group-hover:text-indigo-400" size={24} /></div>
+                          <button key={b.id} onClick={() => handleAction("SWAP", b.id)} className="w-full p-4 bg-background hover:bg-primary/20 border border-black rounded-2xl flex justify-between items-center transition-all group">
+                            <div className="text-left"><p className="text-2xl font-mono font-black text-foreground group-hover:text-primary">{b.booking_number}</p><p className="text-xs text-foreground/70 font-black uppercase tracking-widest">{b.visitor_name} | {b.booking_time}</p></div>
+                            <div className="bg-card p-2 rounded-lg group-hover:bg-primary/30"><UserCheck className="text-foreground/60 group-hover:text-primary" size={24} /></div>
                           </button>
                         ))
                       }
                     </div>
                   </DialogContent>
                 </Dialog>
-                <Button onClick={() => handleAction("SELESAI")} className="h-14 px-8 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl border-b-4 border-emerald-800 font-black uppercase text-xs gap-2 active:translate-y-[2px] active:border-b-0 transition-all"><CheckCircle2 size={18} /> Selesai</Button>
+                <Button onClick={() => handleAction("SELESAI")} className="h-14 px-8 bg-emerald-600 hover:bg-emerald-500 text-foreground rounded-xl border-b-4 border-emerald-800 font-black uppercase text-xs gap-2 active:translate-y-[2px] active:border-b-0 transition-all"><CheckCircle2 size={18} /> Selesai</Button>
               </>
             ) : (
               <Button 
                 disabled={isCalling}
                 onClick={() => handleAction("NEXT")} 
-                className="h-16 px-12 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl border-b-4 border-indigo-800 font-black uppercase text-xl gap-3 active:translate-y-[2px] active:border-b-0 transition-all shadow-xl"
+                className="h-16 px-12 bg-primary hover:brightness-95 text-foreground rounded-xl border-b-4 border-black font-black uppercase text-xl gap-3 active:translate-y-[2px] active:border-b-0 transition-all shadow-xl"
               >
                 {isCalling ? <Loader2 className="animate-spin" size={24} /> : <Volume2 size={24} />} 
                 <span>{activeQueue ? "Panggil Berikutnya" : "Panggil Antrean"}</span>
@@ -456,31 +457,31 @@ export default function ManajemenAntrean() {
         </section>
 
         <div className="flex items-center gap-3 shrink-0 px-1">
-          <Button disabled={pageService === 1} onClick={() => setPageService((p) => p - 1)} className="h-12 w-12 bg-slate-900 border border-slate-800 rounded-xl hover:bg-indigo-600 transition-all active:translate-y-[2px]"><ChevronLeft size={20}/></Button>
+          <Button disabled={pageService === 1} onClick={() => setPageService((p) => p - 1)} className="h-12 w-12 bg-primary border border-black rounded-xl text-primary-foreground hover:brightness-95 [&_svg]:text-primary-foreground transition-all active:translate-y-[2px]"><ChevronLeft size={20}/></Button>
           <div className="flex-1 grid grid-cols-6 gap-3">
             {paginatedServices.map((s) => {
               const count = bookings.filter((b) => b.service_id === s.id && (b.status === "waiting" || b.status === "in_progress")).length;
               return (
-                <button key={s.id} onClick={() => setSelectedServiceId(s.id)} className={`relative h-14 rounded-xl font-black uppercase text-[11px] border transition-all px-3 ${selectedServiceId === s.id ? "bg-indigo-600 border-indigo-500 text-white scale-105 z-20 shadow-lg border-b-4 border-indigo-800" : "bg-slate-900 border-slate-800 text-slate-500 hover:bg-slate-800"}`}>
+                <button key={s.id} onClick={() => setSelectedServiceId(s.id)} className={`relative h-14 rounded-xl font-black uppercase text-[11px] border transition-all px-3 ${selectedServiceId === s.id ? "bg-primary border-black text-foreground scale-105 z-20 shadow-lg border-b-4 border-black" : "bg-card border-black text-foreground/70 hover:bg-card"}`}>
                   <span className="truncate block">{s.name}</span>
-                  {count > 0 && <Badge className="absolute -top-2 -right-2 bg-red-600 text-white font-black border-2 border-[#020617] px-2.5 py-1 rounded-full text-xs">{count}</Badge>}
+                  {count > 0 && <Badge className="absolute -top-2 -right-2 bg-red-600 text-foreground font-black border-2 border-[#020617] px-2.5 py-1 rounded-full text-xs">{count}</Badge>}
                 </button>
               );
             })}
           </div>
-          <Button disabled={pageService * itemsPerService >= services.length} onClick={() => setPageService((p) => p + 1)} className="h-12 w-12 bg-slate-900 border border-slate-800 rounded-xl hover:bg-indigo-600 transition-all active:translate-y-[2px]"><ChevronRight size={20}/></Button>
+          <Button disabled={pageService * itemsPerService >= services.length} onClick={() => setPageService((p) => p + 1)} className="h-12 w-12 bg-primary border border-black rounded-xl text-primary-foreground hover:brightness-95 [&_svg]:text-primary-foreground transition-all active:translate-y-[2px]"><ChevronRight size={20}/></Button>
         </div>
 
         <div className="flex-1 grid grid-cols-2 gap-6 min-h-0 overflow-hidden">
-          <div className="bg-slate-900/40 border border-slate-800 rounded-[2rem] flex flex-col shadow-xl overflow-hidden">
-            <div className="h-14 border-b border-slate-800 bg-indigo-600/5 flex justify-between items-center px-6 shrink-0">
-              <h3 className="font-black uppercase text-sm text-indigo-400 tracking-wider">Daftar Tunggu</h3>
-              <Badge className="bg-slate-950 text-indigo-400 border-none text-xs px-3 py-1 font-black">{waitingListDisplay.length} Antrean</Badge>
+          <div className="bg-card/40 border border-black rounded-[2rem] flex flex-col shadow-xl overflow-hidden">
+            <div className="h-14 border-b border-black bg-primary/5 flex justify-between items-center px-6 shrink-0">
+              <h3 className="font-black uppercase text-sm text-primary tracking-wider">Daftar Tunggu</h3>
+              <Badge className="bg-background text-primary border-none text-xs px-3 py-1 font-black">{waitingListDisplay.length} Antrean</Badge>
             </div>
             
             <div className="flex-1 overflow-auto custom-scrollbar">
               <table className="w-full text-left table-fixed">
-                <thead className="bg-slate-950 text-xs font-black uppercase text-slate-500 border-b border-slate-800 sticky top-0 z-10">
+                <thead className="bg-background text-xs font-black uppercase text-foreground/70 border-b border-black sticky top-0 z-10">
                   <tr className="h-12">
                     <th className="px-5 w-24">Jam</th>
                     <th className="px-5 w-36">No Antrean</th>
@@ -490,18 +491,21 @@ export default function ManajemenAntrean() {
                 </thead>
                 <tbody>
                   {waitingListDisplay.slice((pageWaiting - 1) * itemsPerWaiting, pageWaiting * itemsPerWaiting).map((b) => (
-                    <tr key={b.id} className={`h-[75px] border-b border-slate-800/50 ${b.status === "in_progress" ? "bg-indigo-600/10" : ""}`}>
+                    <tr key={b.id} className={`h-[75px] border-b border-black/50 ${b.status === "in_progress" ? "bg-primary/10" : ""}`}>
                       <td className="px-5">
-                        <Badge variant="outline" className="border-indigo-500/30 text-indigo-400 font-mono text-sm px-2 py-1">
+                        <Badge variant="outline" className="border-black text-primary font-mono text-sm px-2 py-1">
                           {b.booking_time}
                         </Badge>
                       </td>
-                      <td className="px-5 font-mono font-black text-white text-2xl">{b.booking_number}</td>
-                      <td className="px-5 text-sm font-bold uppercase text-slate-400">
-                        <div className="truncate">{b.visitor_name}</div>
-                        <div className="h-4" /> 
+                      <td className="px-5 font-mono font-black text-foreground text-2xl">{b.booking_number}</td>
+                      <td className="px-5 align-middle">
+                        <div className="flex min-h-[40px] items-center">
+                          <p className="truncate text-sm font-bold uppercase text-muted-foreground">
+                            {b.visitor_name}
+                          </p>
+                        </div>
                       </td>
-                      <td className="px-5 text-right">
+                      <td className="px-5 text-right align-middle">
                         <Button 
                           disabled={!isDateToday}
                           onClick={() => {
@@ -509,7 +513,7 @@ export default function ManajemenAntrean() {
                             setCancelTargetNumber(b.booking_number); 
                             setIsCancelModalOpen(true);
                           }} 
-                          className="h-10 px-4 !bg-red-600 !text-white border-b-4 border-red-900 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 ml-auto active:translate-y-[2px] active:border-b-0 transition-all disabled:opacity-20"
+                          className="h-10 px-4 !bg-red-600 !text-foreground border-b-4 border-red-900 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 ml-auto active:translate-y-[2px] active:border-b-0 transition-all disabled:opacity-20"
                         >
                           <XCircle size={16} />
                           <span>Batal</span>
@@ -521,21 +525,21 @@ export default function ManajemenAntrean() {
               </table>
             </div>
 
-            <div className="h-14 border-t border-slate-800 flex justify-between bg-slate-950/50 items-center px-6 shrink-0">
-              <Button disabled={pageWaiting === 1} onClick={() => setPageWaiting((p) => p - 1)} className="h-9 w-9 bg-slate-900 rounded-lg border border-slate-800 hover:bg-indigo-600 transition-all active:translate-y-[2px]"><ChevronLeft size={20} /></Button>
-              <span className="text-sm font-black text-slate-600 uppercase">Hal {pageWaiting}</span>
-              <Button disabled={pageWaiting * itemsPerWaiting >= waitingListDisplay.length} onClick={() => setPageWaiting((p) => p + 1)} className="h-9 w-9 bg-slate-900 rounded-lg border border-slate-800 hover:bg-indigo-600 transition-all active:translate-y-[2px]"><ChevronRight size={20} /></Button>
+            <div className="h-14 border-t border-black flex justify-between bg-background/50 items-center px-6 shrink-0">
+              <Button disabled={pageWaiting === 1} onClick={() => setPageWaiting((p) => p - 1)} className="h-9 w-9 bg-primary rounded-lg border border-black text-primary-foreground hover:brightness-95 [&_svg]:text-primary-foreground transition-all active:translate-y-[2px]"><ChevronLeft size={20} /></Button>
+              <span className="text-sm font-black text-foreground/60 uppercase">Hal {pageWaiting}</span>
+              <Button disabled={pageWaiting * itemsPerWaiting >= waitingListDisplay.length} onClick={() => setPageWaiting((p) => p + 1)} className="h-9 w-9 bg-primary rounded-lg border border-black text-primary-foreground hover:brightness-95 [&_svg]:text-primary-foreground transition-all active:translate-y-[2px]"><ChevronRight size={20} /></Button>
             </div>
           </div>
 
-          <div className="bg-slate-900/40 border border-slate-800 rounded-[2rem] flex flex-col shadow-xl overflow-hidden">
-            <div className="h-14 border-b border-slate-800 bg-slate-950 flex items-center px-6 shrink-0">
-              <h3 className="font-black uppercase text-sm text-slate-500 tracking-wider">Riwayat Layanan</h3>
+          <div className="bg-card/40 border border-black rounded-[2rem] flex flex-col shadow-xl overflow-hidden">
+            <div className="h-14 border-b border-black bg-background flex items-center px-6 shrink-0">
+              <h3 className="font-black uppercase text-sm text-foreground/70 tracking-wider">Riwayat Layanan</h3>
             </div>
 
             <div className="flex-1 overflow-auto custom-scrollbar">
               <table className="w-full text-left table-fixed">
-                <thead className="bg-slate-950 text-xs font-black uppercase text-slate-500 border-b border-slate-800 sticky top-0 z-10">
+                <thead className="bg-background text-xs font-black uppercase text-foreground/70 border-b border-black sticky top-0 z-10">
                   <tr className="h-12">
                     <th className="px-5 w-44">No & Jam</th>
                     <th className="px-5">Nama Pengunjung</th>
@@ -544,34 +548,34 @@ export default function ManajemenAntrean() {
                 </thead>
                 <tbody>
                   {historyList.slice((pageHistory - 1) * itemsPerHistory, pageHistory * itemsPerHistory).map((b) => (
-                    <tr key={b.id} className="h-[75px] border-b border-slate-800/50 hover:bg-white/[0.01]">
+                    <tr key={b.id} className="h-[75px] border-b border-black/50 hover:bg-white/[0.01]">
                       <td className="px-5">
                         <div className="flex items-center gap-2">
-                          <p className="font-mono font-bold text-slate-300 text-xl">{b.booking_number}</p>
-                          <span className="text-[10px] text-slate-600 font-bold">@ {b.booking_time}</span>
+                          <p className="font-mono font-bold text-foreground/80 text-xl">{b.booking_number}</p>
+                          <span className="text-[10px] text-foreground/60 font-bold">@ {b.booking_time}</span>
                         </div>
                       </td>
-                      <td className="px-5">
-                        <p className="text-sm text-slate-400 font-bold uppercase truncate">{b.visitor_name}</p>
-                        {b.status === "cancelled" ? (
-                          <p className="text-[9px] text-red-500 font-black italic uppercase truncate leading-none mt-1">
-                            Ket: {b.notes || b.cancel_reason || "Tanpa alasan"}
-                          </p>
-                        ) : (
-                            <div className="h-4" /> 
-                        )}
+                      <td className="px-5 align-middle">
+                        <div className="flex min-h-[40px] flex-col justify-center">
+                          <p className="text-sm text-muted-foreground font-bold uppercase truncate">{b.visitor_name}</p>
+                          {b.status === "cancelled" && (
+                            <p className="text-[9px] text-red-500 font-black italic uppercase truncate leading-none mt-1">
+                              Ket: {b.notes || b.cancel_reason || "Tanpa alasan"}
+                            </p>
+                          )}
+                        </div>
                       </td>
                       <td className="px-5 text-center">
                         <Badge 
                           variant="outline" 
-                          className={`text-[10px] font-black border-none px-3 py-1.5 ${
+                          className={`text-[10px] font-black border-black px-3 py-1.5 text-white ${
                             b.status === "completed" 
-                              ? "text-emerald-500 bg-emerald-500/10" 
+                              ? "bg-emerald-600" 
                               : b.status === "cancelled" 
-                              ? "text-red-500 bg-red-500/10" 
+                              ? "bg-red-600" 
                               : b.status === "in_progress"
-                              ? "text-indigo-400 bg-indigo-500/10"
-                              : "text-amber-500 bg-amber-500/10" 
+                              ? "bg-primary"
+                              : "bg-amber-400" 
                           }`}
                         >
                           {b.status === "in_progress" ? "DILAYANI" : b.status.toUpperCase()}
@@ -583,25 +587,36 @@ export default function ManajemenAntrean() {
               </table>
             </div>
 
-            <div className="h-14 border-t border-slate-800 flex justify-between bg-slate-950/50 items-center px-6 shrink-0">
-              <Button disabled={pageHistory === 1} onClick={() => setPageHistory((p) => p - 1)} className="h-9 w-9 bg-slate-900 rounded-lg border border-slate-800 hover:bg-indigo-600 transition-all active:translate-y-[2px]"><ChevronLeft size={20} /></Button>
-              <span className="text-sm font-black text-slate-600 uppercase">Hal {pageHistory}</span>
-              <Button disabled={pageHistory * itemsPerHistory >= historyList.length} onClick={() => setPageHistory((p) => p + 1)} className="h-9 w-9 bg-slate-900 rounded-lg border border-slate-800 hover:bg-indigo-600 transition-all active:translate-y-[2px]"><ChevronRight size={20} /></Button>
+            <div className="h-14 border-t border-black flex justify-between bg-background/50 items-center px-6 shrink-0">
+              <Button disabled={pageHistory === 1} onClick={() => setPageHistory((p) => p - 1)} className="h-9 w-9 bg-primary rounded-lg border border-black text-primary-foreground hover:brightness-95 [&_svg]:text-primary-foreground transition-all active:translate-y-[2px]"><ChevronLeft size={20} /></Button>
+              <span className="text-sm font-black text-foreground/60 uppercase">Hal {pageHistory}</span>
+              <Button disabled={pageHistory * itemsPerHistory >= historyList.length} onClick={() => setPageHistory((p) => p + 1)} className="h-9 w-9 bg-primary rounded-lg border border-black text-primary-foreground hover:brightness-95 [&_svg]:text-primary-foreground transition-all active:translate-y-[2px]"><ChevronRight size={20} /></Button>
             </div>
           </div>
         </div>
       </div>
 
       <Dialog open={isCancelModalOpen} onOpenChange={setIsCancelModalOpen}>
-        <DialogContent className="bg-slate-900 border-slate-800 text-white rounded-[2rem] max-w-sm p-6 shadow-2xl">
-          <DialogHeader><div className="flex flex-col items-center gap-3 mb-2"><div className="p-3 bg-red-500/10 rounded-2xl border border-red-500/20"><AlertTriangle size={32} className="text-red-400" /></div><DialogTitle className="text-xl font-black uppercase tracking-widest text-white text-center">Batalkan Antrean?</DialogTitle><DialogDescription className="text-center text-sm text-slate-500 font-medium leading-relaxed italic">Antrean <span className="text-white font-black font-mono">{cancelTargetNumber}</span> akan dibatalkan.</DialogDescription></div></DialogHeader>
+        <DialogContent className="bg-card border-black text-foreground rounded-[2rem] max-w-sm p-6 shadow-2xl">
+          <DialogHeader><div className="flex flex-col items-center gap-3 mb-2"><div className="p-3 bg-red-500/10 rounded-2xl border border-red-500/20"><AlertTriangle size={32} className="text-red-400" /></div><DialogTitle className="text-xl font-black uppercase tracking-widest text-foreground text-center">Batalkan Antrean?</DialogTitle><DialogDescription className="text-center text-sm text-foreground/70 font-medium leading-relaxed italic">Antrean <span className="text-foreground font-black font-mono">{cancelTargetNumber}</span> akan dibatalkan.</DialogDescription></div></DialogHeader>
           <DialogFooter className="flex flex-col gap-3 mt-4">
-            <Button onClick={handleConfirmCancel} className="h-14 bg-red-600 hover:bg-red-500 text-white rounded-2xl font-black text-sm uppercase shadow-lg shadow-red-600/20 gap-2 border-b-4 border-red-800 active:translate-y-[2px] active:border-b-0 transition-all"><XCircle size={18} /> Ya, Batalkan</Button>
-            <Button variant="ghost" onClick={() => setIsCancelModalOpen(false)} className="h-12 rounded-2xl font-black text-sm text-slate-400 hover:text-white hover:bg-slate-800">Batal</Button>
+            <Button onClick={handleConfirmCancel} className="h-14 bg-red-600 hover:bg-red-500 text-foreground rounded-2xl font-black text-sm uppercase shadow-lg shadow-red-600/20 gap-2 border-b-4 border-red-800 active:translate-y-[2px] active:border-b-0 transition-all"><XCircle size={18} /> Ya, Batalkan</Button>
+            <Button variant="ghost" onClick={() => setIsCancelModalOpen(false)} className="h-12 rounded-2xl font-black text-sm text-muted-foreground hover:text-foreground hover:bg-card">Batal</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <AdminPageInfoFab
+        title="Manajemen Antrean"
+        description="Menu ini dipakai petugas loket untuk menjalankan antrean layanan harian secara langsung."
+        points={[
+          'Memanggil antrean berikutnya dan mengulang panggilan suara.',
+          'Menyelesaikan, membatalkan, atau skip antrean ke pengunjung lain yang masih menunggu.',
+          'Memantau daftar tunggu dan riwayat antrean aktif per layanan.',
+        ]}
+      />
     </div>
   );
 }
+
+
 

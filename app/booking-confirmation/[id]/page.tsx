@@ -103,56 +103,56 @@ export default function BookingConfirmationPage() {
   }
 
   if (loading) return (
-    <main className="min-h-screen bg-[#020617] flex items-center justify-center">
+    <main className="min-h-screen bg-background flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
-        <div className="h-12 w-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-slate-400 font-black uppercase text-[10px] tracking-widest">Menyiapkan Tiket...</p>
+        <div className="h-12 w-12 border-4 border-black border-t-transparent rounded-full animate-spin" />
+        <p className="text-muted-foreground font-black uppercase text-xs md:text-sm tracking-widest">Menyiapkan Tiket...</p>
       </div>
     </main>
   )
 
   if (!booking) return (
-    <main className="min-h-screen bg-[#020617] flex items-center justify-center p-4">
-       <Card className="bg-slate-900 border-slate-800 text-white rounded-[2rem] p-6 text-center">
+    <main className="min-h-screen bg-background flex items-center justify-center p-4">
+       <Card className="bg-card border-black text-foreground rounded-[2rem] p-6 text-center">
           <p className="text-red-400 font-bold mb-4">Antrean tidak ditemukan.</p>
-          <Link href="/booking"><Button className="bg-indigo-600">Booking Ulang</Button></Link>
+          <Link href="/booking"><Button className="bg-primary">Booking Ulang</Button></Link>
        </Card>
     </main>
   )
 
   return (
-    <main className="min-h-screen bg-[#020617] text-slate-100 p-4 md:p-10 font-sans pb-20">
+    <main className="min-h-screen bg-background text-foreground p-4 md:p-10 font-sans pb-20">
       <div className="max-w-2xl mx-auto space-y-8">
         
         <div className="text-center space-y-4 animate-in fade-in zoom-in duration-500">
           <div className="flex justify-center">
-            <div className="p-4 bg-indigo-500/10 rounded-full border border-indigo-500/20">
-                <CheckCircle2 className="h-14 w-14 text-indigo-400" />
+            <div className="p-4 bg-primary/10 rounded-full border border-black/70">
+                <CheckCircle2 className="h-14 w-14 text-primary" />
             </div>
           </div>
           <h1 className="text-4xl font-black uppercase tracking-tighter">Booking Berhasil!</h1>
         </div>
 
-        <Card className="bg-slate-900/50 border border-slate-800 rounded-[3rem] overflow-hidden shadow-2xl backdrop-blur-xl">
+        <Card className="bg-card/50 border border-black rounded-[3rem] overflow-hidden shadow-2xl backdrop-blur-xl">
           <CardContent className="p-6 md:p-8 space-y-8">
             
-            <div className="flex flex-col items-center gap-6 p-6 md:p-8 bg-indigo-600 rounded-[2.5rem] shadow-xl shadow-indigo-600/20 text-center">
+            <div className="flex flex-col items-center gap-6 p-6 md:p-8 bg-primary rounded-[2.5rem] text-center">
               <div>
-                <p className="text-indigo-200 text-[10px] font-black uppercase tracking-widest">Nomor Antrean</p>
-                <h2 className="text-5xl md:text-7xl font-black text-white font-mono tracking-tighter">{booking.booking_number}</h2>
+                <p className="text-white/80 text-xs md:text-sm font-black uppercase tracking-widest">Nomor Antrean</p>
+                <h2 className="text-5xl md:text-7xl font-black text-foreground font-mono tracking-tighter">{booking.booking_number}</h2>
               </div>
 
               <div className="flex flex-col items-center gap-1">
                 <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full border border-white/20">
-                  <Clock size={16} className="text-white" />
-                  <span className="text-xl font-black text-white uppercase">{booking.booking_time} WITA</span>
+                  <Clock size={16} className="text-foreground" />
+                  <span className="text-xl font-black text-foreground uppercase">{booking.booking_time} WITA</span>
                 </div>
-                <p className="text-[10px] font-bold text-indigo-100 mt-2 uppercase tracking-widest">
+                <p className="text-xs md:text-sm font-bold text-white/80 mt-2 uppercase tracking-widest">
                   {formatDate(booking.booking_date)}
                 </p>
               </div>
               
-              <div className="bg-white p-3 rounded-2xl shadow-2xl border-4 border-indigo-400/20 w-full max-w-[220px] flex items-center justify-center">
+              <div className="bg-white p-3 rounded-2xl border-4 border-black/20 w-full max-w-[220px] flex items-center justify-center">
                 <canvas 
                   ref={qrRef} 
                   className="w-full h-auto"
@@ -163,28 +163,28 @@ export default function BookingConfirmationPage() {
               <Button 
                 onClick={handleDownloadQR} 
                 variant="secondary" 
-                className="bg-white/10 hover:bg-white/20 text-white border-none rounded-xl font-bold uppercase text-[10px] gap-2 w-full max-w-xs"
+                className="bg-white/10 hover:bg-white/20 text-foreground border-2 border-black rounded-xl font-bold uppercase text-xs md:text-sm gap-2 w-full max-w-xs"
               >
                  <Download size={14}/> Unduh QR Code
               </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-5 bg-slate-950/50 border border-slate-800 rounded-2xl">
-                <p className="text-[10px] font-black text-slate-500 uppercase flex items-center gap-2"><Calendar size={12}/> Tanggal</p>
-                <p className="text-sm font-bold text-white uppercase">{formatDate(booking.booking_date)}</p>
+              <div className="p-5 bg-background/50 border border-black rounded-2xl">
+                <p className="text-xs md:text-sm font-black text-foreground/70 uppercase flex items-center gap-2"><Calendar size={14}/> Tanggal</p>
+                <p className="text-base md:text-lg font-bold text-foreground uppercase">{formatDate(booking.booking_date)}</p>
               </div>
-              <div className="p-5 bg-slate-950/50 border border-slate-800 rounded-2xl">
-                <p className="text-[10px] font-black text-slate-500 uppercase flex items-center gap-2"><Clock size={12}/> Jam Kedatangan</p>
-                <p className="text-sm font-bold text-indigo-400 uppercase">{booking.booking_time} WITA</p>
+              <div className="p-5 bg-background/50 border border-black rounded-2xl">
+                <p className="text-xs md:text-sm font-black text-foreground/70 uppercase flex items-center gap-2"><Clock size={14}/> Jam Kedatangan</p>
+                <p className="text-base md:text-lg font-bold text-primary uppercase">{booking.booking_time} WITA</p>
               </div>
-              <div className="p-5 bg-slate-950/50 border border-slate-800 rounded-2xl">
-                <p className="text-[10px] font-black text-slate-500 uppercase">Nama Pengunjung</p>
-                <p className="text-sm font-bold text-white uppercase break-words">{booking.visitor_name}</p>
+              <div className="p-5 bg-background/50 border border-black rounded-2xl">
+                <p className="text-xs md:text-sm font-black text-foreground/70 uppercase">Nama Pengunjung</p>
+                <p className="text-base md:text-lg font-bold text-foreground uppercase break-words">{booking.visitor_name}</p>
               </div>
-              <div className="p-5 bg-slate-950/50 border border-slate-800 rounded-2xl">
-                <p className="text-[10px] font-black text-slate-500 uppercase">Layanan</p>
-                <p className="text-sm font-bold text-indigo-400 uppercase break-words">{booking.service?.name}</p>
+              <div className="p-5 bg-background/50 border border-black rounded-2xl">
+                <p className="text-xs md:text-sm font-black text-foreground/70 uppercase">Layanan</p>
+                <p className="text-base md:text-lg font-bold text-primary uppercase break-words">{booking.service?.name}</p>
               </div>
             </div>
           </CardContent>
@@ -192,22 +192,22 @@ export default function BookingConfirmationPage() {
 
         <div className="print:hidden">
           <Link href="/" className="w-full block">
-            <Button className="w-full h-14 bg-indigo-600 hover:bg-indigo-500 text-white font-black rounded-xl gap-3 uppercase text-[10px] shadow-xl">
+            <Button className="w-full h-14 bg-primary hover:brightness-95 text-foreground font-black rounded-xl gap-3 uppercase text-xs md:text-sm shadow-xl">
               <HomeIcon size={18}/> Kembali ke Beranda
             </Button>
           </Link>
         </div>
         <div className="print:hidden">
           <Link href="/antrean" className="w-full block">
-            <Button className="w-full h-14 bg-blue-400 hover:bg-blue-300 text-white font-black rounded-xl gap-3 uppercase text-[10px] shadow-xl">
+            <Button className="w-full h-14 bg-accent hover:brightness-95 text-black font-black rounded-xl gap-3 uppercase text-xs md:text-sm">
               <Monitor size={18}/> Cek Live Antrian
             </Button>
           </Link>
         </div>
 
-        <div className="p-6 bg-indigo-600/5 border border-indigo-600/10 rounded-2xl text-center">
-           <p className="text-[10px] md:text-xs font-black text-indigo-400 uppercase tracking-widest mb-2">PENTING</p>
-           <p className="text-[10px] md:text-xs font-medium text-slate-500 italic px-2">
+        <div className="p-6 bg-primary/5 border border-black/40 rounded-2xl text-center">
+           <p className="text-xs md:text-sm font-black text-primary uppercase tracking-widest mb-2">PENTING</p>
+           <p className="text-xs md:text-sm font-medium text-foreground/70 italic px-2">
              Mohon hadir 5 menit sebelum jadwal <b>{booking.booking_time}</b>. Tunjukkan tiket ini kepada petugas.
            </p>
         </div>

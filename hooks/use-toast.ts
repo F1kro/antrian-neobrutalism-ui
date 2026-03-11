@@ -1,6 +1,6 @@
 'use client'
 
-// Inspired by react-hot-toast library
+// Aku adaptasi dari react-hot-toast.
 import * as React from 'react'
 
 import type { ToastActionElement, ToastProps } from '@/components/ui/toast'
@@ -90,8 +90,8 @@ export const reducer = (state: State, action: Action): State => {
     case 'DISMISS_TOAST': {
       const { toastId } = action
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
+      // Sisi efeknya aku taruh di sini biar alurnya tetap simpel.
+      // Nanti bisa dipisah kalau memang perlu.
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -189,3 +189,4 @@ function useToast() {
 }
 
 export { useToast, toast }
+

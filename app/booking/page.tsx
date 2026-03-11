@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { saveBookingToCookie } from "@/lib/cookies";
-import { createLog } from "@/lib/logger"; // IMPORT LOGGER
+import AdminPageInfoFab from "@/components/admin/page-info-fab";
+import { createLog } from "@/lib/logger"; // Aku pakai logger di sini.
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,7 +31,7 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 
-// --- LOGIKA WAKTU WITA ---
+// Logika waktu WITA.
 const getWitaNow = () => {
   return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Makassar" }));
 };
@@ -65,19 +66,19 @@ export default function BookingPage() {
     time: "",
   });
 
-  // Ticker tiap 30 detik biar slot "LEWAT" otomatis update tanpa refresh
+  // Aku refresh status slot tiap 30 detik.
   useEffect(() => {
     const tick = () => setNow(getWitaNow());
     const id = setInterval(tick, 30000);
     return () => clearInterval(id);
   }, []);
 
-  // Ambil data layanan
+  // Aku ambil data layanan.
   useEffect(() => {
     supabase.from("services").select("*").order("name").then(({ data }) => setServices(data || []));
   }, []);
 
-  // AMBIL SLOT YANG TERISI (Kecuali yang dicancel)
+  // Aku ambil slot terisi (kecuali yang cancel).
   const fetchBookedSlots = async () => {
     if (!formData.date) return;
     const { data } = await supabase
@@ -93,7 +94,7 @@ export default function BookingPage() {
     fetchBookedSlots(); 
   }, [formData.date]);
 
-  // Logika pengecekan ketersediaan slot hari ini
+  // Aku cek ketersediaan slot hari ini.
   const isToday = formData.date === getWitaDateString(now);
   const availableSlots = TIME_SLOTS.filter((slot) => {
     const isBooked = bookedSlots.includes(slot);
@@ -115,7 +116,7 @@ export default function BookingPage() {
 
     setLoading(true);
     try {
-      // 1. Validasi Waktu (WITA)
+      // 1) Aku validasi waktu WITA.
       if (isToday) {
         const [h, m] = formData.time.split(":").map(Number);
         const slotMins = h * 60 + m;
@@ -125,7 +126,7 @@ export default function BookingPage() {
         }
       }
 
-      // 2. Cek apakah slot masih tersedia
+      // 2) Aku cek slotnya masih ada atau tidak.
       const { data: slotTerisi } = await supabase
         .from("bookings")
         .select("id")
@@ -139,14 +140,14 @@ export default function BookingPage() {
         throw new Error("Slot baru saja diambil orang lain!");
       }
 
-      // 3. Ambil data prefix & hitung antrean
+      // 3) Aku ambil prefix lalu hitung nomor antrean.
       const { data: sData } = await supabase.from("services").select("name, prefix_code").eq("id", formData.serviceId).single();
       const { count } = await supabase.from("bookings").select("*", { count: "exact", head: true }).eq("booking_date", formData.date);
       
       const num = (count || 0) + 1;
       const booking_number = `${sData?.prefix_code || "A"}-${String(num).padStart(3, "0")}`;
 
-      // 4. Insert data ke Supabase
+      // 4) Aku simpan datanya ke Supabase.
       const { data, error } = await supabase.from("bookings").insert([{
         booking_number,
         visitor_name: formData.name,
@@ -164,7 +165,7 @@ export default function BookingPage() {
       }
 
       if (data?.[0]) {
-        // LOG: Booking Berhasil
+        // Log: booking berhasil.
         createLog(
           'BOOKING', 
           `Pengunjung baru: ${formData.name} mengambil antrean ${booking_number} untuk layanan ${sData?.name}`,
@@ -177,7 +178,7 @@ export default function BookingPage() {
         router.push(`/booking-confirmation/${data[0].id}`);
       }
     } catch (error: any) {
-      // LOG: Gagal Booking
+      // Log: booking gagal.
       createLog('ERROR', `Gagal ambil antrean: ${error.message}`, 'error', { visitor_name: formData.name });
       toast.error(error.message);
       fetchBookedSlots();
@@ -187,48 +188,48 @@ export default function BookingPage() {
   };
 
   return (
-    <main className="relative min-h-screen w-full bg-[#020617] text-slate-100 flex flex-col items-center">
+    <main className="relative min-h-screen w-full bg-background text-foreground flex flex-col items-center">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-1/4 w-[500px] h-[500px] bg-indigo-500/5 blur-[120px] rounded-full" />
+        <div className="absolute top-[-10%] left-1/4 w-[500px] h-[500px] bg-primary/15 blur-[120px] rounded-full" />
       </div>
 
       <div className="w-full max-w-xl z-10 p-4 md:p-8 flex flex-col gap-6 md:gap-8">
-        <header className="flex items-center justify-between bg-slate-900/60 p-3 md:p-4 rounded-3xl border border-slate-800 backdrop-blur-md shrink-0 shadow-xl">
+        <header className="flex items-center justify-between bg-card p-3 md:p-4 rounded-[10px] border-2 border-black shrink-0 shadow-[5px_5px_0_#000]">
           <div className="flex items-center gap-3 ml-1">
-            <div className="p-2 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-600/30">
-              <Sparkles size={18} className="text-white" />
+            <div className="p-2 bg-primary border-2 border-black rounded-[6px] shadow-[3px_3px_0_#000]">
+              <Sparkles size={18} className="text-foreground" />
             </div>
-            <h1 className="text-sm md:text-lg font-black uppercase tracking-tight leading-none">Ambil Antrean</h1>
+            <h1 className="text-base md:text-lg font-black uppercase tracking-tight leading-none">Ambil Antrean</h1>
           </div>
-          <Link href="/"><Button variant="outline" size="sm" className="h-10 rounded-2xl gap-2 bg-slate-800/50 border-slate-700 text-indigo-400 font-black text-[9px] md:text-xs uppercase border-b-4 border-b-indigo-900/50"><Home size={14} /> Dashboard</Button></Link>
+          <Link href="/"><Button variant="outline" size="sm" className="h-11 md:h-12 px-4 md:px-6 rounded-xl gap-2 bg-primary border-black text-primary-foreground font-black text-xs md:text-sm uppercase border-b-4 border-black hover:brightness-95 [&_svg]:text-primary-foreground"><Home size={16} /> Dashboard</Button></Link>
         </header>
 
         <div className="space-y-6 pb-10">
           <div className="text-center space-y-2">
             <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter">Reservasi Jadwal</h2>
-            <p className="text-slate-400 text-[11px] md:text-sm font-medium italic">Pilih waktu kedatangan (WITA) yang tersedia.</p>
+            <p className="text-muted-foreground text-sm md:text-base font-medium italic">Pilih waktu kedatangan (WITA) yang tersedia.</p>
           </div>
 
-          <Card className="bg-slate-900/40 border-slate-800 backdrop-blur-xl shadow-2xl rounded-[2.5rem] overflow-hidden border-2">
+          <Card className="bg-card border-black rounded-[10px] overflow-hidden border-2">
             <CardContent className="p-6 md:p-10">
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2"><User size={12} /> Nama</Label>
-                    <Input placeholder="Nama Lengkap" className="h-12 bg-slate-950/50 border-slate-800 rounded-2xl text-white font-bold text-sm" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
+                    <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><User size={14} /> Nama</Label>
+                    <Input placeholder="Nama Lengkap" className="h-12 rounded-[8px] text-foreground text-base" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2"><Phone size={12} /> WhatsApp</Label>
-                    <Input type="tel" placeholder="0812..." className="h-12 bg-slate-950/50 border-slate-800 rounded-2xl text-white font-bold text-sm" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} required />
+                    <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><Phone size={14} /> WhatsApp</Label>
+                    <Input type="tel" placeholder="0812..." className="h-12 rounded-[8px] text-foreground text-base" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} required />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-white text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2"><Calendar size={12} /> Tanggal Kedatangan</Label>
+                  <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><Calendar size={14} /> Tanggal Kedatangan</Label>
                   <Input 
                     type="date" 
                     min={getWitaDateString(getWitaNow())} 
-                    className="h-12 bg-slate-950/50 border-slate-800 rounded-2xl text-white font-bold text-sm [color-scheme:dark]" 
+                    className="h-12 rounded-[8px] text-foreground font-bold text-base [color-scheme:light]" 
                     value={formData.date} 
                     onChange={(e) => setFormData({ ...formData, date: e.target.value, time: "" })} 
                     required 
@@ -236,23 +237,23 @@ export default function BookingPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2"><Briefcase size={12} /> Layanan</Label>
+                  <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><Briefcase size={14} /> Layanan</Label>
                   <Select onValueChange={(val) => setFormData({ ...formData, serviceId: val })}>
-                    <SelectTrigger className="w-full !h-12 bg-slate-950/50 border-slate-800 rounded-2xl text-white font-bold text-sm"><SelectValue placeholder="Pilih Layanan" /></SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-slate-800 text-white rounded-2xl">
-                      {services.map((s) => (<SelectItem key={s.id} value={s.id} className="py-3 font-bold text-xs">{s.name}</SelectItem>))}
+                    <SelectTrigger className="w-full !h-12 rounded-[8px] text-foreground font-bold text-base"><SelectValue placeholder="Pilih Layanan" /></SelectTrigger>
+                    <SelectContent className="bg-card border-black text-foreground rounded-[8px]">
+                      {services.map((s) => (<SelectItem key={s.id} value={s.id} className="py-3 font-bold text-sm">{s.name}</SelectItem>))}
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2"><Clock size={12} /> Jam Tersedia</Label>
+                  <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><Clock size={14} /> Jam Tersedia</Label>
                   
-                  {/* Alert Kondisi Full / Selesai */}
+                  {/* Alert saat slot penuh atau layanan selesai */}
                   {availableSlots.length === 0 && (
-                    <div className="flex items-center gap-3 p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-amber-500 mb-4">
-                      <AlertCircle size={18} />
-                      <p className="text-[11px] font-bold uppercase leading-tight">
+                    <div className="flex items-center gap-3 p-4 bg-amber-400 border-2 border-black rounded-xl text-white mb-4 border-b-4 border-amber-700 shadow-lg">
+                      <AlertCircle size={18} className="text-white shrink-0" />
+                      <p className="text-sm md:text-base font-bold uppercase leading-tight text-white">
                         {isAllPast 
                           ? "Jam layanan hari ini sudah selesai, silahkan booking antrean untuk besok." 
                           : "Slot layanan untuk hari ini sudah full, silahkan booking antrean untuk besok."}
@@ -275,14 +276,14 @@ export default function BookingPage() {
                           type="button" 
                           disabled={isDisabled} 
                           onClick={() => setFormData({ ...formData, time: slot })}
-                          className={`py-3 rounded-xl text-[10px] font-black transition-all border-b-4 ${
-                            isDisabled ? "bg-slate-800/20 border-slate-900 text-slate-600 cursor-not-allowed opacity-50" :
-                            isSelected ? "bg-indigo-600 border-indigo-800 text-white scale-95" :
-                            "bg-slate-800 border-slate-950 text-slate-300 hover:bg-slate-700"
+                          className={`py-3 rounded-[8px] text-xs md:text-sm font-black transition-all border-2 border-black shadow-[3px_3px_0_#000] ${
+                            isDisabled ? "bg-muted text-muted-foreground cursor-not-allowed opacity-50" :
+                            isSelected ? "bg-primary text-foreground translate-x-[2px] translate-y-[2px] shadow-[1px_1px_0_#000]" :
+                            "bg-card text-foreground hover:bg-accent"
                           }`}
                         >
                           {slot}
-                          <span className="block text-[7px] opacity-60">
+                          <span className="block text-xs md:text-sm opacity-70">
                             {isBooked ? "FULL" : isPast ? "LEWAT" : "READY"}
                           </span>
                         </button>
@@ -293,7 +294,7 @@ export default function BookingPage() {
 
                 <Button 
                   disabled={loading || !formData.time} 
-                  className="w-full h-14 bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase tracking-widest rounded-2xl shadow-xl mt-4 border-b-4 border-b-indigo-800"
+                  className="w-full h-14 bg-primary hover:brightness-95 text-foreground font-black uppercase tracking-widest rounded-[8px] mt-4"
                 >
                   {loading ? <Loader2 className="animate-spin" /> : "KONFIRMASI JADWAL"}
                 </Button>
@@ -302,6 +303,15 @@ export default function BookingPage() {
           </Card>
         </div>
       </div>
+      <AdminPageInfoFab
+        title="Daftar Antrean"
+        description="Halaman ini dipakai untuk mengambil nomor antrean online sesuai layanan, tanggal, dan slot waktu yang tersedia."
+        points={[
+          "Isi nama, nomor WhatsApp, layanan, tanggal, dan jam kedatangan.",
+          "Pilih hanya slot yang masih tersedia dan belum lewat.",
+          "Setelah berhasil, tiket antrean akan tersimpan dan bisa dibuka kembali.",
+        ]}
+      />
     </main>
   );
 }

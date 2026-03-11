@@ -11,13 +11,13 @@ export interface UserBooking {
 
 export function saveBookingToCookie(booking: UserBooking): void {
   try {
-    // Ambil data lama
+    // Aku ambil data lama dulu.
     const existing = getBookingsFromCookie();
     
-    // Filter agar tidak ada ID ganda (Duplikasi)
+    // Aku buang ID yang duplikat.
     const filteredExisting = existing.filter(b => b.id !== booking.id);
 
-    // Tambahkan data baru di posisi paling atas (Limit 50 riwayat terakhir)
+    // Aku taruh data baru di atas, max 50 item.
     const updated = [booking, ...filteredExisting].slice(0, 50);
     
     const expires = new Date();
@@ -25,10 +25,10 @@ export function saveBookingToCookie(booking: UserBooking): void {
     
     const isProd = typeof window !== 'undefined' && window.location.protocol === 'https:';
     
-    // Gunakan encodeURIComponent untuk keamanan karakter JSON
+    // Aku encode dulu biar JSON aman di cookie.
     const cookieValue = encodeURIComponent(JSON.stringify(updated));
     
-    // Set Cookie dengan atribut yang kompatibel dengan banyak Browser Mobile
+    // Aku set cookie dengan opsi yang aman buat mobile.
     document.cookie = `${COOKIE_NAME}=${cookieValue}; expires=${expires.toUTCString()}; path=/; SameSite=Lax${isProd ? '; Secure' : ''}`;
     
     console.log("Riwayat antrean berhasil disimpan ke storage lokal.");

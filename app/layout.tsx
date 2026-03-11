@@ -1,16 +1,24 @@
 import React from "react"
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Space_Grotesk, IBM_Plex_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from "@/components/ui/sonner"
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["400", "500", "700"],
+});
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  variable: "--font-plex-mono",
+  weight: ["400", "600"],
+});
 
 export const metadata: Metadata = {
-  title: 'Sistem Antrian Dinas Penanaman Modal dan Perizinan',
-  description: 'Layanan booking antrian online untuk dinas penanaman modal dan perizinan satu pintu',
+  title: 'SIBONA | Sistem Informasi Booking Online Antrean',
+  description: 'SIBONA adalah layanan booking antrean online untuk DPMPTSP Lombok Barat.',
   generator: 'Fiqro Najiah',
   icons: {
     icon: [
@@ -38,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased`}>
+      <body className={`${spaceGrotesk.variable} ${plexMono.variable} font-sans antialiased`}>
         {children}
         <Analytics />
         <Toaster position="bottom-right" richColors />
