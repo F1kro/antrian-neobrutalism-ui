@@ -148,16 +148,20 @@ const formatDateTime = (dateStr?: string | null) => {
         
         <div className={`flex flex-col items-center p-6 md:p-8 rounded-[2.5rem] text-center text-white space-y-4 animate-in fade-in zoom-in duration-500 ${isCancelled ? "bg-red-600" : "bg-primary"}`}>
           <div className="flex justify-center">
-            <div className={`p-4 rounded-full border-4 ${isCancelled ? "bg-red-500/10 border-red-500/50" : "bg-primary/10 border-black/70"}`}>
-                {isCancelled ? (
-                  <ShieldAlert className="h-14 w-14 text-red-100" />
-                ) : (
-                  <CheckCircle2 className="h-14 w-14 text-primary" />
-                )}
+            <div
+              className={`p-4 rounded-full border-4 ${
+                isCancelled ? "bg-red-500/10 border-white/50" : "bg-white/10 border-white/60 shadow-[0_10px_30px_rgba(0,0,0,0.25)]"
+              }`}
+            >
+              {isCancelled ? (
+                <ShieldAlert className="h-14 w-14 !text-white" />
+              ) : (
+                <CheckCircle2 className="h-14 w-14 text-white drop-shadow" />
+              )}
             </div>
           </div>
-          <h1 className="text-4xl font-black uppercase tracking-tighter">
-            {isCancelled ? "Antrean Dibatalkan!" : "Booking Berhasil!"}
+          <h1 className="text-4xl font-black uppercase tracking-tighter !text-white">
+            {isCancelled ? "ANTREAN DIBATALKAN" : "Booking Berhasil!"}
           </h1>
           <p className="text-xs md:text-sm font-semibold text-white/70 leading-tight">
             {heroSubtitle}
@@ -170,15 +174,15 @@ const formatDateTime = (dateStr?: string | null) => {
         </div>
 
         {isCancelled && (
-          <div className="space-y-2 bg-red-500/5 border border-red-500/30 rounded-2xl p-4 text-left">
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.45em] text-red-500">
-              <ShieldAlert size={14} />
+          <div className="space-y-2 bg-red-600 border border-red-700 rounded-2xl p-4 text-left text-white shadow-lg shadow-red-500/40">
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.45em] text-white/90">
+              <ShieldAlert size={14} className="text-white" />
               <span>Status Dibatalkan</span>
             </div>
-            <p className="text-base font-black text-red-700">
+            <p className="text-base font-black text-white">
               Alasan: {cancellationReason}
             </p>
-            <p className="text-[12px] text-foreground/70">
+            <p className="text-[12px] text-white/90">
               Dibatalkan oleh {cancelledByAdmin ? "Admin" : "Anda"}
               {booking.cancelled_at ? ` pada ${formatDateTime(booking.cancelled_at)}` : ""}.
             </p>

@@ -37,7 +37,6 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 
-// Helper waktu WITA.
 const getWitaDateString = () => {
   const now = new Date();
   const witaString = now.toLocaleString("en-US", { timeZone: "Asia/Makassar" });
@@ -117,7 +116,6 @@ export default function PersonalMonitorPage() {
   const [skippedInfo, setSkippedInfo] = useState<Record<string, { reason: string; at: Date }>>({});
   const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
   
-  // Logika tambahan buat smart alert.
   const [allUserBookings, setAllUserBookings] = useState<any[]>([]);
   
   useEffect(() => {
@@ -128,6 +126,9 @@ export default function PersonalMonitorPage() {
 
   const notificationsEnabledRef = useRef(false);
   const userBookingIdsRef = useRef<string[]>([]);
+  const lastNotificationTimestampsRef = useRef<Record<string, string>>({});
+  // TAMBAHAN: ref khusus guard panggil ulang (in_progress -> in_progress)
+  const lastCalledAtRef = useRef<Record<string, string>>({});
 
   useEffect(() => {
     notificationsEnabledRef.current = notificationsEnabled;
@@ -183,7 +184,6 @@ export default function PersonalMonitorPage() {
 
     const allServices = serviceRes.data || [];
     
-    // PERBAIKAN: Sortir agar layanan milik user (yang statusnya belum selesai) muncul di urutan pertama.
     const sortedServices = [...allServices].sort((a: any, b: any) => {
       const userHasA = allBookings.some(
         (bk) => bk.service_id === a.id && idsToUse.includes(bk.id) && bk.status !== "completed"
@@ -197,11 +197,9 @@ export default function PersonalMonitorPage() {
     });
 
     setServices(sortedServices);
-    // Pastikan diarahkan ke Hal 1 supaya layanan prioritas langsung terlihat.
     setCurrentPage(1);
   }, [supabase]);
 
-  // Aku ambil booking user untuk cek antrean mendatang.
   const fetchAllUserBookings = useCallback(async (ids: string[]) => {
     if (ids.length === 0) return;
     const { data } = await supabase
@@ -248,9 +246,22 @@ export default function PersonalMonitorPage() {
           const currentIds = userBookingIdsRef.current;
           if (!currentIds.includes(updated.id)) return;
 
+          const eventKey = updated.updated_at;
+          if (eventKey) {
+            if (lastNotificationTimestampsRef.current[updated.id] === eventKey) {
+              return;
+            }
+            lastNotificationTimestampsRef.current[updated.id] = eventKey;
+          }
+
           const isNotifEnabled = notificationsEnabledRef.current;
 
           if (updated.status === "in_progress" && old.status === "waiting") {
+            // MODIFIKASI: guard agar tidak double fire
+            const lastCalledAt = lastCalledAtRef.current[updated.id];
+            if (lastCalledAt === updated.updated_at) return;
+            lastCalledAtRef.current[updated.id] = updated.updated_at;
+
             if (isNotifEnabled) notifyQueueCalled(updated.booking_number);
             else {
               const nomorEja = updated.booking_number.replace("-", " ").split("").join(" ");
@@ -262,6 +273,11 @@ export default function PersonalMonitorPage() {
             });
           }
           else if (updated.status === "in_progress" && old.status === "in_progress") {
+            // MODIFIKASI: guard agar tidak double fire
+            const lastCalledAt = lastCalledAtRef.current[updated.id];
+            if (lastCalledAt === updated.updated_at) return;
+            lastCalledAtRef.current[updated.id] = updated.updated_at;
+
             if (isNotifEnabled) notifyQueueCalled(updated.booking_number);
             else {
               const nomorEja = updated.booking_number.replace("-", " ").split("").join(" ");
@@ -303,7 +319,6 @@ export default function PersonalMonitorPage() {
   const handleToggleNotifications = async () => {
     if (!isNotificationSupported()) return toast.error("Browser tidak mendukung notifikasi");
     
-    // Tiap klik tombol, aku unlock TTS lagi.
     unlockTTS();
 
     if (notificationsEnabled) {
@@ -330,7 +345,6 @@ export default function PersonalMonitorPage() {
     );
   };
 
-  // Cek antrean besok/lusa.
   const futureBookings = useMemo(() => {
     const today = getWitaDateString();
     return allUserBookings.filter(b => b.booking_date > today);
@@ -369,19 +383,25 @@ export default function PersonalMonitorPage() {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            <Link href="/">
-              <Button variant="outline" size="sm" className="h-11 md:h-12 rounded-2xl gap-2 bg-primary border-black text-primary-foreground font-black text-xs md:text-sm uppercase border-b-4 border-black hover:brightness-95 [&_svg]:text-primary-foreground"><Home size={16} /> Dashboard</Button>
+          <div className="flex flex-wrap items-center gap-2 md:gap-3">
+            <Link href="/" className="flex-1 min-w-0 md:flex-none md:w-auto">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full md:w-auto h-11 md:h-12 rounded-2xl gap-2 bg-primary border-black text-primary-foreground font-black text-xs md:text-sm uppercase border-b-4 border-black hover:brightness-95 [&_svg]:text-primary-foreground justify-center"
+              >
+                <Home size={16} /> Dashboard
+              </Button>
             </Link>
-            <div className="relative flex-1 md:flex-none">
+            <div className="relative flex-1 min-w-0 md:flex-none md:w-auto">
               <Button
                 onClick={handleToggleNotifications}
                 variant="outline"
-                className={`h-11 md:h-12 px-4 md:px-6 rounded-xl font-bold text-xs md:text-sm uppercase gap-2 flex-1 md:flex-none transition-all active:translate-y-[2px] active:border-b-0 border-b-4 ${
+                className={`w-full md:w-auto h-11 md:h-12 px-4 md:px-6 rounded-xl font-bold text-xs md:text-sm uppercase gap-2 transition-all active:translate-y-[2px] active:border-b-0 border-b-4 ${
                   notificationsEnabled
                     ? "bg-emerald-600 border-black !text-white border-b-emerald-800 hover:bg-emerald-700 [&_svg]:!text-white"
                     : "bg-amber-400 border-black !text-white border-b-amber-700 hover:bg-amber-500 [&_svg]:!text-white"
-                } ${showNotificationPrompt && !notificationsEnabled ? "ring-4 ring-amber-300/60" : ""}`}
+                } ${showNotificationPrompt && !notificationsEnabled ? "ring-4 ring-amber-300/60" : ""} justify-center`}
               >
                 {notificationsEnabled ? <Bell size={16} /> : <BellOff size={16} />}
                 <span>{notificationsEnabled ? "Notif On" : "Notif Off"}</span>
@@ -397,8 +417,11 @@ export default function PersonalMonitorPage() {
               )}
             </div>
             {userBookingIds.length > 0 && (
-              <Link href="/riwayat-antrian" className="flex-1 md:flex-none min-w-0">
-                <Button variant="outline" className="w-full h-11 md:h-12 px-3 md:px-5 rounded-xl bg-red-600 border-black !text-white font-bold text-xs md:text-sm uppercase gap-1 border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all hover:bg-red-700 [&_svg]:!text-white min-w-0">
+              <Link href="/riwayat-antrian" className="flex-1 min-w-0 md:flex-none md:w-auto">
+                <Button
+                  variant="outline"
+                  className="w-full md:w-auto h-11 md:h-12 px-3 md:px-5 rounded-xl bg-red-600 border-black !text-white font-bold text-xs md:text-sm uppercase gap-1 border-b-4 border-black active:translate-y-[2px] active:border-b-0 transition-all hover:bg-red-700 [&_svg]:!text-white min-w-0 justify-center"
+                >
                   <HistoryIcon size={16} />
                   <span>Riwayat</span>
                 </Button>
@@ -408,7 +431,6 @@ export default function PersonalMonitorPage() {
         </div>
       </header>
 
-      {/* Alert kalau ada antrean besok/lusa */}
       {futureBookings.length > 0 && (
         <div className="bg-amber-400 border-2 border-black p-4 rounded-xl flex items-start gap-3 shrink-0 shadow-lg border-b-4 border-amber-700">
           <CalendarDays size={20} className="!text-white shrink-0 mt-0.5" />
@@ -421,7 +443,6 @@ export default function PersonalMonitorPage() {
         </div>
       )}
 
-      {/* Info kalau jam operasional sudah tutup */}
       {getWitaHour() >= 16 && (
         <div className="bg-card/70 border border-black/80 p-4 rounded-xl flex items-center gap-3 shrink-0 shadow-md border-b-4 border-black">
           <Coffee size={20} className="text-muted-foreground" />
@@ -545,18 +566,13 @@ export default function PersonalMonitorPage() {
                               : "bg-indigo-700/80 border border-indigo-800"
                           }`}
                         >
-                          {/* PERBAIKAN: Ikon dipaksa warna putih solid dengan class !text-white */}
                           {isUserBooking ? <ShieldCheck size={20} className="!text-white" /> : <Users2 size={20} className="!text-white" />}
                         </div>
                         <div className="text-left overflow-hidden">
-                          <p
-                            className={`text-[10px] md:text-xs font-black uppercase tracking-[0.15em] !text-white/80`}
-                          >
+                          <p className={`text-[10px] md:text-xs font-black uppercase tracking-[0.15em] !text-white/80`}>
                             {isUserBooking ? "Antrean Anda Dipanggil" : "Pengunjung Lain"}
                           </p>
-                          <p
-                            className={`text-sm md:text-base font-black uppercase truncate !text-white`}
-                          >
+                          <p className={`text-sm md:text-base font-black uppercase truncate !text-white`}>
                             {current?.visitor_name || "Petugas Melayani..."}
                           </p>
                         </div>
