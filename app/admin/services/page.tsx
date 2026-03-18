@@ -14,10 +14,12 @@ import {
   Settings2,
   Search,
   AlertCircle,
+  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -47,6 +49,11 @@ const DAY_OPTIONS = [
   { value: 5, label: "Jum" },
 ];
 const ALL_DAYS = DAY_OPTIONS.map((d) => d.value);
+const DURATION_OPTIONS = [
+  { value: "<=30", label: "<= 30 menit" },
+  { value: "<=60", label: "<= 60 menit" },
+  { value: ">60", label: "> 60 menit" },
+];
 
 const normalizeOpenDays = (openDays: unknown) => {
   const parseRaw = (values: unknown[]) =>
@@ -73,6 +80,9 @@ export default function ManajemenLayanan() {
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterPrefix, setFilterPrefix] = useState("semua");
+  const [filterDay, setFilterDay] = useState("semua");
+  const [filterDuration, setFilterDuration] = useState("semua");
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -111,15 +121,47 @@ export default function ManajemenLayanan() {
     fetchServices();
   }, []);
 
+  const prefixOptions = useMemo(() => {
+    const codes = new Set<string>();
+    services.forEach((service) => {
+      if (service.prefix_code) {
+        codes.add(service.prefix_code.toUpperCase());
+      }
+    });
+    return Array.from(codes).sort();
+  }, [services]);
+
   const filteredServices = useMemo(() => {
-    const result = services.filter(service => 
-      service.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (service.description && service.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (service.prefix_code && service.prefix_code.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
+    return services.filter((service) => {
+      const query = searchQuery.toLowerCase();
+      const matchesSearch =
+        service.name.toLowerCase().includes(query) ||
+        (service.description && service.description.toLowerCase().includes(query)) ||
+        (service.prefix_code && service.prefix_code.toLowerCase().includes(query));
+
+      const matchesPrefix =
+        filterPrefix === "semua" ||
+        (service.prefix_code && service.prefix_code.toUpperCase() === filterPrefix);
+
+      const dayFilterValue = Number(filterDay);
+      const matchesDay =
+        filterDay === "semua" ||
+        (Array.isArray(service.open_days) && service.open_days.includes(dayFilterValue));
+      
+      const duration = service.estimated_duration || 0;
+      const matchesDuration =
+        filterDuration === "semua" ||
+        (filterDuration === "<=30" && duration <= 30) ||
+        (filterDuration === "<=60" && duration > 30 && duration <= 60) ||
+        (filterDuration === ">60" && duration > 60);
+
+      return matchesSearch && matchesPrefix && matchesDay && matchesDuration;
+    });
+  }, [services, searchQuery, filterPrefix, filterDay, filterDuration]);
+
+  useEffect(() => {
     setCurrentPage(1);
-    return result;
-  }, [services, searchQuery]);
+  }, [searchQuery, filterPrefix, filterDay, filterDuration]);
 
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
@@ -336,20 +378,80 @@ export default function ManajemenLayanan() {
 
           <div className="bg-card/40 border border-black p-4 rounded-3xl backdrop-blur-xl shrink-0">
             <div className="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4">
-              <div className="w-full xl:max-w-[420px]">
-                <label className="flex items-center gap-1.5 text-[9px] font-black text-foreground/70 uppercase tracking-widest ml-1 mb-1.5">
-                  <Search size={11} className="text-primary" /> Cari Layanan / Kode
-                </label>
-                <div className="relative">
-                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
-                  <Input
-                    placeholder="Contoh: Izin, Dispensasi, A..."
-                    className="w-full bg-background/50 border-black h-10 pl-9 pr-3.5 !text-slate-800 caret-slate-800 placeholder:text-slate-400 rounded-xl focus:border-black/50 text-sm"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xl:gap-2 xl:flex-1">
+                <div className="w-full">
+                  <label className="flex items-center gap-1.5 text-[9px] font-black text-foreground/70 uppercase tracking-widest ml-1 mb-1.5">
+                    <Search size={11} className="text-primary" /> Cari Layanan / Kode
+                  </label>
+                  <div className="relative">
+                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-primary pointer-events-none" />
+                    <Input
+                      placeholder="Contoh: Izin, Dispensasi, A..."
+                      className="w-full bg-background/50 border-black h-10 pl-9 pr-3.5 !text-slate-800 caret-slate-800 placeholder:text-slate-400 rounded-xl focus:border-black/50 text-sm"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="w-full">
+                  <label className="flex items-center gap-1.5 text-[9px] font-black text-foreground/70 uppercase tracking-widest ml-1 mb-1.5">
+                    <Settings2 size={11} className="text-primary" /> Prefix
+                  </label>
+                  <Select value={filterPrefix} onValueChange={(value) => setFilterPrefix(value)}>
+                    <SelectTrigger className="w-full h-10 bg-background/50 border-black text-foreground rounded-xl font-bold uppercase text-[9px]">
+                      <SelectValue placeholder="Semua Prefix" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-black text-foreground">
+                      <SelectItem value="semua">Semua Prefix</SelectItem>
+                      {prefixOptions.map((code) => (
+                        <SelectItem key={code} value={code}>
+                          {code}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="w-full">
+                  <label className="flex items-center gap-1.5 text-[9px] font-black text-foreground/70 uppercase tracking-widest ml-1 mb-1.5">
+                    <Clock size={11} className="text-primary" /> Hari Buka
+                  </label>
+                  <Select value={filterDay} onValueChange={(value) => setFilterDay(value)}>
+                    <SelectTrigger className="w-full h-10 bg-background/50 border-black text-foreground rounded-xl font-bold uppercase text-[9px]">
+                      <SelectValue placeholder="Semua Hari" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-black text-foreground">
+                      <SelectItem value="semua">Semua Hari</SelectItem>
+                      {DAY_OPTIONS.map((day) => (
+                        <SelectItem key={day.value} value={String(day.value)}>
+                          {day.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="w-full">
+                  <label className="flex items-center gap-1.5 text-[9px] font-black text-foreground/70 uppercase tracking-widest ml-1 mb-1.5">
+                    <Clock size={11} className="text-primary" /> Durasi Estimasi
+                  </label>
+                  <Select value={filterDuration} onValueChange={(value) => setFilterDuration(value)}>
+                    <SelectTrigger className="w-full h-10 bg-background/50 border-black text-foreground rounded-xl font-bold uppercase text-[9px]">
+                      <SelectValue placeholder="Semua Durasi" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-black text-foreground">
+                      <SelectItem value="semua">Semua Durasi</SelectItem>
+                      {DURATION_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
+
               <div className="h-10 min-w-[140px] self-start xl:self-end flex items-center justify-center px-5 bg-card border-2 border-black rounded-xl shadow-[4px_4px_0_var(--color-border)]">
                 <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest">
                   Total: <span className="text-primary text-lg ml-1 tabular-nums">{filteredServices.length}</span>

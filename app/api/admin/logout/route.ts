@@ -26,6 +26,7 @@ export async function POST() {
     // Aku bersihin semua cookie auth.
     response.cookies.delete('sb-access-token')
     response.cookies.delete('sb-refresh-token')
+    response.cookies.delete('admin_last_active')
     
     return response
     

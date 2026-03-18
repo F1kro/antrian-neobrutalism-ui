@@ -123,3 +123,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+.sonner-toast {
+  color: #fff;
+}
+.sonner-toast .sonner-body {
+  color: inherit;
+}

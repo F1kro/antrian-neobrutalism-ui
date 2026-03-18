@@ -44,6 +44,18 @@ CREATE TABLE IF NOT EXISTS queue_history (
   performed_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Maintenance flag (pause booking saat maintenance)
+CREATE TABLE IF NOT EXISTS maintenance_flags (
+  flag_key TEXT PRIMARY KEY,
+  is_paused BOOLEAN NOT NULL DEFAULT FALSE,
+  message TEXT,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO maintenance_flags (flag_key, message)
+VALUES ('booking_pause', 'Booking online dihentikan sementara karena maintenance.')
+ON CONFLICT (flag_key) DO NOTHING;
+
 -- Enable RLS
 ALTER TABLE services ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;

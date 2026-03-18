@@ -1,4 +1,4 @@
-"use client";
+  "use client";
 
 import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -111,6 +111,7 @@ export default function PersonalMonitorPage() {
   const [services, setServices] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [maintenanceFlag, setMaintenanceFlag] = useState<{ is_paused: boolean; message: string | null } | null>(null);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [userBookingIds, setUserBookingIds] = useState<string[]>([]);
   const [skippedInfo, setSkippedInfo] = useState<Record<string, { reason: string; at: Date }>>({});
@@ -164,6 +165,20 @@ export default function PersonalMonitorPage() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    const loadMaintenance = async () => {
+      const { data } = await supabase
+        .from("maintenance_flags")
+        .select("is_paused, message")
+        .eq("flag_key", "booking_pause")
+        .single();
+
+      setMaintenanceFlag(data || null);
+    };
+
+    loadMaintenance();
+  }, [supabase]);
 
   const fetchData = useCallback(async () => {
     const todayWita = getWitaDateString();
@@ -273,7 +288,7 @@ export default function PersonalMonitorPage() {
             });
           }
           else if (updated.status === "in_progress" && old.status === "in_progress") {
-            // MODIFIKASI: guard agar tidak double fire
+            // MODIFIKASI: fixing double call
             const lastCalledAt = lastCalledAtRef.current[updated.id];
             if (lastCalledAt === updated.updated_at) return;
             lastCalledAtRef.current[updated.id] = updated.updated_at;
@@ -430,6 +445,18 @@ export default function PersonalMonitorPage() {
           </div>
         </div>
       </header>
+
+      {maintenanceFlag?.is_paused && (
+        <div className="bg-red-600/10 border border-red-500/70 p-4 rounded-xl flex items-start gap-3 shadow-lg border-b-4 border-red-700 text-white">
+          <AlertCircle size={20} className="text-red-500 shrink-0" />
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-red-500">Booking Sedang Dihentikan</p>
+            <p className="text-[11px] text-white/80 mt-1">
+              {maintenanceFlag.message || "Booking online ditutup sementara untuk perawatan sistem."}
+            </p>
+          </div>
+        </div>
+      )}
 
       {futureBookings.length > 0 && (
         <div className="bg-amber-400 border-2 border-black p-4 rounded-xl flex items-start gap-3 shrink-0 shadow-lg border-b-4 border-amber-700">

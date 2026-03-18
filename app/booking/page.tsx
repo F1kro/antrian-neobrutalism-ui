@@ -57,6 +57,24 @@ const TIME_SLOTS = [
 const DEFAULT_OPEN_DAYS = [0, 1, 2, 3, 4, 5, 6];
 const DAY_NAME_ID = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 
+const sanitizeNameInput = (value: string) => {
+  const clean = value.replace(/[<>/"'`;\\\d]/g, "");
+  return clean.slice(0, 100);
+};
+
+const sanitizePhoneInput = (value: string) => {
+  const digits = value.replace(/\D/g, "");
+  return digits.slice(0, 13);
+};
+
+const isValidName = (value: string) => {
+  return value.length >= 3 && /^[a-zA-Z\s.'-]+$/.test(value);
+};
+
+const isValidPhone = (value: string) => {
+  return /^\d{10,13}$/.test(value);
+};
+
 const normalizeOpenDays = (openDays: unknown) => {
   if (Array.isArray(openDays)) {
     const parsed = openDays.map((day) => Number(day)).filter((day) => Number.isInteger(day) && day >= 0 && day <= 6);
@@ -86,6 +104,7 @@ export default function BookingPage() {
   const [loading, setLoading] = useState(false);
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [now, setNow] = useState<Date>(getWitaNow());
+  const [maintenanceFlag, setMaintenanceFlag] = useState<{ is_paused: boolean; message: string | null } | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -112,6 +131,20 @@ export default function BookingPage() {
       setServices(mapped);
     });
   }, []);
+
+  useEffect(() => {
+    const loadMaintenance = async () => {
+      const { data } = await supabase
+        .from("maintenance_flags")
+        .select("is_paused, message")
+        .eq("flag_key", "booking_pause")
+        .single();
+
+      setMaintenanceFlag(data || null);
+    };
+
+    loadMaintenance();
+  }, [supabase]);
 
   // Aku ambil slot terisi (kecuali yang cancel).
   const fetchBookedSlots = async () => {
@@ -161,9 +194,23 @@ export default function BookingPage() {
   });
 
   const isAllBooked = TIME_SLOTS.every((slot) => bookedSlots.includes(slot));
+  const bookingPaused = maintenanceFlag?.is_paused === true;
+  const maintenanceMessage = maintenanceFlag?.message || "Booking sementara ditutup untuk perawatan sistem.";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (bookingPaused) {
+      toast.error(maintenanceMessage);
+      return;
+    }
+    if (!isValidName(formData.name)) {
+      toast.error("Nama harus minimal 3 karakter dan tidak boleh mengandung simbol berbahaya.");
+      return;
+    }
+    if (!isValidPhone(formData.phone)) {
+      toast.error("Nomor HP harus angka valid (10-13 digit).");
+      return;
+    }
     if (!formData.serviceId || !formData.date || !formData.time) return toast.error("Lengkapi data!");
     if (!isServiceOpenOnDate(formData.date)) return toast.error("Layanan tutup pada tanggal yang dipilih.");
 
@@ -255,9 +302,19 @@ export default function BookingPage() {
             <h1 className="text-base md:text-lg font-black uppercase tracking-tight leading-none">Ambil Antrean</h1>
           </div>
           <Link href="/"><Button variant="outline" size="sm" className="h-11 md:h-12 px-4 md:px-6 rounded-xl gap-2 bg-primary border-black text-primary-foreground font-black text-xs md:text-sm uppercase border-b-4 border-black hover:brightness-95 [&_svg]:text-primary-foreground"><Home size={16} /> Dashboard</Button></Link>
-        </header>
+      </header>
 
-        <div className="space-y-6 pb-10">
+      {bookingPaused && (
+        <div className="bg-red-600/10 border border-red-500/70 p-5 rounded-xl flex items-start gap-3 shadow-lg border-b-4 border-red-700 text-white">
+          <AlertCircle size={20} className="text-red-500 shrink-0" />
+          <div>
+            <p className="text-xs font-black uppercase tracking-widest text-red-500">Booking Ditangguhkan</p>
+            <p className="text-sm font-bold text-white/80">{maintenanceMessage}</p>
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-6 pb-10">
           <div className="text-center space-y-2">
             <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter">Reservasi Jadwal</h2>
             <p className="text-muted-foreground text-sm md:text-base font-medium italic">Pilih waktu kedatangan (WITA) yang tersedia.</p>
@@ -269,11 +326,40 @@ export default function BookingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><User size={14} /> Nama</Label>
-                    <Input placeholder="Nama Lengkap" className="h-12 rounded-[8px] text-foreground text-base" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
+                    <Input
+                      placeholder="Nama Lengkap"
+                      className="h-12 rounded-[8px] text-foreground text-base"
+                      value={formData.name}
+                      inputMode="text"
+                      autoCapitalize="words"
+                      autoComplete="name"
+                      pattern="[A-Za-z\\s.'-]+"
+                      title="Hanya huruf, spasi, titik, dan tanda hubung."
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, name: sanitizeNameInput(e.target.value) }))
+                      }
+                      required
+                      disabled={bookingPaused}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><Phone size={14} /> WhatsApp</Label>
-                    <Input type="tel" placeholder="0812..." className="h-12 rounded-[8px] text-foreground text-base" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} required />
+                    <Input
+                      type="tel"
+                      placeholder="0812..."
+                      className="h-12 rounded-[8px] text-foreground text-base"
+                      value={formData.phone}
+                      inputMode="tel"
+                      autoComplete="tel-national"
+                      pattern="[0-9]*"
+                      title="Hanya angka, max 13 digit."
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, phone: sanitizePhoneInput(e.target.value) }))
+                      }
+                      required
+                      disabled={bookingPaused}
+                      maxLength={13}
+                    />
                   </div>
                 </div>
 
@@ -292,6 +378,7 @@ export default function BookingPage() {
                         time: "",
                       }));
                     }}
+                  disabled={bookingPaused}
                   >
                     <SelectTrigger className="w-full !h-12 rounded-[8px] text-foreground font-bold text-base"><SelectValue placeholder="Pilih Layanan" /></SelectTrigger>
                     <SelectContent className="bg-card border-black text-foreground rounded-[8px]">
@@ -307,7 +394,7 @@ export default function BookingPage() {
                       <Button
                         type="button"
                         variant="outline"
-                        disabled={!formData.serviceId}
+                        disabled={!formData.serviceId || bookingPaused}
                         className={cn(
                           "w-full !h-12 rounded-[8px] text-left justify-between border-black font-bold text-base",
                           !formData.date && "text-muted-foreground"
@@ -364,7 +451,7 @@ export default function BookingPage() {
                       const [sH, sM] = slot.split(":").map(Number);
                       const isPast = isToday && (sH * 60 + sM) <= (now.getHours() * 60 + now.getMinutes());
                       
-                      const isDisabled = !canShowSlots || isBooked || isPast;
+                      const isDisabled = bookingPaused || !canShowSlots || isBooked || isPast;
                       const isSelected = formData.time === slot;
 
                       return (
@@ -390,7 +477,7 @@ export default function BookingPage() {
                 </div>
 
                 <Button 
-                  disabled={loading || !formData.serviceId || !formData.date || !formData.time} 
+                  disabled={loading || !formData.serviceId || !formData.date || !formData.time || bookingPaused} 
                   className="w-full h-14 bg-primary hover:brightness-95 text-foreground font-black uppercase tracking-widest rounded-[8px] mt-4"
                 >
                   {loading ? <Loader2 className="animate-spin" /> : "KONFIRMASI JADWAL"}

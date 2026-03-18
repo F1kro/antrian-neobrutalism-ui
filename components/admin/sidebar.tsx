@@ -15,7 +15,7 @@ import {
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,6 +33,7 @@ export default function AdminSidebar() {
   const supabase = createClient()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [showLogoutDialog, setShowLogoutDialog] = useState(false)
+  const [logoUrl, setLogoUrl] = useState('/logo.png')
 
   const menus = [
     { label: 'Dashboard', icon: <LayoutDashboard size={20}/>, path: '/admin/dashboard' },
@@ -40,6 +41,7 @@ export default function AdminSidebar() {
     { label: 'Manajemen Layanan', icon: <Database size={20}/>, path: '/admin/services' },
     { label: 'Rekap Antrean', icon: <ClipboardList size={20}/>, path: '/admin/rekap' },
     { label: 'Log Sistem', icon: <History size={20}/>, path: '/admin/logs' }, // Menu log
+    { label: 'Maintenance', icon: <AlertCircle size={20}/>, path: '/admin/maintenance' },
     { label: 'Tentang SIBONA', icon: <BadgeInfo size={20}/>, path: '/admin/about' },
   ]
 
@@ -69,12 +71,25 @@ export default function AdminSidebar() {
     }
   }
 
+  useEffect(() => {
+    supabase
+      .from('branding_settings')
+      .select('value')
+      .eq('key', 'logo_url')
+      .single()
+      .then(({ data }) => {
+        if (data?.value) {
+          setLogoUrl(data.value)
+        }
+      })
+  }, [supabase])
+
   return (
     <>
       <aside className="w-72 bg-sidebar border-r-2 border-black hidden lg:flex flex-col h-screen shrink-0 sticky top-0 overflow-hidden">
         <div className="p-8 border-b-2 border-black flex items-center gap-3 shrink-0">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[6px] border-2 border-black bg-[#1d4ed8] shadow-[4px_4px_0_#000]">
-            <Image src="/logo.png" alt="Logo DPMPTSP" width={20} height={26} className="h-6 w-auto object-contain" />
+            <Image src={logoUrl} alt="Logo DPMPTSP" width={20} height={26} className="h-6 w-auto object-contain" />
           </div>
           <div className="min-w-0">
             <span className="block text-xl font-black uppercase tracking-tight text-black">SI-BONA</span>
@@ -108,7 +123,7 @@ export default function AdminSidebar() {
             variant="ghost" 
             onClick={() => setShowLogoutDialog(true)} 
             disabled={isLoggingOut}
-            className="w-full justify-start bg-[#ef4444] hover:bg-[#dc2626] text-white font-black uppercase text-[10px] tracking-widest h-12 px-5 rounded-[8px] border-2 border-black gap-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
+            className="w-full justify-start bg-[#dc2626] hover:bg-red-500 hover:text-white text-white font-black uppercase text-[10px] tracking-widest h-12 px-5 rounded-[8px] border-2 border-black gap-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
           >
             {isLoggingOut ? (
               <Loader2 className="animate-spin" size={20} />

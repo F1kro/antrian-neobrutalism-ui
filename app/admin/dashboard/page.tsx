@@ -19,6 +19,7 @@ import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 type BookingStatus = 'waiting' | 'in_progress' | 'completed' | 'cancelled'
 
@@ -50,6 +51,13 @@ interface SystemLogItem {
   status: 'info' | 'warning' | 'error'
 }
 
+interface MaintenanceFlag {
+  flag_key: string
+  is_paused: boolean
+  message: string | null
+  updated_at: string
+}
+
 // Logika waktu WITA.
 const getWitaNow = () => {
   return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Makassar" }));
@@ -62,14 +70,27 @@ const getWitaDateString = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
+const formatWitaTimestamp = (timestamp: string) => {
+  const target = new Date(new Date(timestamp).toLocaleString("en-US", { timeZone: "Asia/Makassar" }));
+  return target.toLocaleString("id-ID", {
+    dateStyle: "long",
+    timeStyle: "short",
+  });
+};
+
 export default function AdminDashboard() {
   const supabase = createClient()
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [bookings, setBookings] = useState<Booking[]>([])
   const [services, setServices] = useState<any[]>([])
   const [recentLogs, setRecentLogs] = useState<SystemLogItem[]>([])
   const [period, setPeriod] = useState<'today' | 'week' | 'month'>('today')
   
+  const [maintenanceFlag, setMaintenanceFlag] = useState<MaintenanceFlag | null>(null)
+  const dashStatusBadgeClass = maintenanceFlag?.is_paused ? 'bg-red-600 text-white' : 'bg-emerald-600 text-white'
+  const dashStatusLabel = maintenanceFlag?.is_paused ? 'Booking Paused' : 'Booking Aktif'
+
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 3
 
@@ -86,8 +107,19 @@ export default function AdminDashboard() {
     setLoading(false)
   }
 
+  const fetchMaintenanceFlag = async () => {
+    const { data } = await supabase
+      .from('maintenance_flags')
+      .select('*')
+      .eq('flag_key', 'booking_pause')
+      .single()
+
+    setMaintenanceFlag(data || null)
+  }
+
   useEffect(() => {
     fetchData()
+    fetchMaintenanceFlag()
     
     const channel = supabase
       .channel('bookings_changes')
@@ -210,6 +242,37 @@ export default function AdminDashboard() {
               </Select>
             </div>
           </header>
+
+          {maintenanceFlag && (
+            <Card className="bg-card/40 border-black rounded-3xl border-2 p-6 flex flex-col gap-4 backdrop-blur-xl">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest font-black text-foreground/70 mb-1">Status Booking Online</p>
+                  <p className="text-lg font-black uppercase tracking-tight">
+                    {maintenanceFlag.is_paused ? 'Dihentikan untuk Maintenance' : 'Aktif untuk Publik'}
+                  </p>
+                  <p className="text-sm text-foreground/60 mt-2">
+                    {maintenanceFlag.message || 'Tidak ada pesan khusus saat ini.'}
+                  </p>
+                  <p className="text-[10px] font-semibold text-foreground/60 mt-1">
+                    Terakhir diperbarui: {formatWitaTimestamp(maintenanceFlag.updated_at)}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 md:items-end">
+                  <Badge className={`px-4 py-1 text-[10px] font-black uppercase tracking-[0.3em] border-2 border-black ${dashStatusBadgeClass}`}>
+                    {dashStatusLabel}
+                  </Badge>
+                  <Button
+                    size="sm"
+                    className="uppercase tracking-[0.3em] font-black rounded-xl border-2 border-black bg-primary text-white px-6 py-3 shadow-[4px_4px_0_#000] hover:brightness-95 transition-all active:translate-y-[2px] active:border-b-0 focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-white"
+                    onClick={() => router.push('/admin/maintenance')}
+                  >
+                    Buka Menu Maintenance
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Card className="bg-primary border-black/70 p-6 rounded-3xl">

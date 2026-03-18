@@ -1,0 +1,67 @@
+<mxfile host="app.diagrams.net" modified="2026-03-06T09:30:00.000Z" agent="codex" version="24.7.17" type="device">
+  <diagram id="class-01" name="Class Diagram">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Class Diagram - Data Model" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="460" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pkg_domain" value="Domain Entity (DB)" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="880" height="940" as="geometry" />
+        </mxCell>
+        <mxCell id="Service" value="&lt;b&gt;Service&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ name: string&lt;br/&gt;+ description: string&lt;br/&gt;+ prefix_code: string&lt;br/&gt;+ estimated_duration: int&lt;br/&gt;+ open_days: smallint[]&lt;br/&gt;+ created_at: datetime&lt;br/&gt;+ updated_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="40" y="60" width="250" height="210" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Booking" value="&lt;b&gt;Booking&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ booking_number: string&lt;br/&gt;+ visitor_name: string&lt;br/&gt;+ visitor_phone: string&lt;br/&gt;+ service_id: UUID&lt;br/&gt;+ booking_date: date&lt;br/&gt;+ booking_time: time&lt;br/&gt;+ booking_type: string&lt;br/&gt;+ status: QueueStatus&lt;br/&gt;+ queue_position: int&lt;br/&gt;+ notes: string&lt;br/&gt;+ completed_at: datetime&lt;br/&gt;+ called_at: datetime&lt;br/&gt;+ created_at: datetime&lt;br/&gt;+ updated_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="330" y="60" width="260" height="300" as="geometry" />
+        </mxCell>
+
+        <mxCell id="AdminUser" value="&lt;b&gt;AdminUser&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ email: string&lt;br/&gt;+ name: string&lt;br/&gt;+ role: string&lt;br/&gt;+ created_at: datetime&lt;br/&gt;+ updated_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="620" y="60" width="220" height="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="SystemLog" value="&lt;b&gt;SystemLog&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ action_type: string&lt;br/&gt;+ message: string&lt;br/&gt;+ status: LogStatus&lt;br/&gt;+ metadata: json&lt;br/&gt;+ created_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="620" y="300" width="220" height="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="MaintenanceFlag" value="&lt;b&gt;MaintenanceFlag&lt;/b&gt;&lt;hr/&gt;+ flag_key: string&lt;br/&gt;+ is_paused: boolean&lt;br/&gt;+ message: string&lt;br/&gt;+ updated_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="620" y="520" width="220" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="QueueHistory" value="&lt;b&gt;QueueHistory&lt;/b&gt;&lt;hr/&gt;+ id: UUID&lt;br/&gt;+ booking_id: UUID&lt;br/&gt;+ action: string&lt;br/&gt;+ performed_by: string&lt;br/&gt;+ performed_at: datetime" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="330" y="400" width="260" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="QueueStatus" value="&lt;b&gt;&lt;&lt;enumeration&gt;&gt;&lt;/b&gt;&lt;br/&gt;&lt;b&gt;QueueStatus&lt;/b&gt;&lt;hr/&gt;waiting&lt;br/&gt;in_progress&lt;br/&gt;completed&lt;br/&gt;cancelled" style="shape=rectangle;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacing=6;fillColor=#fff2cc;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="40" y="320" width="250" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="LogStatus" value="&lt;b&gt;&lt;&lt;enumeration&gt;&gt;&lt;/b&gt;&lt;br/&gt;&lt;b&gt;LogStatus&lt;/b&gt;&lt;hr/&gt;info&lt;br/&gt;warning&lt;br/&gt;error" style="shape=rectangle;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacing=6;fillColor=#fff2cc;" vertex="1" parent="pkg_domain">
+          <mxGeometry x="620" y="540" width="220" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" value="1 serves 0..*" edge="1" parent="1" source="Service" target="Booking" style="endArrow=open;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="1 tracked by 0..*" edge="1" parent="1" source="Booking" target="QueueHistory" style="endArrow=open;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="1 writes 0..*" edge="1" parent="1" source="AdminUser" target="SystemLog" style="endArrow=open;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" value="uses" edge="1" parent="1" source="Booking" target="QueueStatus" style="endArrow=open;dashed=1;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="uses" edge="1" parent="1" source="SystemLog" target="LogStatus" style="endArrow=open;dashed=1;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -21,7 +21,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "group toast rounded-[14px] border-2 border-black bg-card text-foreground shadow-[6px_6px_0_#000] p-4 font-bold gap-3",
+            "group toast rounded-[14px] border-2 border-black bg-card text-white shadow-[6px_6px_0_#000] p-4 font-bold gap-3 !text-white",
           title: "text-[13px] font-black uppercase tracking-[0.16em] text-white",
           description: "text-[12px] font-bold text-white/90 leading-relaxed",
           content: "gap-1.5",

@@ -68,6 +68,30 @@ export async function middleware(request: NextRequest) {
   // getUser() authenticates dengan Supabase Auth server, lebih secure!
   // getSession() hanya baca dari cookies yang bisa di-manipulasi
   const { data: { user }, error } = await supabase.auth.getUser()
+  const now = Date.now()
+  const idleTimeoutMs = 30 * 60 * 1000
+  const lastActiveCookie = request.cookies.get('admin_last_active')?.value
+  const lastActiveTimestamp = lastActiveCookie ? Number(lastActiveCookie) : now
+  const hasTimedOut =
+    lastActiveTimestamp &&
+    !Number.isNaN(lastActiveTimestamp) &&
+    now - lastActiveTimestamp > idleTimeoutMs
+
+  if (hasTimedOut && isAdminRoute && !isLoginPage && user && !error) {
+    await supabase.auth.signOut()
+    const redirectUrl = new URL('/admin/login', request.url)
+    const timeoutResponse = NextResponse.redirect(redirectUrl)
+    timeoutResponse.cookies.set({
+      name: 'admin_last_active',
+      value: '',
+      path: '/admin',
+      maxAge: 0,
+      httpOnly: true,
+    })
+    timeoutResponse.cookies.delete('sb-access-token')
+    timeoutResponse.cookies.delete('sb-refresh-token')
+    return timeoutResponse
+  }
 
   // Jika akses halaman admin (bukan login) tapi tidak ada user atau error auth
   if (isAdminRoute && !isLoginPage && (!user || error)) {
@@ -101,6 +125,18 @@ export async function middleware(request: NextRequest) {
       const redirectUrl = new URL('/admin/login', request.url)
       return NextResponse.redirect(redirectUrl)
     }
+  }
+
+  if (user && !error && isAdminRoute && !isLoginPage) {
+    response.cookies.set({
+      name: 'admin_last_active',
+      value: String(now),
+      path: '/admin',
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: idleTimeoutMs / 1000,
+      secure: process.env.NODE_ENV === 'production',
+    })
   }
 
   return response
