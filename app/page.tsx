@@ -5,6 +5,7 @@ import Image from "next/image";
 import AdminPageInfoFab from "@/components/admin/page-info-fab";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Analytics } from "@vercel/analytics/next"
 import {
   ClipboardCheck,
   MonitorPlay,

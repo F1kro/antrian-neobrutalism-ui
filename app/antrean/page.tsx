@@ -447,11 +447,10 @@ export default function PersonalMonitorPage() {
       </header>
 
       {maintenanceFlag?.is_paused && (
-        <div className="bg-red-600/10 border border-red-500/70 p-4 rounded-xl flex items-start gap-3 shadow-lg border-b-4 border-red-700 text-white">
-          <AlertCircle size={20} className="text-red-500 shrink-0" />
+        <div className="bg-red-600 border border-red-700 p-4 rounded-xl flex items-start gap-3 shadow-lg border-b-4 border-red-800 text-white">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-red-500">Booking Sedang Dihentikan</p>
-            <p className="text-[11px] text-white/80 mt-1">
+            <p className="text-xs font-black uppercase tracking-[0.3em] !text-white">Booking Sedang Dihentikan</p>
+            <p className="text-[11px] font-bold mt-1 !text-white text-justify">
               {maintenanceFlag.message || "Booking online ditutup sementara untuk perawatan sistem."}
             </p>
           </div>

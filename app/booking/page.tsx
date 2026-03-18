@@ -293,36 +293,48 @@ export default function BookingPage() {
         <div className="absolute top-[-10%] left-1/4 w-[500px] h-[500px] bg-primary/15 blur-[120px] rounded-full" />
       </div>
 
-      <div className="w-full max-w-xl z-10 p-4 md:p-8 flex flex-col gap-6 md:gap-8">
-        <header className="flex items-center justify-between bg-card p-3 md:p-4 rounded-[10px] border-2 border-black shrink-0 shadow-[5px_5px_0_#000]">
-          <div className="flex items-center gap-3 ml-1">
-            <div className="p-2 bg-primary border-2 border-black rounded-[6px] shadow-[3px_3px_0_#000]">
-              <Sparkles size={18} className="text-foreground" />
+      <div className="w-full max-w-6xl z-10 p-4 md:p-8">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="space-y-6">
+            <header className="flex items-center justify-between bg-card p-4 md:p-5 rounded-[10px] border-2 border-black shadow-[5px_5px_0_#000] gap-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-primary border-2 border-black rounded-[6px] shadow-[3px_3px_0_#000]">
+                  <Sparkles size={18} className="text-foreground" />
+                </div>
+                <h1 className="text-base md:text-lg font-black uppercase tracking-tight leading-none">Ambil Antrean</h1>
+              </div>
+              <Link href="/" className="flex-shrink-0">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-11 md:h-12 px-4 md:px-6 rounded-xl gap-2 bg-primary border-black text-primary-foreground font-black text-xs md:text-sm uppercase border-b-4 border-black hover:brightness-95 [&_svg]:text-primary-foreground"
+                >
+                  <Home size={16} /> Dashboard
+                </Button>
+              </Link>
+            </header>
+
+            <div className="text-center space-y-2 bg-card p-4 md:p-5 rounded-[10px] border-2 border-black shadow-[5px_5px_0_#000]">
+              <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter">Reservasi Jadwal</h2>
+              <p className="text-muted-foreground text-sm md:text-base font-medium italic">Pilih waktu kedatangan (WITA) yang tersedia.</p>
             </div>
-            <h1 className="text-base md:text-lg font-black uppercase tracking-tight leading-none">Ambil Antrean</h1>
-          </div>
-          <Link href="/"><Button variant="outline" size="sm" className="h-11 md:h-12 px-4 md:px-6 rounded-xl gap-2 bg-primary border-black text-primary-foreground font-black text-xs md:text-sm uppercase border-b-4 border-black hover:brightness-95 [&_svg]:text-primary-foreground"><Home size={16} /> Dashboard</Button></Link>
-      </header>
+            
+            {bookingPaused && (
+              <div className="bg-red-600 border border-red-700 p-5 rounded-xl flex items-start gap-3 shadow-lg border-b-4 border-red-800 text-white">
+                <div>
+                  <p className="text-md font-black uppercase tracking-widest !text-white">Booking Ditangguhkan</p>
+                  <p className="text-sm font-bold !text-white text-justify">{maintenanceMessage}</p>
+                </div>
+              </div>
+            )}
 
-      {bookingPaused && (
-        <div className="bg-red-600/10 border border-red-500/70 p-5 rounded-xl flex items-start gap-3 shadow-lg border-b-4 border-red-700 text-white">
-          <AlertCircle size={20} className="text-red-500 shrink-0" />
-          <div>
-            <p className="text-xs font-black uppercase tracking-widest text-red-500">Booking Ditangguhkan</p>
-            <p className="text-sm font-bold text-white/80">{maintenanceMessage}</p>
-          </div>
-        </div>
-      )}
-
-      <div className="space-y-6 pb-10">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter">Reservasi Jadwal</h2>
-            <p className="text-muted-foreground text-sm md:text-base font-medium italic">Pilih waktu kedatangan (WITA) yang tersedia.</p>
+           
           </div>
 
-          <Card className="bg-card border-black rounded-[10px] overflow-hidden border-2">
-            <CardContent className="p-6 md:p-10">
-              <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-6">
+            <Card className="bg-card border-black rounded-[10px] overflow-hidden border-2">
+              <CardContent className="p-6 md:p-10">
+                <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-xs md:text-sm font-black text-foreground/70 uppercase tracking-widest ml-1 flex items-center gap-2"><User size={14} /> Nama</Label>
@@ -485,6 +497,7 @@ export default function BookingPage() {
               </form>
             </CardContent>
           </Card>
+          </div>
         </div>
       </div>
       <AdminPageInfoFab
