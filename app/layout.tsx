@@ -17,8 +17,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'SIBONA | Sistem Informasi Booking Online Antrean',
-  description: 'SIBONA adalah layanan booking antrean online untuk DPMPTSP Lombok Barat.',
+  title: 'SIBONANZA | Sistem Informasi Booking Online Pelayanan Perizinan',
+  description: 'SIBONANZA adalah layanan booking antrean online pelayanan dan perizinan untuk DPMPTSP Lombok Barat.',
   generator: 'Fiqro Najiah',
   icons: {
     icon: [
