@@ -20,14 +20,14 @@ export default function AboutSibonaPage() {
                 <BadgeInfo size={24} />
               </div>
               <div>
-                <h1 className="text-3xl font-black uppercase tracking-tight">Tentang SIBONA</h1>
+                <h1 className="text-3xl font-black uppercase tracking-tight">Tentang SIBONANZA</h1>
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70">
-                  Sistem Informasi Booking Online Antrean
+                  Sistem Informasi Booking Online Pelayanan Perizinan
                 </p>
               </div>
             </div>
             <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              SIBONA adalah platform antrean digital untuk membantu proses pendaftaran, pemantauan,
+              SIBONANZA adalah platform antrean digital untuk membantu proses pendaftaran, pemantauan,
               dan pengelolaan antrean layanan secara lebih tertib, cepat, dan mudah dipantau.
             </p>
           </header>
@@ -48,11 +48,11 @@ export default function AboutSibonaPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="rounded-2xl border-2 border-black bg-sidebar p-4">
                   <p className="text-[10px] font-black uppercase tracking-[0.18em] text-foreground/60">Nama Sistem</p>
-                  <p className="mt-2 text-lg font-black uppercase">SIBONA</p>
+                  <p className="mt-2 text-lg font-black uppercase">SIBONANZA</p>
                 </div>
                 <div className="rounded-2xl border-2 border-black bg-sidebar p-4">
                   <p className="text-[10px] font-black uppercase tracking-[0.18em] text-foreground/60">Kepanjangan</p>
-                  <p className="mt-2 text-lg font-black uppercase">Sistem Informasi Booking Online Antrean</p>
+                  <p className="mt-2 text-lg font-black uppercase">Sistem Informasi Booking Online Pelayanan Perizinan</p>
                 </div>
                 <div className="rounded-2xl border-2 border-black bg-sidebar p-4">
                   <p className="text-[10px] font-black uppercase tracking-[0.18em] text-foreground/60">Instansi</p>

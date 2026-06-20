@@ -1,10 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-/**
- * Aku selalu bikin client Supabase baru per request.
- * Biar session aman dan tidak nyangkut di state global.
- */
 export async function createClient() {
   const cookieStore = await cookies()
 
@@ -22,9 +18,6 @@ export async function createClient() {
               cookieStore.set(name, value, options),
             )
           } catch {
-            // Kalau ini kepanggil dari Server Component, aman di-skip.
-            // Karena refresh session sudah ditangani di proxy.
-            // Jadi user session tetap sinkron.
           }
         },
       },

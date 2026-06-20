@@ -32,12 +32,12 @@ export default function Home() {
               <span className="text-6xl md:text-8xl font-black tracking-tighter uppercase text-foreground">
                 <span className="text-primary">SI</span>
                 <span className="text-foreground">-</span>
-                <span className="text-red-600">BONA</span>
+                <span className="text-red-600">BONANZA</span>
               </span>
             </h1>
             <div className="max-w-3xl rounded-[10px] border-2 border-black bg-card px-5 py-4 shadow-[5px_5px_0_#000]">
               <p className="text-[11px] md:text-sm font-black uppercase tracking-[0.18em] text-slate-800">
-                Sistem Informasi Booking Online Antrean
+                Sistem Informasi Booking Online Pelayanan Perizinan
               </p>
             </div>
           </div>

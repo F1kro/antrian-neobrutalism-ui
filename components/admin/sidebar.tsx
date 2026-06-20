@@ -42,7 +42,7 @@ export default function AdminSidebar() {
     { label: 'Rekap Antrean', icon: <ClipboardList size={20}/>, path: '/admin/rekap' },
     { label: 'Log Sistem', icon: <History size={20}/>, path: '/admin/logs' }, // Menu log
     { label: 'Maintenance', icon: <AlertCircle size={20}/>, path: '/admin/maintenance' },
-    { label: 'Tentang SIBONA', icon: <BadgeInfo size={20}/>, path: '/admin/about' },
+    { label: 'Tentang SIBONANZA', icon: <BadgeInfo size={20}/>, path: '/admin/about' },
   ]
 
   const handleLogout = async () => {
@@ -92,9 +92,9 @@ export default function AdminSidebar() {
             <Image src={logoUrl} alt="Logo DPMPTSP" width={20} height={26} className="h-6 w-auto object-contain" />
           </div>
           <div className="min-w-0">
-            <span className="block text-xl font-black uppercase tracking-tight text-black">SI-BONA</span>
+            <span className="block text-xl font-black uppercase tracking-tight text-black">SI-BONANZA</span>
             <p className="mt-1 text-[8px] font-black uppercase tracking-[0.18em] text-black/60">
-              Sistem Informasi Booking Online Antrean DPMPTSP LOBAR
+              Sistem Informasi Booking Online Pelayanan Perizinan DPMPTSP LOBAR
             </p>
           </div>
         </div>

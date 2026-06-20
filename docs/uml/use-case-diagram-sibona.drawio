@@ -1,0 +1,315 @@
+<mxfile host="app.diagrams.net" modified="2026-04-08T00:00:00.000Z" agent="Kiro" version="21.0.0" type="device">
+  <diagram name="Use Case Diagram - SI-BONA" id="sibona-usecase">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Use Case Diagram - SI-BONA&#xa;Sistem Informasi Booking Online Antrean&#xa;DPMPTSP Lombok Barat" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="527" y="20" width="600" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== SYSTEM BOUNDARY ===== -->
+        <mxCell id="sys" value="SI-BONA System" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.flowchart.start_2;fillColor=none;strokeColor=#000000;strokeWidth=2;fontSize=14;fontStyle=1;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="320" y="100" width="1020" height="980" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ACTOR: Pengunjung (Public User) ===== -->
+        <mxCell id="actor_user" value="Pengunjung&#xa;(Public User)" style="shape=mxgraph.flowchart.actor;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;verticalLabelPosition=bottom;labelPosition=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="380" width="60" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ACTOR: Admin/Petugas ===== -->
+        <mxCell id="actor_admin" value="Admin / Petugas" style="shape=mxgraph.flowchart.actor;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;verticalLabelPosition=bottom;labelPosition=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="380" width="60" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ACTOR: Sistem ===== -->
+        <mxCell id="actor_system" value="Sistem&#xa;(Automated)" style="shape=mxgraph.flowchart.actor;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalLabelPosition=bottom;labelPosition=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="800" width="60" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- USE CASES - PUBLIC USER -->
+        <!-- ============================================================ -->
+
+        <!-- UC1: Daftar Antrian Online -->
+        <mxCell id="uc1" value="Daftar Antrian Online" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC2: Isi Formulir Booking -->
+        <mxCell id="uc2" value="Isi Formulir Booking&#xa;(Nama, No. HP, Layanan, Tanggal, Jam)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="240" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- UC3: Lihat Konfirmasi & Tiket -->
+        <mxCell id="uc3" value="Lihat Konfirmasi &amp; Tiket&#xa;(QR Code)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="340" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC4: Monitor Antrian Live -->
+        <mxCell id="uc4" value="Monitor Antrian Live" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="430" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC5: Aktifkan Notifikasi Browser -->
+        <mxCell id="uc5" value="Aktifkan Notifikasi Browser" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="520" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC6: Lihat Riwayat Antrian -->
+        <mxCell id="uc6" value="Lihat Riwayat Antrian" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="610" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC7: Batalkan Booking (User) -->
+        <mxCell id="uc7" value="Batalkan Booking" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="700" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- USE CASES - ADMIN -->
+        <!-- ============================================================ -->
+
+        <!-- UC8: Login Admin -->
+        <mxCell id="uc8" value="Login Admin" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC9: Lihat Dashboard & Statistik -->
+        <mxCell id="uc9" value="Lihat Dashboard &amp; Statistik" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="230" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC10: Panggil Nomor Antrian -->
+        <mxCell id="uc10" value="Panggil Nomor Antrian" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="320" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC11: Panggil Ulang Antrian -->
+        <mxCell id="uc11" value="Panggil Ulang Antrian" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="410" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC12: Skip / Lewati Antrian -->
+        <mxCell id="uc12" value="Skip / Lewati Antrian" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="500" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC13: Selesaikan Layanan -->
+        <mxCell id="uc13" value="Selesaikan Layanan" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="590" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC14: Batalkan Antrian (Admin) -->
+        <mxCell id="uc14" value="Batalkan Antrian (Admin)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="680" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC15: Kelola Data Layanan -->
+        <mxCell id="uc15" value="Kelola Data Layanan&#xa;(Tambah / Edit / Hapus)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="770" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- UC16: Download Rekap Excel -->
+        <mxCell id="uc16" value="Download Rekap Excel" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="870" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC17: Lihat Log Sistem -->
+        <mxCell id="uc17" value="Lihat Log Sistem" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="960" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- USE CASES - SHARED (CENTER) -->
+        <!-- ============================================================ -->
+
+        <!-- UC18: Pause / Resume Booking -->
+        <mxCell id="uc18" value="Pause / Resume Booking" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="720" y="870" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC19: Periksa Keamanan Sistem -->
+        <mxCell id="uc19" value="Periksa Keamanan Sistem" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="720" y="960" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- USE CASES - SYSTEM (AUTOMATED) -->
+        <!-- ============================================================ -->
+
+        <!-- UC20: Kirim Notifikasi WhatsApp -->
+        <mxCell id="uc20" value="Kirim Notifikasi WhatsApp" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="720" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC21: Putar Pengumuman TTS -->
+        <mxCell id="uc21" value="Putar Pengumuman TTS" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="720" y="230" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC22: Update Antrian Real-Time -->
+        <mxCell id="uc22" value="Update Antrian Real-Time&#xa;(Supabase Subscription)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="720" y="330" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- UC23: Auto-Cancel Booking Kadaluarsa -->
+        <mxCell id="uc23" value="Auto-Cancel Booking&#xa;Kadaluarsa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="720" y="430" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- UC24: Catat Log Sistem -->
+        <mxCell id="uc24" value="Catat Log Sistem" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="720" y="520" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ASSOCIATIONS: Pengunjung → Use Cases -->
+        <!-- ============================================================ -->
+        <mxCell id="e_u_uc1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_user" target="uc1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_u_uc2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_user" target="uc2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_u_uc3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_user" target="uc3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_u_uc4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_user" target="uc4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_u_uc5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_user" target="uc5" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_u_uc6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_user" target="uc6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_u_uc7" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_user" target="uc7" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ASSOCIATIONS: Admin → Use Cases -->
+        <!-- ============================================================ -->
+        <mxCell id="e_a_uc8" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc8" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc9" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc9" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc10" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc10" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc11" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc11" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc12" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc13" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc14" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc15" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc15" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc16" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc17" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc17" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc18" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc18" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_uc19" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_admin" target="uc19" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ASSOCIATIONS: Sistem → Use Cases -->
+        <!-- ============================================================ -->
+        <mxCell id="e_s_uc20" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_system" target="uc20" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s_uc21" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_system" target="uc21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s_uc22" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_system" target="uc22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s_uc23" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_system" target="uc23" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s_uc24" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="actor_system" target="uc24" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- INCLUDE / EXTEND RELATIONSHIPS -->
+        <!-- ============================================================ -->
+
+        <!-- UC1 include UC2 -->
+        <mxCell id="inc_uc1_uc2" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc1" target="uc2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC2 include UC3 -->
+        <mxCell id="inc_uc2_uc3" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc2" target="uc3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC10 include UC20 (panggil → kirim WA) -->
+        <mxCell id="inc_uc10_uc20" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc10" target="uc20" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC10 include UC21 (panggil → TTS) -->
+        <mxCell id="inc_uc10_uc21" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc10" target="uc21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC11 include UC20 (panggil ulang → kirim WA) -->
+        <mxCell id="inc_uc11_uc20" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc11" target="uc20" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC10 include UC24 (log) -->
+        <mxCell id="inc_uc10_uc24" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc10" target="uc24" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC1 include UC24 (booking → log) -->
+        <mxCell id="inc_uc1_uc24" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc1" target="uc24" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC4 extend UC5 (monitor → aktifkan notif) -->
+        <mxCell id="ext_uc4_uc5" value="&lt;&lt;extend&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc5" target="uc4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC4 include UC22 (monitor → realtime) -->
+        <mxCell id="inc_uc4_uc22" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc4" target="uc22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC7 extend UC6 (batalkan extend riwayat) -->
+        <mxCell id="ext_uc7_uc6" value="&lt;&lt;extend&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc7" target="uc6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- UC23 include UC24 (auto cancel → log) -->
+        <mxCell id="inc_uc23_uc24" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=10;" edge="1" source="uc23" target="uc24" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
