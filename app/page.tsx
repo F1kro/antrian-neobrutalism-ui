@@ -25,7 +25,7 @@ export default function Home() {
         <section className="text-center space-y-6 mb-16 md:mb-24">
           <div className="inline-flex max-w-4xl items-center gap-3 px-4 py-3 rounded-[8px] bg-secondary border-2 border-black text-black text-[10px] md:text-xs font-bold tracking-[0.14em] uppercase mb-4 shadow-[4px_4px_0_#000] text-left leading-tight">
             <Image src="/logo.png" alt="Logo DPMPTSP" width={22} height={28} className="h-7 w-auto shrink-0 object-contain rounded-sm" />
-            <span>DINAS PENANAMAN MODAL DAN MAL PELAYANAN TERPADU SATU PINTU LOMBOK BARAT</span>
+            <span>DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU LOMBOK BARAT</span>
           </div>
           <div className="flex flex-col items-center gap-4">
             <h1 className="text-center leading-none">
