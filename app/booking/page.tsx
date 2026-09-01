@@ -216,7 +216,7 @@ export default function BookingPage() {
 
     setLoading(true);
     try {
-      // 1) Aku validasi waktu WITA.
+      // Aku validasi waktu WITA.
       if (isToday) {
         const [h, m] = formData.time.split(":").map(Number);
         const slotMins = h * 60 + m;
@@ -226,56 +226,41 @@ export default function BookingPage() {
         }
       }
 
-      // 2) Aku cek slotnya masih ada atau tidak.
-      const { data: slotTerisi } = await supabase
-        .from("bookings")
-        .select("id")
-        .eq("booking_date", formData.date)
-        .eq("booking_time", formData.time)
-        .neq("status", "cancelled")
-        .single();
+      // Panggil RPC atomic buat booking (anti race condition)
+      const { data: rpcData, error: rpcError } = await supabase.rpc('create_booking', {
+        p_visitor_name: formData.name,
+        p_visitor_phone: formData.phone,
+        p_service_id: formData.serviceId,
+        p_booking_date: formData.date,
+        p_booking_time: formData.time,
+      });
 
-      if (slotTerisi) {
-        fetchBookedSlots();
-        throw new Error("Slot baru saja diambil orang lain!");
+      if (rpcError) {
+        if (rpcError.message?.includes('SLOT_TAKEN')) {
+          fetchBookedSlots();
+          throw new Error("Slot ini baru saja diambil orang lain!");
+        }
+        throw rpcError;
       }
 
-      // 3) Aku ambil prefix lalu hitung nomor antrean.
-      const { data: sData } = await supabase.from("services").select("name, prefix_code").eq("id", formData.serviceId).single();
-      const { count } = await supabase.from("bookings").select("*", { count: "exact", head: true }).eq("booking_date", formData.date);
+      const bookingResult = rpcData?.[0];
+      if (bookingResult) {
+        const { data: fullBooking } = await supabase
+          .from('bookings')
+          .select('*')
+          .eq('id', bookingResult.out_id)   // ← ganti dari bookingResult.id
+          .single();
       
-      const num = (count || 0) + 1;
-      const booking_number = `${sData?.prefix_code || "A"}-${String(num).padStart(3, "0")}`;
-
-      // 4) Aku simpan datanya ke Supabase.
-      const { data, error } = await supabase.from("bookings").insert([{
-        booking_number,
-        visitor_name: formData.name,
-        visitor_phone: formData.phone,
-        service_id: formData.serviceId,
-        booking_date: formData.date,
-        booking_time: formData.time,
-        status: "waiting",
-        queue_position: num,
-      }]).select();
-
-      if (error) {
-        if (error.code === "23505") throw new Error("Slot ini sudah dipesan orang lain!");
-        throw error;
-      }
-
-      if (data?.[0]) {
-        // Log: booking berhasil.
         createLog(
-          'BOOKING', 
-          `Pengunjung baru: ${formData.name} mengambil antrean ${booking_number} untuk layanan ${sData?.name}`,
+          'BOOKING',
+          `Pengunjung baru: ${formData.name} mengambil antrean ${bookingResult.out_booking_number}`,  // ← ganti
           'info',
-          { booking_id: data[0].id, visitor_name: formData.name }
+          { booking_id: bookingResult.out_id, visitor_name: formData.name }  // ← ganti
         );
-
-        saveBookingToCookie({ ...data[0] });
+      
+        saveBookingToCookie({ ...fullBooking });
         toast.success("Booking berhasil!");
-        router.push(`/booking-confirmation/${data[0].id}`);
+        router.push(`/booking-confirmation/${bookingResult.out_id}`);  // ← ganti
       }
     } catch (error: any) {
       // Log: booking gagal.
@@ -345,7 +330,7 @@ export default function BookingPage() {
                       inputMode="text"
                       autoCapitalize="words"
                       autoComplete="name"
-                      pattern="[A-Za-z\\s.'-]+"
+                      pattern="[A-Za-z\s.'-]+"
                       title="Hanya huruf, spasi, titik, dan tanda hubung."
                       onChange={(e) =>
                         setFormData((prev) => ({ ...prev, name: sanitizeNameInput(e.target.value) }))
