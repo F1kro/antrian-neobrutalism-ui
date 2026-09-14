@@ -73,8 +73,44 @@ export async function playTTSNotification(
   }
 }
 
-export function unlockTTS(): void {}
-export function isTTSUnlocked(): boolean { return true; }
+let ttsUnlocked = false;
+let unlockInProgress = false;
+let sharedUnlockAudio: HTMLAudioElement | null = null;
+
+export function unlockTTS(): void {
+  if (ttsUnlocked || unlockInProgress || typeof window === 'undefined') return;
+  unlockInProgress = true;
+
+  try {
+    if (!sharedUnlockAudio) {
+      sharedUnlockAudio = new Audio('/sounds/silence.mp3');
+      sharedUnlockAudio.volume = 0;
+    }
+
+    const p = sharedUnlockAudio.play();
+    if (p) {
+      p.then(() => {
+        ttsUnlocked = true;
+        unlockInProgress = false;
+        sharedUnlockAudio?.pause();
+        if (sharedUnlockAudio) sharedUnlockAudio.currentTime = 0;
+      }).catch((err) => {
+        console.warn('TTS unlock gagal:', err);
+        unlockInProgress = false;
+      });
+    } else {
+      unlockInProgress = false;
+    }
+  } catch (err) {
+    console.warn('TTS unlock error:', err);
+    unlockInProgress = false;
+  }
+}
+
+export function isTTSUnlocked(): boolean {
+  return ttsUnlocked;
+}
+
 export function initTTSVoices(): void {}
 
 export async function requestNotificationPermission(): Promise<NotificationPermission> {
