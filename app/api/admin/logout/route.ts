@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 
 export async function POST() {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
     
     // Aku sign out sekalian hapus session.
     const { error } = await supabase.auth.signOut()

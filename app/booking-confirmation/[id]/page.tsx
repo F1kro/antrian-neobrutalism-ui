@@ -67,9 +67,10 @@ export default function BookingConfirmationPage() {
           `)
           .eq('id', bookingId)
           .single()
-
+    
         if (error) throw error
-        setBooking({ ...data, service: data.services })
+        const services = Array.isArray(data.services) ? data.services[0] : data.services
+        setBooking({ ...data, service: services ?? undefined })
       } catch (err) {
         console.error('Error fetching booking:', err)
       } finally {

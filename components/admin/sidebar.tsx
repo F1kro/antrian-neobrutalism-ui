@@ -10,7 +10,8 @@ import {
   ListChecks,
   History,
   Loader2,
-  BadgeInfo
+  BadgeInfo,
+  Handshake
 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -39,6 +40,7 @@ export default function AdminSidebar() {
     { label: 'Dashboard', icon: <LayoutDashboard size={20}/>, path: '/admin/dashboard' },
     { label: 'Manajemen Antrean', icon: <ListChecks size={20}/>, path: '/admin/antrian' },
     { label: 'Manajemen Layanan', icon: <Database size={20}/>, path: '/admin/services' },
+    { label: 'Audiensi & Investor', icon: <Handshake size={20}/>, path: '/admin/audiensi' },
     { label: 'Rekap Antrean', icon: <ClipboardList size={20}/>, path: '/admin/rekap' },
     { label: 'Log Sistem', icon: <History size={20}/>, path: '/admin/logs' }, // Menu log
     { label: 'Maintenance', icon: <AlertCircle size={20}/>, path: '/admin/maintenance' },
@@ -94,7 +96,7 @@ export default function AdminSidebar() {
           <div className="min-w-0">
             <span className="block text-xl font-black uppercase tracking-tight text-black">SI-BONA</span>
             <p className="mt-1 text-[8px] font-black uppercase tracking-[0.18em] text-black/60">
-              Sistem Informasi Booking Online Pelayanan Perizinan DPMPTSP LOBAR
+              Sistem Informasi Booking Online Nomer Antrian DPMPTSP LOBAR
             </p>
           </div>
         </div>

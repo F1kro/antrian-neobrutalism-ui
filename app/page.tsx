@@ -11,6 +11,7 @@ import {
   MonitorPlay,
   MousePointer2,
   History,
+  Handshake,
 } from "lucide-react";
 
 export default function Home() {
@@ -20,7 +21,7 @@ export default function Home() {
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-accent/20 blur-[100px] rounded-full" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-24">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12 md:py-24">
         {/* Bagian hero */}
         <section className="text-center space-y-6 mb-16 md:mb-24">
           <div className="inline-flex max-w-4xl items-center gap-3 px-4 py-3 rounded-[8px] bg-secondary border-2 border-black text-black text-[10px] md:text-xs font-bold tracking-[0.14em] uppercase mb-4 shadow-[4px_4px_0_#000] text-left leading-tight">
@@ -37,7 +38,7 @@ export default function Home() {
             </h1>
             <div className="max-w-3xl rounded-[10px] border-2 border-black bg-card px-5 py-4 shadow-[5px_5px_0_#000]">
               <p className="text-[11px] md:text-sm font-black uppercase tracking-[0.18em] text-slate-800">
-                Sistem Informasi Booking Online Pelayanan Perizinan
+               Sistem Informasi Booking Online Nomer Antrian
               </p>
             </div>
           </div>
@@ -48,20 +49,19 @@ export default function Home() {
         </section>
 
         {/* Bagian menu */}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           <MenuCard
             href="/booking"
             title="Daftar Antrean"
             desc="Ambil nomor antrean secara online tanpa perlu datang langsung ke kantor."
-            icon={<ClipboardCheck size={48} />}
+            icon={<ClipboardCheck size={40} />}
             color="indigo"
           />
           <MenuCard
             href="/antrean"
             title="Cek Antrean"
             desc="Pantau nomor antrean yang sedang dilayani secara real-time dari HP Anda."
-            icon={<MonitorPlay size={48} />}
+            icon={<MonitorPlay size={40} />}
             color="red"
           />
           {/* Menu riwayat */}
@@ -69,29 +69,43 @@ export default function Home() {
             href="/riwayat-antrian"
             title="Riwayat Saya"
             desc="Lihat kembali daftar tiket dan riwayat kunjungan antrean Anda sebelumnya."
-            icon={<History size={48} />}
+            icon={<History size={40} />}
             color="yellow"
+          />
+          {/* Menu audiensi & investor */}
+          <MenuCard
+            href="/audiensi"
+            title="Audiensi & Investor"
+            desc="Ajukan jadwal audiensi atau konsultasi penanaman modal secara online dengan DPMPTSP."
+            icon={<Handshake size={40} />}
+            color="green"
           />
         </div>
 
         {/* Bagian bawah */}
+        {/* Bagian bawah */}
         <footer className="mt-24 pt-12 border-t-2 border-black text-center space-y-6">
-          <div className="space-y-2 px-4">
-            <p className="text-foreground font-black tracking-[0.2em] text-base md:text-sm uppercase">
-              DPMPTSP KABUPATEN LOMBOK BARAT
+          <div className="space-y-1 px-4">
+            <p className="text-foreground font-black tracking-[0.2em] text-sm uppercase">
+              Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu
             </p>
-            <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-lg mx-auto italic">
-              Jl. Soekarno - Hatta No. 1, Giri Menang, Gerung, Kabupaten Lombok
-              Barat, Nusa Tenggara Barat.
+            <p className="text-primary font-black tracking-[0.15em] text-xs uppercase">
+              DPMPTSP Kabupaten Lombok Barat
             </p>
           </div>
 
-          <div className="pt-6 border-t border-black/50 max-w-xs mx-auto">
-            <p className="text-foreground/80 text-xs md:text-sm font-black uppercase tracking-widest">
-              Sistem Antrean Terpadu © 2026
-            </p>
-            <p className="text-muted-foreground text-xs md:text-sm mt-1 italic font-mono">
-              Layanan cepat, transparan, dan akuntabel.
+          <div className="text-muted-foreground text-sm font-medium space-y-1">
+            <p>Jalan TGH Lopan Labuapi, Lombok Barat, NTB 83361</p>
+            <p>
+              Telp.{" "}
+              <a href="tel:+6285338401456" className="text-primary font-bold hover:underline">
+                +62 853-3840-1456
+              </a>
+              {" · "}
+              Email.{" "}
+              <a href="mailto:dpm_ptsp_lobar@yahoo.com" className="text-primary font-bold hover:underline">
+                dpm_ptsp_lobar@yahoo.com
+              </a>
             </p>
           </div>
         </footer>
@@ -103,6 +117,7 @@ export default function Home() {
           "Pilih Daftar Antrean untuk mengambil nomor antrean baru.",
           "Pilih Cek Antrean untuk memantau antrean berjalan secara live.",
           "Pilih Riwayat Saya untuk melihat tiket dan antrean yang pernah diambil.",
+          "Pilih Audiensi & Investor untuk mengajukan jadwal audiensi atau konsultasi penanaman modal.",
         ]}
       />
     </main>
@@ -120,7 +135,7 @@ function MenuCard({
   title: string;
   desc: string;
   icon: any;
-  color: "indigo" | "red" | "yellow";
+  color: "indigo" | "red" | "yellow" | "green";
 }) {
   const styles = {
     indigo: {
@@ -138,33 +153,38 @@ function MenuCard({
       icon: "text-primary-foreground bg-amber-400 border-black",
       button: "bg-amber-400 hover:bg-amber-500 text-primary-foreground",
     },
+    green: {
+      border: "border-black",
+      icon: "text-primary-foreground bg-emerald-500 border-black",
+      button: "bg-emerald-500 hover:bg-emerald-600 text-primary-foreground",
+    },
   };
 
   return (
     <Card
-      className={`h-full bg-card ${styles[color].border} rounded-[10px] p-8 md:p-10 transition-all border-2 flex flex-col`}
+      className={`h-full bg-card ${styles[color].border} rounded-[10px] p-6 transition-all border-2 flex flex-col shadow-[6px_6px_0_#000]`}
     >
-      <CardContent className="p-0 flex flex-col items-center text-center space-y-8 flex-1">
+      <CardContent className="p-0 flex flex-col items-center text-center space-y-6 flex-1">
         <div
-          className={`p-6 rounded-[8px] border-2 ${styles[color].border} ${styles[color].icon} shadow-[4px_4px_0_#000]`}
+          className={`p-5 rounded-[8px] border-2 ${styles[color].border} ${styles[color].icon} shadow-[4px_4px_0_#000]`}
         >
           {icon}
         </div>
 
-        <div className="space-y-4 flex-1">
-          <h2 className="text-3xl md:text-3xl font-black text-foreground uppercase tracking-tighter">
+        <div className="space-y-3 flex-1 w-full">
+          <h2 className="text-2xl font-black text-foreground uppercase tracking-tighter min-h-[4rem] flex items-center justify-center">
             {title}
           </h2>
-          <p className="text-muted-foreground text-base md:text-lg leading-relaxed font-medium">
+          <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium">
             {desc}
           </p>
         </div>
 
         <Link href={href} className="w-full">
           <Button
-            className={`w-full h-16 rounded-[8px] text-lg font-black uppercase tracking-widest gap-3 ${styles[color].button}`}
+            className={`w-full h-14 rounded-[8px] text-base font-black uppercase tracking-wider gap-2 ${styles[color].button}`}
           >
-            KLIK DI SINI <MousePointer2 size={20} />
+            KLIK DI SINI <MousePointer2 size={18} />
           </Button>
         </Link>
       </CardContent>

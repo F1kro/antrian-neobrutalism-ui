@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/client'
 
 export const createLog = async (
-  action: 'BOOKING' | 'CALL' | 'COMPLETE' | 'CANCEL' | 'ERROR' | 'SYSTEM' | 'SERVICE_CRUD' | 'PRINT_REKAP',
+  action: 'BOOKING' | 'CALL' | 'COMPLETE' | 'CANCEL' | 'ERROR' | 'SYSTEM' | 'SERVICE_CRUD' | 'PRINT_REKAP' | 'AUDIENSI',
   message: string,
   status: 'info' | 'warning' | 'error' = 'info',
   metadata: any = {}

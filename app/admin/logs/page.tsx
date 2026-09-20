@@ -31,7 +31,7 @@ export default function SystemLogsPage() {
 
   // Daftar tipe aksi dari logger.ts.
   const ACTION_TYPES = [
-    'BOOKING', 'CALL', 'COMPLETE', 'CANCEL', 'SERVICE_CRUD', 'PRINT_REKAP', 'SYSTEM', 'ERROR'
+    'BOOKING', 'CALL', 'COMPLETE', 'CANCEL', 'SERVICE_CRUD', 'PRINT_REKAP', 'AUDIENSI', 'SYSTEM', 'ERROR'
   ]
 
   useEffect(() => {
